@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import Minecraft from "./Minecraft";
+import Main from "./Main";
 
 class Index extends Component {
     constructor() {
         super();
-        this.state = {gameData: []};
+        this.state = {game: <Main/>};
     }
 
 
@@ -12,22 +13,23 @@ class Index extends Component {
         let host = window.location.host;
         let parts = host.split(".");
         let subdomain = "";
-        //TODO Fix for localhost testing
-        if (parts.length > 2) {
+        let length = 2;
+        if (host.includes("localhost")) {
+            length = 1
+        }
+        if (parts.length > length) {
             subdomain = parts[0];
         }
 
         if (subdomain == "minecraft") {
-            this.setState({Minecraft});
-        } else {
-
+            this.setState({game: <Minecraft/>});
         }
     }
 
     render() {
         return (
             <div>
-                <Minecraft/>
+                {this.state.game}
             </div>
         )
     }

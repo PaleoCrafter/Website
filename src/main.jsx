@@ -10,6 +10,7 @@ render(
     <BrowserRouter>
         <div>
             <App/>
+            {/*TODO Fix this shit, maybe with css*/}
             <hr/>
             <hr/>
             <hr/>

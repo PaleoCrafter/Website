@@ -1,6 +1,7 @@
 import React, {Component} from "react";
+import globals from "../../../globals";
 
-class Index extends Component {
+class Minecraft extends Component {
     constructor() {
         super();
         this.state = {gameData: []};
@@ -8,18 +9,16 @@ class Index extends Component {
 
 
     componentDidMount() {
-        //TODO Doesn't currently exist
-        fetch(`http://localhost:3000/v1/games?name=minecraft`)
+        fetch(globals.endPoint + `/games?name=minecraft`)
             .then(result => result.json())
             .then(gameData => {
                 this.setState({gameData});
 
-                fetch(`http://localhost:3000/v1/projectTypes`)
+                fetch(globals.endPoint + `/projectTypes`)
                     .then(result => result.json())
                     .then(projectTypes => {
                         console.log(projectTypes);
                     });
-
             });
         console.log()
     }
@@ -30,7 +29,7 @@ class Index extends Component {
                 <div>
                     {
                         this.state.gameData.map(gameData =>
-                            <div key={gameData.id} >
+                            <div key={gameData.id}>
                                 <a href={gameData.website}>{gameData.name}</a>
                             </div>
                         )
@@ -42,4 +41,4 @@ class Index extends Component {
     }
 }
 
-export default Index;
+export default Minecraft;
