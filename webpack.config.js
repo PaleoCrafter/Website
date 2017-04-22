@@ -10,7 +10,8 @@ module.exports = {
     },
     devServer: {
         contentBase: './public',
-        port: 1234
+        port: 1234,
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
