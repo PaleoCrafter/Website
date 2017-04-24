@@ -4,6 +4,7 @@ class Main extends Component {
 
     render() {
         return (
+            document.title="Project Alt",
             <div>
 
             </div>

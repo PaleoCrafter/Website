@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 
-class ProjectType extends Component {
+class Project extends Component {
     constructor() {
         super();
         this.state = {items: []};
@@ -30,4 +30,4 @@ class ProjectType extends Component {
     }
 
 }
-export default ProjectType;
+export default Project;

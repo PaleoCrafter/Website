@@ -33,21 +33,20 @@ class Navbar extends Component {
                                 <ProjectType/>
                             </li>
                         </ul>
-                        <form className="form-inline my-2 my-lg-0">
-                            <input className="form-control mr-sm-2" type="text" placeholder="Search..."/>
+                        <form className="form-inline my-2 my-lg-0" action="/search">
+                            <input className="form-control mr-sm-2" type="text" name="search" placeholder="Search..."/>
                             <button className="btn btn-outline-navbar my-2 my-sm-0" type="submit"><i className="fa fa-search" aria-hidden="true"/></button>
                         </form>
-                        {/*Switch to css padding*/}
                         &nbsp;&nbsp;&nbsp;
                         <div>
                             <div className="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" className="btn btn-outline-navbar"><i className="fa fa-envelope" aria-hidden="true"/></button>
-                                <button type="button" className="btn btn-outline-navbar"><i className="fa fa-bell" aria-hidden="true"/></button>
-                                <button type="button" className="btn btn-outline-navbar"><i className="fa fa-cog" aria-hidden="true"/></button>
+                                <a href="/private-messages"><button type="button" className="btn btn-outline-navbar"><i className="fa fa-envelope" aria-hidden="true"/></button></a>
+                                <a href="/notifications"><button type="button" className="btn btn-outline-navbar"><i className="fa fa-bell" aria-hidden="true"/></button></a>
+                                <a href="/account"><button type="button" className="btn btn-outline-navbar"><i className="fa fa-cog" aria-hidden="true"/></button></a>
                             </div>
                             &nbsp;
                             &nbsp;
-                            <img className="avatar" src="http://placehold.it/400/50B2D6/ffffff" style={{height: 45,width:45   }}/>
+                            <a href="/account"><img className="avatar avatar-small" src="http://placehold.it/400/50B2D6/ffffff"/></a>
                         </div>
                     </div>
                 </nav>
