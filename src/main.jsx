@@ -10,14 +10,11 @@ render(
     <BrowserRouter>
         <div>
             <App/>
-            {/*TODO Fix this shit, maybe with css*/}
-            <hr/>
-            <hr/>
-            <hr/>
-            <hr/>
+            <div className="container">
             <Route exact path="/" component={Index}/>
-            <Route path="/project/*" component={Project}/>
+            <Route path="/project/*" compoSnent={Project}/>
             <Route path="/login" component={Login}/>
+            </div>
         </div>
     </BrowserRouter>
     , document.querySelector('#react-app')

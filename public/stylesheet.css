@@ -3,3 +3,38 @@
     height:auto;
     display:inline-block;
 }
+
+.avatar {
+    -webkit-clip-path: circle(50.0% at 50% 50%);
+    clip-path: circle(50.0% at 50% 50%);
+}
+
+.btn-outline-navbar {
+    color: #50B2D6;
+    background-image: none;
+    background-color: transparent;
+    border-color: #50B2D6;
+}
+
+.btn-outline-navbar:hover {
+    color: #fff;
+    background-color: #50B2D6;
+    border-color: #50B2D6;
+}
+
+.btn-outline-navbar:focus, .btn-outline-navbar.focus {
+    -webkit-box-shadow: 0 0 0 2px rgba(2, 117, 216, 0.5);
+    box-shadow: 0 0 0 2px rgba(2, 117, 216, 0.5);
+}
+
+.btn-outline-navbar.disabled, .btn-outline-navbar:disabled {
+    color: #50B2D6;
+    background-color: transparent;
+}
+
+.btn-outline-navbar:active, .btn-outline-navbar.active,
+.show > .btn-outline-navbar.dropdown-toggle {
+    color: #fff;
+    background-color: #50B2D6;
+    border-color: #50B2D6;
+}
