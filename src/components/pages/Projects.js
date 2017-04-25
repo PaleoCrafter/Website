@@ -38,9 +38,9 @@ class Projects extends Component {
                                 </p>
                             </div>
 
-                            <div className="col">
+                            <div className="col-md-9">
                                 <div className="row">
-                                    <div className="panel push-down">
+                                    <div className="panel push-down col-md-12">
 
                                         {/* page numbers nav, leaves 1 unit spare to align dropdowns */}
                                         <div className="row">
@@ -76,7 +76,7 @@ class Projects extends Component {
                                                             id="dropdownMenu1" data-toggle="dropdown"
                                                             aria-haspopup="true" aria-expanded="true">
                                                         Sort by:
-                                                        <span classNameName="caret"/>
+                                                        <span className="caret"/>
                                                     </button>
                                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
                                                         <li><a className="dropdown-item" href="#">Newest</a></li>
