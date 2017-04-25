@@ -10,18 +10,10 @@ class Messages extends Component {
                         <li className="breadcrumb-item"><a href="/">Home</a></li>
                         <li className="breadcrumb-item active">Private Messages</li>
                     </ol>
-                    <button type="button" className="btn btn-secondary">New Message</button>
+                    <button type="button" className="btn btn-secondary"><i className="fa fa-envelope-open" aria-hidden="true"></i></button>
                     <hr/>
                     <div className="row">
                         <div className="col-3">
-                            <div className="list-group">
-                                <a href="#" className="list-group-item  list-group-item-action active">
-                                    Inbox (1)
-                                </a>
-                                <a href="#" className="list-group-item list-group-item-action">Unread (0)</a>
-                            </div>
-                            <br/>
-                            <br/>
                             <div className="list-group">
                                 <a href="#" className="list-group-item  list-group-item-action active">
                                     Inbox (1)
@@ -41,16 +33,16 @@ class Messages extends Component {
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Message Name</td>
+                                    <a href="#"><td>Message Name</td></a>
                                     <td>2</td>
                                     <td>3 days ago</td>
-                                    <td>A dickhead <span class="badge badge-success">Friend</span></td>
+                                    <td>A dickhead <span className="badge badge-success">Friend</span></td>
                                 </tr>
                                 <tr>
                                     <td>Message Name</td>
                                     <td>2</td>
                                     <td>3 days ago</td>
-                                    <td>A dickhead</td>
+                                    <td>A dickhead <span className="badge badge-danger">Staff</span></td>
                                 </tr>
                                 <tr>
                                     <td><b>Message Name</b></td>

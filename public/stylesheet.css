@@ -248,3 +248,24 @@
 .comment-list .comment-post {
     margin-top: 6px;
 }
+.right {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}
+
+#modVersions {
+    font-size: 14px;
+}
+#modAuthor {
+    font-size: 13px;
+}
+#modDescription {
+    font-size: 14px;
+}
+#modCategories {
+    font-size: 14px;
+}
+#modData {
+    font-size: 12px;
+}
