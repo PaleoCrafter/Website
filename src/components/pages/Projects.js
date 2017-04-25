@@ -14,20 +14,7 @@ class Projects extends Component {
                     </div>
                     
                     <div className="container">
-    
-                        {/* header */}
-                        <div className="row">
-                            <div className="col-md-12">
-                                <h2>Minecraft Mods : Category Name</h2> 
-                            </div>
-                        </div>
-
-                        <div className="row">
-                            <div className="col-md-12">
-                                <hr />
-                            </div>
-                        </div>
-        
+                    
                         <div className="row">
                             <div className="col-md-3"><p>
                             
@@ -62,7 +49,7 @@ class Projects extends Component {
                                 <div className="row">
                                     <div className="panel push-down">
                                         
-                                        {/* page numbers nav */}
+                                        {/* page numbers nav, leaves 1 unit spare to align dropdowns */}
                                         <div className="row">
                                             <div className="col-md-5">
                                                 <ul className="pagination pagination-sm">
