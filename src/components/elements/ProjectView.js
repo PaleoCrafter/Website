@@ -12,23 +12,22 @@ class ProjectView extends Component {
             <div className="row">
                 <div className="col-3">
                     <a href="#" className="thumbnail">
-                        <img src="http://i.imgur.com/Sybz8hC.png" alt="..." width="125"
-                             height="125"/>
+                        <img src="http://i.imgur.com/Sybz8hC.png" alt="..." width="125" height="125"/>
                     </a>
                 </div>
                 <div className="col-9">
                     <div className="right">
-                                                    <span className="badge badge-primary"><i className="fa fa-file"
-                                                                                             aria-hidden="true"/></span><br/>
+                        <span className="badge badge-primary"><i className="fa fa-file"
+                                                                 aria-hidden="true"/></span><br/>
                         <span className="badge badge-primary"><i className="fa fa-cog"
                                                                  aria-hidden="true"/></span><br/>
                         <span className="badge badge-warning"><i className="fa fa-star"
                                                                  aria-hidden="true"/></span><br/>
                     </div>
                     <h3>
-                        <div id="modName">Exo
+                        <a href="/project/test"><div id="modName">Exo
                             <p id="modAuthor">by TheCodedOne</p>
-                        </div>
+                        </div></a>
                         <p id="modDescription">Exoskeleton | Fully Customizable Armor</p>
                     </h3>
                     <div id="modData"><i className="fa fa-download" aria-hidden="true"/>
