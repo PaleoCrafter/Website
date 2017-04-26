@@ -1,14 +1,14 @@
 import React, {PureComponent} from "react";
-import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-class MMDApp extends PureComponent {
+class MMDFooter extends PureComponent {
     render() {
         return (
             <div>
-                <Navbar/>
+                <Footer/>
             </div>
         )
     }
 }
 
-export default MMDApp;
+export default MMDFooter;

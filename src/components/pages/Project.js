@@ -48,7 +48,7 @@ class Project extends Component {
                                             </a>
                                         </div>
                                         <div className="col-md-10">
-                                            <h3><div id="modID">Tesla Mod by Darkhax</div></h3>
+                                            <h3><div id="modID">Mod by Modder</div></h3>
                                                     
                                             <div id="modDate">Updated: 4/23/2017</div>
                                             <div id="modVersions">Versions: 1.6.4, 1.7.10</div>

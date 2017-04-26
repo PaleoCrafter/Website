@@ -9,9 +9,9 @@ class Navbar extends Component {
                 <div style={{
                     width: '100%',
                     height: '230px',
-                    'background-image': "url('http://wallpapercave.com/wp/xkROBiY.jpg')",
-                    'background-repeat': 'no-repeat',
-                    'background-size': 'cover'
+                    'backgroundImage': "url('http://wallpapercave.com/wp/xkROBiY.jpg')",
+                    'backgroundRepeat': 'no-repeat',
+                    'backgroundSize': 'cover'
                 }}/>
                 <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"

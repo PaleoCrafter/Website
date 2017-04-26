@@ -19,8 +19,6 @@ class Projects extends Component {
 
                         <div className="row">
                             <div className="col-md-3">
-                                <p>
-
                                     {/* project type nav */}
                                     <div className="list-group list-group-root">
                                         <a href="#" className="list-group-item">Technology</a>
@@ -35,7 +33,6 @@ class Projects extends Component {
                                         <a href="#" className="list-group-item">Miscellaneous</a>
                                     </div>
                                     {/* end project type nav */}
-                                </p>
                             </div>
 
                             <div className="col-md-9">

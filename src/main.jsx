@@ -1,7 +1,7 @@
 import React from "react";
 import {render} from "react-dom";
 import {BrowserRouter, Route} from "react-router-dom";
-import App from "./components/App";
+import MMDNav from "./components/MMDNav";
 import Index from "./components/pages/games/Index";
 import Login from "./components/pages/Login";
 import Project from "./components/pages/Project";
@@ -10,13 +10,14 @@ import PrivateMessages from "./components/pages/user/Messages";
 import PrivateMessage from "./components/pages/user/PrivateMessage";
 import Notifications from "./components/pages/user/Notifications";
 import Account from "./components/pages/user/Account";
+import MMDFooter from "./components/MMDFooter";
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 render(
     <BrowserRouter>
         <div>
-            <App/>
+            <MMDNav/>
             <div className="container">
             <Route exact path="/" component={Index}/>
             <Route path="/project/*" component={Project}/>
@@ -27,6 +28,7 @@ render(
             <Route path="/notifications" component={Notifications}/>
             <Route path="/account" component={Account}/>
             </div>
+            <MMDFooter/>
         </div>
     </BrowserRouter>
     , document.querySelector('#react-app')
