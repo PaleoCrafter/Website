@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import globals from "../../globals";
 
 class ProjectType extends Component {
     constructor() {
@@ -7,10 +8,9 @@ class ProjectType extends Component {
         this.state = {items: []};
     }
 
-    //TODO Subdomains
-
     componentDidMount() {
-        fetch(`https://api.mcmoddev.com/v1/games/1/projectTypes`)
+
+        fetch(globals.endPoint + `/games/1/projectTypes`)
             .then(result => result.json())
             .then(items => this.setState({items}));
     }
@@ -18,13 +18,13 @@ class ProjectType extends Component {
     render() {
         return (
             <div className="dropdown-menu" aria-labelledby="dropdown01">
-                    {
-                        this.state.items.map(item =>
-                            <Link key={item.id} className="dropdown-item" to={'/projects/' + item.name.toLowerCase()}>
-                                {item.name}
-                            </Link>
-                        )
-                    }
+                {
+                    this.state.items.map(item =>
+                        <Link key={item.id} className="dropdown-item" to={'/projects/' + item.name.toLowerCase()}>
+                            {item.name}
+                        </Link>
+                    )
+                }
             </div>
         );
     }

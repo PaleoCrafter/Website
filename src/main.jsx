@@ -11,22 +11,23 @@ import PrivateMessage from "./components/pages/user/PrivateMessage";
 import Notifications from "./components/pages/user/Notifications";
 import Account from "./components/pages/user/Account";
 import MMDFooter from "./components/MMDFooter";
-String.prototype.capitalize = function() {
+
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 render(
     <BrowserRouter>
         <div>
             <MMDNav/>
             <div className="container">
-            <Route exact path="/" component={Index}/>
-            <Route path="/project/*" component={Project}/>
-            <Route path="/projects/*" component={Projects}/>
-            <Route path="/login" component={Login}/>
-            <Route exact path="/private-messages" component={PrivateMessages}/>
-            <Route path="/private-messages/*" component={PrivateMessage}/>
-            <Route path="/notifications" component={Notifications}/>
-            <Route path="/account" component={Account}/>
+                <Route exact path="/" component={Index}/>
+                <Route path="/project/*" component={Project}/>
+                <Route path="/projects/*" component={Projects}/>
+                <Route path="/login" component={Login}/>
+                <Route exact path="/private-messages" component={PrivateMessages}/>
+                <Route path="/private-messages/*" component={PrivateMessage}/>
+                <Route path="/notifications" component={Notifications}/>
+                <Route path="/account" component={Account}/>
             </div>
             <MMDFooter/>
         </div>
