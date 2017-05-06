@@ -10,6 +10,9 @@ import PrivateMessages from "./components/pages/user/Messages";
 import PrivateMessage from "./components/pages/user/PrivateMessage";
 import Notifications from "./components/pages/user/Notifications";
 import Account from "./components/pages/user/Account";
+import Members from "./components/pages/user/Members";
+import Inventory from "./components/pages/user/account/Inventory";
+import Search from "./components/pages/Search";
 import MMDFooter from "./components/MMDFooter";
 
 String.prototype.capitalize = function () {
@@ -23,11 +26,14 @@ render(
                 <Route exact path="/" component={Index}/>
                 <Route path="/project/*" component={Project}/>
                 <Route path="/projects/*" component={Projects}/>
+                <Route path="/members/" component={Members}/>
                 <Route path="/login" component={Login}/>
                 <Route exact path="/private-messages" component={PrivateMessages}/>
                 <Route path="/private-messages/*" component={PrivateMessage}/>
                 <Route path="/notifications" component={Notifications}/>
                 <Route path="/account" component={Account}/>
+                <Route path="/inventory" component={Inventory}/>
+                <Route path="/search" component={Search}/>
             </div>
             <MMDFooter/>
         </div>
