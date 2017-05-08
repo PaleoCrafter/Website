@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 import ProjectType from "./elements/ProjectType";
+import globals from "../globals";
 
 class MMDNav extends PureComponent {
 
@@ -56,9 +57,16 @@ class MMDNav extends PureComponent {
     }
 
     renderUserInfo() {
-        let tokenExpire = localStorage.getItem("tokenExpire");
+
+        let storageSystem = localStorage;
+        let refreshToken = storageSystem.getItem("refreshToken");
+        let tokenExpire = storageSystem.getItem("tokenExpire");
+        let refreshTokenExpire = storageSystem.getItem("refreshExpire");
         if (tokenExpire === null) {
-            tokenExpire = window.sessionStorage.getItem("tokenExpire");
+            storageSystem = window.sessionStorage;
+            refreshToken = storageSystem.getItem("refreshToken");
+            tokenExpire = storageSystem.getItem("tokenExpire");
+            refreshTokenExpire = storageSystem.getItem("refreshExpire");
         }
         if (tokenExpire) {
             let currentDate = new Date();
@@ -66,7 +74,36 @@ class MMDNav extends PureComponent {
             if (tokenExpire >= currentDate) {
                 return this.renderLoggedIn();
             } else {
-                //todo check refresh token and call endpoint when created
+                if (refreshTokenExpire >= currentDate) {
+                    fetch(globals.endPoint + `/auth/refreshToken`,
+                        {
+                            method: "POST",
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Authorization': 'Bearer ' + refreshToken
+                            },
+                        })
+                        .then(result => result.json())
+                        .then(returnData => {
+                            if (returnData.status == 200) {
+                                storageSystem.setItem('token', returnData.data.token);
+                                storageSystem.setItem('tokenExpire', returnData.data.tokenExpire);
+                                storageSystem.setItem('refreshToken', returnData.data.refreshToken);
+                                storageSystem.setItem('refreshExpire', returnData.data.refreshExpire);
+                            } else {
+                                storageSystem.removeItem('token');
+                                storageSystem.removeItem('tokenExpire');
+                                storageSystem.removeItem('refreshToken');
+                                storageSystem.removeItem('refreshExpire');
+                            }
+                        });
+                } else {
+                    storageSystem.removeItem('token');
+                    storageSystem.removeItem('tokenExpire');
+                    storageSystem.removeItem('refreshToken');
+                    storageSystem.removeItem('refreshExpire');
+                }
             }
         }
 
