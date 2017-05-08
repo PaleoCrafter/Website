@@ -9,10 +9,12 @@ class ProjectType extends Component {
     }
 
     componentDidMount() {
-
         fetch(globals.endPoint + `/games/1/projectTypes`)
             .then(result => result.json())
-            .then(items => this.setState({items}));
+            .then(items => this.setState({items: items}))
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {

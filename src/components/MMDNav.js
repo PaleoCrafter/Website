@@ -60,11 +60,10 @@ class MMDNav extends PureComponent {
         if (tokenExpire === null) {
             tokenExpire = window.sessionStorage.getItem("tokenExpire");
         }
-
         if (tokenExpire) {
             let currentDate = new Date();
             currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
-            if (tokenExpire < currentDate) {
+            if (tokenExpire >= currentDate) {
                 return this.renderLoggedIn();
             } else {
                 //todo check refresh token and call endpoint when created
