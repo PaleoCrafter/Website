@@ -3,8 +3,8 @@ import React, {Component} from "react";
 class Search extends Component {
 
     render() {
+        document.title = "Search - Diluv";
         return (
-            document.title="Search - Project Alt",
             <div>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a href="/">Home</a></li>

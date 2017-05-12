@@ -3,14 +3,16 @@ import React, {Component} from "react";
 class Account extends Component {
 
     render() {
+        document.title = "My Account - Diluv";
+
         return (
-            document.title="My Account - Project Alt",
             <div>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a href="/">Home</a></li>
                     <li className="breadcrumb-item active">Account</li>
                 </ol>
-                <img className="avatar" src="http://placehold.it/400/50B2D6/ffffff" style={{width: '150px', height: '150px'}}/>
+                <img className="avatar" src="http://placehold.it/400/50B2D6/ffffff"
+                     style={{width: '150px', height: '150px'}}/>
                 <h2>Unnamed</h2>
                 <br/><br/>
                 <ul className="nav nav-tabs">

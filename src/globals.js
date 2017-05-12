@@ -1,6 +1,6 @@
 let Globals = {
-    'host': 'https://mcmoddev.com',
-    'endPoint': 'https://api.mcmoddev.com/v1'
+    'host': 'http://localhost',
+    'endPoint': 'http://localhost:3000/v1'
 };
 
 module.exports = Globals;

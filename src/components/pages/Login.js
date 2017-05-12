@@ -65,7 +65,7 @@ class Login extends Component {
     }
 
     render() {
-        document.title = "Login - Project Alt";
+        document.title = "Login - Diluv";
         const isError = this.state.data.errorMessage;
         const {redirect} = this.state;
         if (redirect) {

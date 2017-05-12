@@ -3,8 +3,8 @@ import React, {Component} from "react";
 class Main extends Component {
 
     render() {
+        document.title = "Diluv";
         return (
-            document.title="Project Alt",
             <div>
 
             </div>

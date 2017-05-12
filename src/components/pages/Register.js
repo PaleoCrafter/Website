@@ -77,7 +77,7 @@ class Register extends Component {
     }
 
     render() {
-        document.title = "Register - Project Alt";
+        document.title = "Register - Diluv";
         const isError = this.state.data.errorMessage;
         const {redirect} = this.state;
         if (redirect) {

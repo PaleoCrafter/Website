@@ -12,7 +12,6 @@ import PrivateMessage from "./components/pages/user/PrivateMessage";
 import Notifications from "./components/pages/user/Notifications";
 import Account from "./components/pages/user/Account";
 import Members from "./components/pages/user/Members";
-import Inventory from "./components/pages/user/account/Inventory";
 import Search from "./components/pages/Search";
 import MMDFooter from "./components/MMDFooter";
 
@@ -34,7 +33,6 @@ render(
                 <Route path="/private-messages/*" component={PrivateMessage}/>
                 <Route path="/notifications" component={Notifications}/>
                 <Route path="/account" component={Account}/>
-                <Route path="/inventory" component={Inventory}/>
                 <Route path="/search" component={Search}/>
             </div>
             <MMDFooter/>

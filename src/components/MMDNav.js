@@ -117,7 +117,7 @@ class MMDNav extends PureComponent {
                 <div style={{
                     width: '100%',
                     height: '180px',
-                    'backgroundImage': "url('http://wallpapercave.com/wp/xkROBiY.jpg')",
+                    'backgroundImage': "url('')",
                     'backgroundRepeat': 'no-repeat',
                     'backgroundSize': 'cover'
                 }}/>

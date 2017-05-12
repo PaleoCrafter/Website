@@ -12,7 +12,7 @@ class ProjectView extends Component {
             <div className="row">
                 <div className="col-3">
                     <a href="#" className="thumbnail">
-                        <img src="http://i.imgur.com/Sybz8hC.png" alt="..." width="125" height="125"/>
+                        <img src="" alt="..." width="125" height="125"/>
                     </a>
                 </div>
                 <div className="col-9">
