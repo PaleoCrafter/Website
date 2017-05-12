@@ -1,14 +1,19 @@
 import React, {Component} from "react";
+import { Redirect } from 'react-router'
+import ReCAPTCHA from "react-google-recaptcha";
 import globals from "../../globals";
 const http = require('http');
 
-class Login extends Component {
+let captcha;
+
+class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {data: []};
-
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+
+        this.onChange = this.onChange.bind(this);
     }
 
     handleInputChange(event) {
@@ -22,9 +27,17 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
+        captcha.execute();
+        event.preventDefault();
+    }
+
+    onChange(value) {
         let payload = {
-            'username': this.state.email,
-            'password': this.state.password
+            'email': this.state.email,
+            'username': this.state.username,
+            'password': this.state.password,
+            'passwordConfirm': this.state.passwordConfirm,
+            'g-recaptcha-response': value
         };
 
         let formBody = [];
@@ -34,7 +47,7 @@ class Login extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        fetch(globals.endPoint + `/auth/login`,
+        fetch(globals.endPoint + `/auth/register`,
             {
                 method: "POST",
                 headers: {
@@ -45,8 +58,6 @@ class Login extends Component {
             })
             .then(result => result.json())
             .then(returnData => {
-
-
                 if (returnData.status == 200) {
                     let storageSystem = window.sessionStorage;
                     if (this.state.checkbox) {
@@ -61,28 +72,27 @@ class Login extends Component {
                     this.setState({data: returnData});
                 }
             });
+        captcha.reset();
         event.preventDefault();
     }
 
     render() {
-        document.title = "Login - Project Alt";
+        document.title = "Register - Project Alt";
         const isError = this.state.data.errorMessage;
         const {redirect} = this.state;
         if (redirect) {
             return <Redirect to='/'/>;
         }
         return (
-                <div>
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item active">Login</li>
-                    </ol>
-
-                    <div className="card card-container">
+            <div>
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><a href="/">Home</a></li>
+                    <li className="breadcrumb-item active">Register</li>
+                </ol>
+                <div className="card card-container">
                     <img id="profile-img" className="profile-img-card"
                          src="/favicon/favicon.ico"/>
                     <p id="profile-name" className="profile-name-card"/>
-
                     {
                         isError ? (
                                 <div className="alert alert-danger">
@@ -91,32 +101,43 @@ class Login extends Component {
                                 </div>
                             ) : ""
                     }
-                    <form onSubmit={this.handleSubmit} className="form-signin">
+                    <div id="example"></div>
+
+                    <form className="form-signin">
+                        <ReCAPTCHA
+                            onChange={this.onChange}
+                            sitekey="6LffRx8UAAAAADs1OBLuIFDMvpOMBIoenAG6WU9B"
+                            size="invisible"
+                            ref={(component) => {
+                                captcha = component;
+                            }}
+                        />
                         <span id="reauth-email" className="reauth-email"/>
                         <input name="email" onChange={this.handleInputChange} type="email" id="inputEmail"
                                className="form-control"
                                placeholder="Email address"
                                required autoFocus/>
+                        <input name="username" onChange={this.handleInputChange} type="text" id="inputUsername"
+                               className="form-control"
+                               placeholder="Username"
+                               required/>
                         <input name="password" onChange={this.handleInputChange} type="password" id="inputPassword"
                                className="form-control"
                                placeholder="Password"
                                required/>
-                        <div id="remember" className="checkbox">
-                            <label>
-                                <input name="checkbox" onChange={this.handleInputChange} type="checkbox"
-                                       value="remember-me"/> Remember me
-                            </label>
-                        </div>
-                        <button className="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in
+                        <input name="passwordConfirm" onChange={this.handleInputChange} type="password"
+                               id="inputPasswordConfirm"
+                               className="form-control"
+                               placeholder="Retype Password"
+                               required/>
+                        <button className="btn btn-lg btn-primary btn-block btn-signin" onClick={this.handleSubmit}>
+                            Register
                         </button>
                     </form>
-                    <a href="#" className="forgot-password">
-                        Forgot your password?
-                    </a>
                 </div>
             </div>
         )
     }
 }
 
-export default Login;
+export default Register;

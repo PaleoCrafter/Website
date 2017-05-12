@@ -46,7 +46,7 @@ class MMDNav extends PureComponent {
                             Login <i className="fa fa-envelope" aria-hidden="true"/>
                         </button>
                     </a>
-                    <a href="/notifications">
+                    <a href="/register">
                         <button type="button" className="btn btn-outline-navbar">
                             Register <i className="fa fa-bell" aria-hidden="true"/>
                         </button>

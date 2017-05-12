@@ -4,6 +4,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import MMDNav from "./components/MMDNav";
 import Index from "./components/pages/games/Index";
 import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
 import Project from "./components/pages/Project";
 import Projects from "./components/pages/Projects";
 import PrivateMessages from "./components/pages/user/Messages";
@@ -28,6 +29,7 @@ render(
                 <Route path="/projects/*" component={Projects}/>
                 <Route path="/members/" component={Members}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/register" component={Register}/>
                 <Route exact path="/private-messages" component={PrivateMessages}/>
                 <Route path="/private-messages/*" component={PrivateMessage}/>
                 <Route path="/notifications" component={Notifications}/>
