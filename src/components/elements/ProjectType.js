@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
 import globals from "../../globals";
+import {Link} from "react-router-dom";
 
 class ProjectType extends Component {
     constructor() {

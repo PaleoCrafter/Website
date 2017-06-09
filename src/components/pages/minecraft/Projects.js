@@ -1,8 +1,31 @@
 import React, {Component} from "react";
-import ProjectView from "../elements/ProjectView";
-
+import ProjectView from "../../elements/ProjectView";
+import globals from "../../../globals";
 
 class Projects extends Component {
+
+    constructor() {
+        super();
+        this.state = {gameData: [], items: []};
+    }
+
+
+    componentDidMount() {
+        fetch(globals.endPoint + `/games?name=minecraft`)
+            .then(result => result.json())
+            .then(gameData => {
+                this.setState({gameData: gameData});
+                console.log(gameData[0].id);
+                fetch(globals.endPoint + `/projects`)
+                    .then(result => result.json())
+                    .then(projects => {
+                        this.setState({items: projects});
+                        console.log(projects);
+                    });
+            });
+
+    }
+
     render() {
         document.title = this.props.match.params[0].capitalize() + " - Projects - Diluv";
         return (
@@ -104,7 +127,17 @@ class Projects extends Component {
                                             <hr />
                                         </div>
                                     </div>
-                                    <ProjectView/>
+                                    {
+                                        this.state.items.map(item =>
+                                            <ProjectView key={item.id} id={item.id} name={item.name}
+                                                         description={item.description} logo={item.logo}
+                                                         totalDownloads={item.totalDownloads}
+                                                         createdAt={item.createdAt}
+                                                         versions={item.gameVersions}
+                                                         categories={item.categories}
+                                            />
+                                        )
+                                    }
                                     <div className="row">
                                         <div className="col-md-12">
                                             <hr />

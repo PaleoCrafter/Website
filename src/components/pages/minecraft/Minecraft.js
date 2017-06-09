@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import globals from "../../../globals";
+import {Link} from "react-router-dom";
 
 class Minecraft extends Component {
     constructor() {
         super();
-        this.state = {gameData: []};
+        this.state = {gameData: [], items: []};
     }
 
 
@@ -14,28 +15,34 @@ class Minecraft extends Component {
             .then(gameData => {
                 this.setState({gameData});
 
-                fetch(globals.endPoint + `/projectTypes`)
+                fetch(globals.endPoint + `/games/1/projectTypes`)
                     .then(result => result.json())
                     .then(projectTypes => {
+                        this.setState({items: projectTypes});
                         console.log(projectTypes);
                     });
             });
-        console.log()
+
     }
 
     render() {
         return (
             <div>
                 <div>
+                    <a href="https://minecraft.net">
+                        <img width="200px" src="/img/minecraft.svg"/>
+                    </a>
+                    <br/>
+                    Projects:
                     {
-                        this.state.gameData.map(gameData =>
-                            <div key={gameData.id}>
-                                <a href={gameData.website}>{gameData.name}</a>
-                            </div>
+                        this.state.items.map(item =>
+                            <Link key={item.id} className="dropdown-item"
+                                  to={'/minecraft/projects/' + item.name.toLowerCase()}>
+                                {item.name}
+                            </Link>
                         )
                     }
                 </div>
-                Index
             </div>
         )
     }

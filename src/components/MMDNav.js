@@ -86,7 +86,7 @@ class MMDNav extends PureComponent {
                         })
                         .then(result => result.json())
                         .then(returnData => {
-                            if (returnData.status == 200) {
+                            if (returnData.status === 200) {
                                 storageSystem.setItem('token', returnData.data.token);
                                 storageSystem.setItem('tokenExpire', returnData.data.tokenExpire);
                                 storageSystem.setItem('refreshToken', returnData.data.refreshToken);
