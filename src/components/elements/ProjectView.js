@@ -1,4 +1,8 @@
 import React, {Component} from "react";
+
+const dateFormat = require('dateformat');
+
+
 class ProjectView extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +25,7 @@ class ProjectView extends Component {
     }
 
     static getDate(epoch) {
-        var d = new Date(epoch); // The 0 there is the key, which sets the date to the epoch
-        return d.toString()
+        return dateFormat(new Date(epoch), "dd/mm/yyyy")
     }
 
     render() {
