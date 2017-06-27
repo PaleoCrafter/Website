@@ -10,7 +10,7 @@ class Minecraft extends Component {
 
 
     componentDidMount() {
-        fetch(globals.endPoint + `/games?name=minecraft`)
+        fetch(globals.endPoint + `/games/1`)
             .then(result => result.json())
             .then(gameData => {
                 this.setState({gameData});
@@ -29,15 +29,11 @@ class Minecraft extends Component {
         return (
             <div>
                 <div>
-                    <a href="https://minecraft.net">
-                        <img width="200px" src="/img/minecraft.svg"/>
-                    </a>
-                    <br/>
                     Projects:
                     {
                         this.state.items.map(item =>
                             <Link key={item.id} className="dropdown-item"
-                                  to={'/minecraft/projects/' + item.name.toLowerCase()}>
+                                  to={'/minecraft/projects/' + item.slug}>
                                 {item.name}
                             </Link>
                         )

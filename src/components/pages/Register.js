@@ -37,11 +37,15 @@ class Register extends Component {
             'username': this.state.username,
             'password': this.state.password,
             'passwordConfirm': this.state.passwordConfirm,
-            'g-recaptcha-response': value
+            'g-recaptcha-response': value,
+            'betaKey': this.state.betaKey
+
         };
 
         let formBody = [];
         for (let property in payload) {
+            if(!payload[property])
+                continue;
             let encodedKey = encodeURIComponent(property);
             let encodedValue = encodeURIComponent(payload[property]);
             formBody.push(encodedKey + "=" + encodedValue);
@@ -58,7 +62,8 @@ class Register extends Component {
             })
             .then(result => result.json())
             .then(returnData => {
-                if (returnData.status == 200) {
+                console.log(returnData)
+                if (returnData.status === 200) {
                     let storageSystem = window.sessionStorage;
                     if (this.state.checkbox) {
                         storageSystem = localStorage;
@@ -96,32 +101,35 @@ class Register extends Component {
                     {
                         isError ? (
                                 <div className="alert alert-danger">
+                                    {console.log(this.state.data)}
                                     <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
+                                    {/*New line per error*/}
                                     <p>{this.state.data.errorMessage}</p>
                                 </div>
                             ) : ""
                     }
-                    <div id="example"></div>
-
                     <form className="form-signin">
                         <ReCAPTCHA
                             onChange={this.onChange}
-                            sitekey="6LffRx8UAAAAADs1OBLuIFDMvpOMBIoenAG6WU9B"
+                            sitekey="6LfbUCIUAAAAAM1Vgc3qsz5xomYnTrdvMnXVED8v"
                             size="invisible"
                             ref={(component) => {
                                 captcha = component;
                             }}
                         />
                         <span id="reauth-email" className="reauth-email"/>
-                        <input name="email" onChange={this.handleInputChange} type="email" id="inputEmail"
+                        <input name="email" onChange={this.handleInputChange} type="email"
+                               id="inputEmail"
                                className="form-control"
                                placeholder="Email address"
                                required autoFocus/>
-                        <input name="username" onChange={this.handleInputChange} type="text" id="inputUsername"
+                        <input name="username" onChange={this.handleInputChange} type="text"
+                               id="inputUsername"
                                className="form-control"
                                placeholder="Username"
                                required/>
-                        <input name="password" onChange={this.handleInputChange} type="password" id="inputPassword"
+                        <input name="password" onChange={this.handleInputChange} type="password"
+                               id="inputPassword"
                                className="form-control"
                                placeholder="Password"
                                required/>
@@ -129,6 +137,11 @@ class Register extends Component {
                                id="inputPasswordConfirm"
                                className="form-control"
                                placeholder="Retype Password"
+                               required/>
+                        <input name="betaKey" onChange={this.handleInputChange} type="text"
+                               id="inputBetaKey"
+                               className="form-control"
+                               placeholder="Beta Key"
                                required/>
                         <button className="btn btn-lg btn-primary btn-block btn-signin" onClick={this.handleSubmit}>
                             Register

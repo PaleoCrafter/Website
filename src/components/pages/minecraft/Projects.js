@@ -6,22 +6,54 @@ class Projects extends Component {
 
     constructor() {
         super();
-        this.state = {gameData: [], items: []};
+        this.state = {gameData: [], projects: [], projectType: [], error: []};
     }
 
-
     componentDidMount() {
-        fetch(globals.endPoint + `/games?name=minecraft`)
-            .then(result => result.json())
-            .then(gameData => {
-                this.setState({gameData: gameData});
-                console.log(gameData[0].id);
-                fetch(globals.endPoint + `/projects`)
-                    .then(result => result.json())
-                    .then(projects => {
-                        this.setState({items: projects});
-                        console.log(projects);
-                    });
+        fetch(globals.endPoint + `/games/1`)
+            .then(res => {
+                return res.json().then(json => ({
+                        status: res.status,
+                        data: json
+                    })
+                )
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({gameData: res.data});
+                    const gameId = res.data.id;
+                    const projectTypeName = this.props.match.params[0];
+                    let projectType;
+                    for (const key in res.data.projectTypes) {
+                        const obj = res.data.projectTypes[key];
+                        if (obj.slug === projectTypeName) {
+                            projectType = obj;
+                        }
+                    }
+                    this.setState({projectType: projectType});
+
+                    fetch(globals.endPoint + `/games/${gameId}/projectTypes/${projectType.id}/projects`)
+                        .then(res => {
+                            return res.json().then(json => ({
+                                    status: res.status,
+                                    data: json
+                                })
+                            )
+                        })
+                        .then(res => {
+                            if (res.status === 200) {
+                                this.setState({projects: res.data});
+                            } else {
+                                console.log('Project');
+                                console.log(res.status);
+                                console.log(res.data);
+                            }
+                        })
+                } else {
+                    console.log('Game');
+                    console.log(res.status);
+                    console.log(res.data);
+                }
             });
 
     }
@@ -32,28 +64,28 @@ class Projects extends Component {
             <div>
                 <h1><i className="fa fa-cog" aria-hidden="true"/> {this.props.match.params[0].capitalize()}</h1>
                 <hr/>
-                <div className="alert alert-dismissible alert-warning">
-                    <button type="button" className="close" data-dismiss="alert">&times;</button>
-                    <h4>Warning!</h4>
-                    <p>An error occured while getting a list of {this.props.match.params[0]}.</p>
-                </div>
-
+                {
+                    false ?
+                        <div className="alert alert-dismissible alert-warning">
+                            <button type="button" className="close" data-dismiss="alert">&times;</button>
+                            <h4>Warning!</h4>
+                            <p>An error occured while getting a list of {this.props.match.params[0]}.</p>
+                        </div>
+                        : <div/>
+                }
                 <div className="container">
 
                     <div className="row">
                         <div className="col-md-3">
                             {/* project type nav */}
                             <div className="list-group list-group-root">
-                                <a href="#" className="list-group-item">Technology</a>
-                                <div className="list-group">
-                                    <a href="#" className="list-group-item">Item 1.1.1</a>
-                                    <a href="#" className="list-group-item">Item 1.1.2</a>
-                                    <a href="#" className="list-group-item">Item 1.1.3</a>
-                                </div>
-
-                                <a href="#" className="list-group-item">Magic</a>
-
-                                <a href="#" className="list-group-item">Miscellaneous</a>
+                                {
+                                    // console.log(this.state.projectType.categories)
+                                    this.state.projectType.categories ? this.state.projectType.categories.map(item =>
+                                        <a key={item.name} href={item.slug}
+                                           className="list-group-item">{item.name}</a>
+                                    ) : <div/>
+                                }
                             </div>
                             {/* end project type nav */}
                         </div>
@@ -99,9 +131,16 @@ class Projects extends Component {
                                                     <span className="caret"/>
                                                 </button>
                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                    <li><a className="dropdown-item" href="#">Newest</a></li>
-                                                    <li><a className="dropdown-item" href="#">Top Rated</a></li>
-                                                    <li><a className="dropdown-item" href="#">Etc</a></li>
+                                                    {
+                                                        ["Newest", "Top Rated"].map(item =>
+                                                            <li key={item}>
+                                                                <a className="dropdown-item" href="#">{item}</a>
+                                                            </li>
+                                                        )
+                                                    }
+                                                    {/*<li><a className="dropdown-item" href="#">Newest</a></li>*/}
+                                                    {/*<li><a className="dropdown-item" href="#">Top Rated</a></li>*/}
+                                                    {/*<li><a className="dropdown-item" href="#">Etc</a></li>*/}
                                                 </ul>
                                             </div>
                                         </div>
@@ -115,8 +154,15 @@ class Projects extends Component {
                                                     <span className="caret"/>
                                                 </button>
                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                                    <li><a className="dropdown-item" href="#">1.6.4</a></li>
-                                                    <li><a className="dropdown-item" href="#">1.7.10</a></li>
+                                                    {
+                                                        this.state.gameData.versions ? this.state.gameData.versions.map(item =>
+                                                            <li key={item.version}>
+                                                                <a className="dropdown-item" href="#">
+                                                                    {item.version}
+                                                                </a>
+                                                            </li>
+                                                        ) : <div/>
+                                                    }
                                                 </ul>
                                             </div>
                                         </div>
@@ -128,15 +174,20 @@ class Projects extends Component {
                                         </div>
                                     </div>
                                     {
-                                        this.state.items.map(item =>
-                                            <ProjectView key={item.id} id={item.id} name={item.name}
+                                        this.state.projects ? this.state.projects.map(item =>
+                                            <ProjectView key={item.id} id={item.id}
+                                                         name={item.name}
+                                                         authors={item.authors}
                                                          description={item.description} logo={item.logo}
                                                          totalDownloads={item.totalDownloads}
                                                          createdAt={item.createdAt}
+                                                         updatedAt={item.updatedAt}
                                                          versions={item.gameVersions}
                                                          categories={item.categories}
+                                                         shortDescription={item.shortDescription}
+                                                         slug={item.slug}
                                             />
-                                        )
+                                        ) : <div/>
                                     }
                                     <div className="row">
                                         <div className="col-md-12">
@@ -152,4 +203,7 @@ class Projects extends Component {
         )
     }
 }
-export default Projects;
+
+export
+default
+Projects;

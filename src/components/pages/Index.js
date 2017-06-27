@@ -6,7 +6,11 @@ class Index extends Component {
     render() {
         return (
             <div>
-                <Link to="/minecraft">Minecraft</Link>
+                <Link to="/minecraft">
+                    <a href="https://minecraft.net">
+                        <img width="200px" src="/img/minecraft.svg"/>
+                    </a>
+                </Link>
             </div>
         )
     }
