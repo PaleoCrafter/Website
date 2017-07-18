@@ -21,9 +21,13 @@
     "react": "^15.5.3",
     "react-async-script": "^0.9.1",
     "react-dom": "^15.5.3",
+    "react-fileupload-progress": "^0.4.0",
     "react-google-recaptcha": "^0.9.3",
+    "react-paginate": "^4.4.3",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-tooltip": "^3.3.0",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^2.3.3"
   },
   "devDependencies": {
