@@ -7,16 +7,14 @@ import Index from "./components/pages/Index";
 
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
-import PrivateMessages from "./components/pages/user/Messages";
-import PrivateMessage from "./components/pages/user/PrivateMessage";
-import Notifications from "./components/pages/user/Notifications";
-import Account from "./components/pages/user/Account";
-import Members from "./components/pages/user/Members";
-import Search from "./components/pages/Search";
-import GenericNotFound from "./components/pages/ErrorNotFound";
+import E404 from "./components/pages/E404";
 import Minecraft from "./components/pages/minecraft/Minecraft";
-import Project from "./components/pages/minecraft/Project";
-import Projects from "./components/pages/minecraft/Projects";
+import Project from "./components/pages/minecraft/project/Project";
+import ProjectFiles from "./components/pages/minecraft/project/ProjectFiles";
+import ProjectUploadFile from "./components/pages/minecraft/project/ProjectUploadFile";
+import ProjectSettings from "./components/pages/minecraft/project/ProjectSettings";
+
+import Projects from "./components/pages/minecraft/projectList/Projects";
 
 import MMDNav from "./components/MMDNav";
 import MMDFooter from "./components/MMDFooter";
@@ -28,25 +26,22 @@ render(
     <BrowserRouter>
         <div>
             <MMDNav/>
-            <div className="container">
-                <Switch>
-                    <Route exact path="/" component={Index}/>
+            <Switch>
+                <Route exact path="/" component={Index}/>
 
-                    <Route exact path="/minecraft/" component={Minecraft}/>
-                    <Route path="/minecraft/project/*" component={Project}/>
-                    <Route path="/minecraft/projects/*" component={Projects}/>
+                <Route exact path="/minecraft/" component={Minecraft}/>
 
-                    <Route path="/members/" component={Members}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/register" component={Register}/>
-                    <Route exact path="/private-messages" component={PrivateMessages}/>
-                    <Route path="/private-messages/*" component={PrivateMessage}/>
-                    <Route path="/notifications" component={Notifications}/>
-                    <Route path="/account" component={Account}/>
-                    <Route path="/search" component={Search}/>
-                    <Route component={GenericNotFound}/>
-                </Switch>
-            </div>
+                <Route exact path="/minecraft/project/:slug/settings" component={ProjectSettings}/>
+                <Route exact path="/minecraft/project/:slug/uploadfile" component={ProjectUploadFile}/>
+                <Route exact path="/minecraft/project/:slug/files" component={ProjectFiles}/>
+                <Route exact path="/minecraft/project/:slug/" component={Project}/>
+
+                <Route exact path="/minecraft/projects/:slug" component={Projects}/>
+
+                <Route path="/login" component={Login}/>
+                <Route path="/register" component={Register}/>
+                <Route component={E404}/>
+            </Switch>
             <MMDFooter/>
         </div>
     </BrowserRouter>

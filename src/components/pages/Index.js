@@ -7,9 +7,7 @@ class Index extends Component {
         return (
             <div>
                 <Link to="/minecraft">
-                    <a href="https://minecraft.net">
-                        <img width="200px" src="/img/minecraft.svg"/>
-                    </a>
+                    <img width="200px" src="/img/minecraft.svg"/>
                 </Link>
             </div>
         )

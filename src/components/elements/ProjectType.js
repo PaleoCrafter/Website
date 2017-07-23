@@ -9,7 +9,7 @@ class ProjectType extends Component {
     }
 
     componentDidMount() {
-        fetch(globals.endPoint + `/games/1/projectTypes`)
+        fetch(globals.endPoint + `/games/minecraft/projectTypes`)
             .then(result => result.json())
             .then(items => this.setState({items: items}))
             .catch(err => {
@@ -22,7 +22,7 @@ class ProjectType extends Component {
             <div className="dropdown-menu" aria-labelledby="dropdown01">
                 {
                     this.state.items.map(item =>
-                        <Link key={item.id} className="dropdown-item" to={'/projects/' + item.name.toLowerCase()}>
+                        <Link key={item.id} className="dropdown-item" to={'/projects/' + item.slug}>
                             {item.name}
                         </Link>
                     )

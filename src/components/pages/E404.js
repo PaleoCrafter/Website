@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class ErrorNotFound extends Component {
+class E404 extends Component {
 
     render() {
         document.title = "404 - Diluv";
@@ -12,4 +12,4 @@ class ErrorNotFound extends Component {
     }
 }
 
-export default ErrorNotFound;
+export default E404;

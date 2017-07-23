@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, 'src'),
@@ -18,7 +19,10 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
-        })],
+        }),
+        // new UglifyJSPlugin({
+        // })
+    ],
     module: {
         loaders: [
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },

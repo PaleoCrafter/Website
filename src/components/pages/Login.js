@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Redirect} from "react-router";
 import globals from "../../globals";
 const http = require('http');
 
@@ -23,7 +24,7 @@ class Login extends Component {
 
     handleSubmit(event) {
         let payload = {
-            'username': this.state.email,
+            'usernameEmail': this.state.email,
             'password': this.state.password
         };
 
@@ -43,22 +44,26 @@ class Login extends Component {
                 },
                 body: formBody
             })
-            .then(result => result.json())
-            .then(returnData => {
-
-
-                if (returnData.status == 200) {
+            .then(res => {
+                return res.json().then(json => ({
+                        status: res.status,
+                        data: json
+                    })
+                )
+            })
+            .then(res => {
+                if (res.status === 200) {
                     let storageSystem = window.sessionStorage;
                     if (this.state.checkbox) {
                         storageSystem = localStorage;
                     }
-                    storageSystem.setItem('token', returnData.data.token);
-                    storageSystem.setItem('tokenExpire', returnData.data.tokenExpire);
-                    storageSystem.setItem('refreshToken', returnData.data.refreshToken);
-                    storageSystem.setItem('refreshExpire', returnData.data.refreshExpire);
-                    this.setState({redirect: true})
+                    storageSystem.setItem('token', res.data.token);
+                    storageSystem.setItem('tokenExpire', res.data.tokenExpires);
+                    storageSystem.setItem('refreshToken', res.data.refreshToken);
+                    storageSystem.setItem('refreshExpire', res.data.refreshTokenExpires);
+                    this.props.history.push("/");
                 } else {
-                    this.setState({data: returnData});
+                    this.setState({data: res});
                 }
             });
         event.preventDefault();
@@ -67,31 +72,27 @@ class Login extends Component {
     render() {
         document.title = "Login - Diluv";
         const isError = this.state.data.errorMessage;
-        const {redirect} = this.state;
-        if (redirect) {
-            return <Redirect to='/'/>;
-        }
         return (
-                <div>
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="/">Home</a></li>
-                        <li className="breadcrumb-item active">Login</li>
-                    </ol>
+            <div>
+                <ol className="breadcrumb">
+                    <li className="breadcrumb-item"><a href="/">Home</a></li>
+                    <li className="breadcrumb-item active">Login</li>
+                </ol>
 
-                    <div className="card card-container">
+                <div className="card card-container">
                     <img id="profile-img" className="profile-img-card"
                          src="/favicon/favicon.ico"/>
                     <p id="profile-name" className="profile-name-card"/>
 
                     {
                         isError ? (
-                                <div className="alert alert-danger">
-                                    <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
-                                    <p>{this.state.data.errorMessage}</p>
-                                </div>
-                            ) : ""
+                            <div className="alert alert-danger">
+                                <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
+                                <p>{this.state.data.errorMessage}</p>
+                            </div>
+                        ) : ""
                     }
-                    <form onSubmit={this.handleSubmit} className="form-signin">
+                    <form action="POST" onSubmit={this.handleSubmit} className="form-signin">
                         <span id="reauth-email" className="reauth-email"/>
                         <input name="email" onChange={this.handleInputChange} type="email" id="inputEmail"
                                className="form-control"

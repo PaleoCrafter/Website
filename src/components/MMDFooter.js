@@ -1,11 +1,17 @@
-import React, {PureComponent} from "react";
-import Footer from "./Footer";
+import React, {Component} from "react";
 
-class MMDFooter extends PureComponent {
+class MMDFooter extends Component {
     render() {
         return (
             <div>
-                <Footer/>
+                <footer className="footer">
+                    <div style={{
+                        width: '100%',
+                        height: '230px',
+                        margin: '0 auto -60px',
+                        padding: '0 0 60px'
+                    }}/>
+                </footer>
             </div>
         )
     }
