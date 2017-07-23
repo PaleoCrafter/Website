@@ -1,7 +1,7 @@
 .divider {
-    width:10px;
-    height:auto;
-    display:inline-block;
+    width: 10px;
+    height: auto;
+    display: inline-block;
 }
 
 .avatar {
@@ -101,8 +101,8 @@
 .form-signin .form-control:focus {
     border-color: rgb(104, 145, 162);
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
 }
 
 .btn.btn-signin {
@@ -135,9 +135,10 @@
 
 .forgot-password:hover,
 .forgot-password:active,
-.forgot-password:focus{
+.forgot-password:focus {
     color: rgb(12, 97, 33);
 }
+
 .avatar-small {
     width: 45px;
     height: 45px;
@@ -176,27 +177,32 @@
 .comment-list .row {
     margin-bottom: 0px;
 }
+
 .comment-list .panel .panel-heading {
     padding: 4px 15px;
     position: absolute;
-    border:none;
+    border: none;
     /*Panel-heading border radius*/
-    border-top-right-radius:0px;
+    border-top-right-radius: 0px;
     top: 1px;
 }
+
 .comment-list .panel .panel-heading.right {
     border-right-width: 0px;
     /*Panel-heading border radius*/
-    border-top-left-radius:0px;
+    border-top-left-radius: 0px;
     right: 16px;
 }
+
 .comment-list .panel .panel-heading .panel-body {
     padding-top: 6px;
 }
+
 .comment-list figcaption {
     /*For wrapping text in thumbnail*/
     word-wrap: break-word;
 }
+
 /* Portrait tablets and medium desktops */
 @media (min-width: 768px) {
     .comment-list .arrow:after, .comment-list .arrow:before {
@@ -207,9 +213,11 @@
         border-style: solid;
         border-color: transparent;
     }
+
     .comment-list .panel.arrow.left:after, .comment-list .panel.arrow.left:before {
         border-left: 0;
     }
+
     /*****Left Arrow*****/
     /*Outline effect style*/
     .comment-list .panel.arrow.left:before {
@@ -219,6 +227,7 @@
         border-right-color: inherit;
         border-width: 16px;
     }
+
     /*Background color effect*/
     .comment-list .panel.arrow.left:after {
         left: 1px;
@@ -227,6 +236,7 @@
         border-right-color: #FFFFFF;
         border-width: 15px;
     }
+
     /*****Right Arrow*****/
     /*Outline effect style*/
     .comment-list .panel.arrow.right:before {
@@ -236,6 +246,7 @@
         border-left-color: inherit;
         border-width: 16px;
     }
+
     /*Background color effect*/
     .comment-list .panel.arrow.right:after {
         right: -14px;
@@ -245,9 +256,11 @@
         border-width: 15px;
     }
 }
+
 .comment-list .comment-post {
     margin-top: 6px;
 }
+
 .right {
     position: absolute;
     right: 0px;
@@ -257,15 +270,29 @@
 #modVersions {
     font-size: 14px;
 }
+
 #modAuthor {
     font-size: 13px;
 }
+
 #modDescription {
     font-size: 14px;
 }
+
 #modCategories {
     font-size: 14px;
 }
+
 #modData {
     font-size: 12px;
+}
+
+.hoverSHA {
+    font-size: 12px !important;
+    pointer-events: auto !important;
+}
+
+.hoverSHA:hover {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
