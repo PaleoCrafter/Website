@@ -23,7 +23,7 @@ class ProjectUploadFile extends Component {
 
                 formData.append('uploads[]', file, file.name);
 
-                xhr.open("POST", globals.endPoint + `/projects/` + projectSlug + '/files');
+                xhr.open("POST", globals.endPoint + '/projects/' + projectSlug + '/files');
                 console.log(globals.getToken());
                 xhr.setRequestHeader('Authorization', 'Bearer ' + globals.getToken());
                 xhr.onload = e => console.log(e.target.responseText);
@@ -41,14 +41,8 @@ class ProjectUploadFile extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        fetch(globals.endPoint + `/projects/` + projectSlug)
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+        fetch(globals.endPoint + '/projects/' + projectSlug)
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     this.setState({projectData: res.data});

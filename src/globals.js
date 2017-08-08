@@ -4,7 +4,7 @@ module.exports = {
     host: env === 'dev' ? 'http://localhost:1234' : 'http://mcmoddev.com',
     endPoint: env === 'dev' ? 'http://localhost:8080/v1' : 'https://api.mcmoddev.com/v1',
 
-    getFetch(url, method, authorizationToken = null){
+    getFetch(url, method, authorizationToken = null) {
         if (authorizationToken != null) {
             return fetch(url,
                 {
@@ -27,7 +27,7 @@ module.exports = {
         }
     },
 
-    getStorage(){
+    getStorage() {
         let storageSystem = localStorage;
         if (storageSystem.getItem("token") == null) {
             storageSystem = window.sessionStorage;
@@ -39,61 +39,57 @@ module.exports = {
             return storageSystem
     },
 
-    refreshToken(){
+    refreshToken() {
         const storageSystem = this.getStorage();
         let refreshToken = storageSystem.getItem("refreshToken");
-        let refreshTokenExpire = storageSystem.getItem("refreshExpire");
+        let refreshTokenExpires = storageSystem.getItem("refreshExpires");
 
-        if (refreshTokenExpire == null)
+        if (refreshTokenExpires == null)
             return false;
 
         let currentDate = new Date();
         currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
-        if (refreshTokenExpire >= currentDate) {
-            this.getFetch(this.endPoint + `/auth/refreshToken`, "POST", refreshToken)
-                .then(res => {
-                    return res.json().then(json => ({
-                            status: res.status,
-                            data: json
-                        })
-                    )
-                })
+        if (refreshTokenExpires >= currentDate) {
+            this.getFetch(this.endPoint + '/auth/refreshToken', "POST", refreshToken)
+                .then(res => getJson(res))
                 .then(res => {
                     if (res.status === 200) {
                         storageSystem.setItem('token', res.data.token);
-                        storageSystem.setItem('tokenExpire', res.data.tokenExpire);
+                        storageSystem.setItem('tokenExpires', res.data.tokenExpires);
                         storageSystem.setItem('refreshToken', res.data.refreshToken);
-                        storageSystem.setItem('refreshExpire', res.data.refreshExpire);
+                        storageSystem.setItem('refreshExpires', res.data.refreshExpires);
                         return true;
                     } else {
                         storageSystem.removeItem('token');
-                        storageSystem.removeItem('tokenExpire');
+                        storageSystem.removeItem('tokenExpires');
                         storageSystem.removeItem('refreshToken');
-                        storageSystem.removeItem('refreshExpire');
+                        storageSystem.removeItem('refreshExpires');
                         return false;
                     }
                 });
         } else {
             storageSystem.removeItem('token');
-            storageSystem.removeItem('tokenExpire');
+            storageSystem.removeItem('tokenExpires');
             storageSystem.removeItem('refreshToken');
-            storageSystem.removeItem('refreshExpire');
+            storageSystem.removeItem('refreshExpires');
             return false;
         }
     },
 
     isUserLoggedIn() {
         const storageSystem = this.getStorage();
+        console.log(storageSystem);
+
         if (storageSystem == null)
             return false;
 
         let refreshToken = storageSystem.getItem("refreshToken");
-        let tokenExpire = storageSystem.getItem("tokenExpire");
+        let tokenExpires = storageSystem.getItem("tokenExpires");
 
-        if (tokenExpire) {
+        if (tokenExpires) {
             let currentDate = new Date();
             currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
-            if (tokenExpire >= currentDate) {
+            if (tokenExpires >= currentDate) {
                 return true;
             } else {
                 return this.refreshToken()
@@ -104,24 +100,31 @@ module.exports = {
     getToken() {
         const storageSystem = this.getStorage();
         if (storageSystem == null)
-            return undefined;
+            return null;
         let token = storageSystem.getItem("token");
-        let tokenExpire = storageSystem.getItem("tokenExpire");
+        let tokenExpires = storageSystem.getItem("tokenExpires");
 
-        if (tokenExpire) {
+        if (tokenExpires) {
             let currentDate = new Date();
             currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
-            if (tokenExpire >= currentDate) {
+            if (tokenExpires >= currentDate) {
                 return token
             } else if (this.refreshToken()) {
                 return storageSystem.getItem("token");
             }
 
         }
-        return undefined;
+        return null;
     },
 
-    hasProjectPermission(permission, type){
+    hasProjectPermission(permission, type) {
         return permission != null && permission === 10000000000
-    }
+    },
+
+    getJson(res) {
+        return res.json().then(json => ({
+            status: res.status,
+            data: json
+        }))
+    },
 };

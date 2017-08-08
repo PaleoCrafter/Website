@@ -9,8 +9,8 @@ class ProjectType extends Component {
     }
 
     componentDidMount() {
-        fetch(globals.endPoint + `/games/minecraft/projectTypes`)
-            .then(result => result.json())
+        fetch(globals.endPoint + '/games/minecraft/projectTypes')
+            .then(res => globals.getJson(res))
             .then(items => this.setState({items: items}))
             .catch(err => {
                 console.log(err);

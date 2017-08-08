@@ -25,7 +25,12 @@ String.prototype.capitalize = function () {
 render(
     <BrowserRouter>
         <div>
-            <MMDNav/>
+            <Route render={(props) => {
+                console.log(props);
+                return <MMDNav location={props.location}/>
+
+            }}/>
+
             <Switch>
                 <Route exact path="/" component={Index}/>
 

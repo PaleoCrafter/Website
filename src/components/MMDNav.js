@@ -5,6 +5,28 @@ class MMDNav extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.state = {game: "", items: []};
+    }
+
+    componentDidMount() {
+        const location = this.props.location.pathname;
+        let game = location.split("/")[1];
+        if (game == "minecraft") {
+            this.setState({game: "minecraft"});
+            fetch(globals.endPoint + '/games/' + game)
+                .then(res => globals.getJson(res))
+                .then(gameData => {
+                    this.setState({gameData});
+
+                    fetch(globals.endPoint + '/games/' + game + '/projectTypes')
+                        .then(res => globals.getJson(res))
+                        .then(projectTypes => {
+                            this.setState({items: projectTypes});
+                            console.log(projectTypes);
+                        });
+                });
+
+        }
     }
 
     renderLoggedIn() {
@@ -39,29 +61,22 @@ class MMDNav extends PureComponent {
     renderNotLoggedIn() {
         return (
             <div>
-                <div className="btn-group" role="group" aria-label="Basic example">
+                <div className="btn-toolbar">
                     <a href="/login">
                         <button type="button" className="btn btn-outline-navbar">
-                            Login <i className="fa fa-envelope" aria-hidden="true"/>
+                            Login <i className="fa fa-envelope"/>
                         </button>
                     </a>
+                    <span/>
                     <a href="/register">
                         <button type="button" className="btn btn-outline-navbar">
-                            Register <i className="fa fa-bell" aria-hidden="true"/>
+                            Register <i className="fa fa-bell"/>
                         </button>
                     </a>
                 </div>
             </div>
         )
     }
-
-    renderUserInfo() {
-        if (globals.isUserLoggedIn())
-            return this.renderLoggedIn();
-
-        return this.renderNotLoggedIn();
-    }
-
 
     render() {
         return (
@@ -82,16 +97,30 @@ class MMDNav extends PureComponent {
                     <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href={"/" + this.state.game}>
+                                    Home
+                                    <span className="sr-only">(current)</span>
+                                </a>
                             </li>
+                            {
+                                this.state.items.map(item =>
+                                    <li key={item.slug} className="nav-item">
+                                        <a className="nav-link" href={'/' + this.state.game + '/projects/' + item.slug}>
+                                            {item.name}
+                                        </a>
+                                    </li>
+                                )
+                            }
                         </ul>
-                        <form className="form-inline my-2 my-lg-0" action="/search">
-                            <input className="form-control mr-sm-2" type="text" name="search" placeholder="Search..."/>
-                            <button className="btn btn-outline-navbar my-2 my-sm-0" type="submit"><i
-                                className="fa fa-search" aria-hidden="true"/></button>
-                        </form>
+                        {/*<form className="form-inline my-2 my-lg-0" action="/search">*/}
+                        {/*<input className="form-control mr-sm-2" type="text" name="search" placeholder="Search..."/>*/}
+                        {/*<button className="btn btn-outline-navbar my-2 my-sm-0" type="submit"><i*/}
+                        {/*className="fa fa-search" aria-hidden="true"/></button>*/}
+                        {/*</form>*/}
                         &nbsp;&nbsp;&nbsp;
-                        {this.renderUserInfo()}
+                        {
+                            globals.isUserLoggedIn() ? this.renderLoggedIn() : this.renderNotLoggedIn()
+                        }
                     </div>
                 </nav>
                 <br/>

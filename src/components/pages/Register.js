@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import { Redirect } from 'react-router'
+import {Redirect} from 'react-router'
 import ReCAPTCHA from "react-google-recaptcha";
 import globals from "../../globals";
+
 const http = require('http');
 
 let captcha;
@@ -32,26 +33,26 @@ class Register extends Component {
     }
 
     onChange(value) {
+        console.log('mup');
+
         let payload = {
             'email': this.state.email,
             'username': this.state.username,
             'password': this.state.password,
             'passwordConfirm': this.state.passwordConfirm,
             'g-recaptcha-response': value,
-            'betaKey': this.state.betaKey
-
         };
 
         let formBody = [];
         for (let property in payload) {
-            if(!payload[property])
+            if (!payload[property])
                 continue;
             let encodedKey = encodeURIComponent(property);
             let encodedValue = encodeURIComponent(payload[property]);
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        fetch(globals.endPoint + `/auth/register`,
+        fetch(globals.endPoint + '/auth/register',
             {
                 method: "POST",
                 headers: {
@@ -60,34 +61,32 @@ class Register extends Component {
                 },
                 body: formBody
             })
-            .then(result => result.json())
+            .then(res => globals.getJson(res))
             .then(returnData => {
-                console.log(returnData)
+                console.log(this);
                 if (returnData.status === 200) {
                     let storageSystem = window.sessionStorage;
-                    if (this.state.checkbox) {
-                        storageSystem = localStorage;
-                    }
                     storageSystem.setItem('token', returnData.data.token);
-                    storageSystem.setItem('tokenExpire', returnData.data.tokenExpire);
+                    storageSystem.setItem('tokenExpires', returnData.data.tokenExpires);
                     storageSystem.setItem('refreshToken', returnData.data.refreshToken);
-                    storageSystem.setItem('refreshExpire', returnData.data.refreshExpire);
-                    this.setState({redirect: true})
+                    storageSystem.setItem('refreshExpires', returnData.data.refreshExpires);
+                    console.log(this);
+                    this.props.history.push("/");
                 } else {
                     this.setState({data: returnData});
                 }
             });
         captcha.reset();
-        event.preventDefault();
     }
 
     render() {
         document.title = "Register - Diluv";
         const isError = this.state.data.errorMessage;
-        const {redirect} = this.state;
-        if (redirect) {
+        console.log(globals.isUserLoggedIn());
+
+        if (globals.isUserLoggedIn())
             return <Redirect to='/'/>;
-        }
+
         return (
             <div>
                 <ol className="breadcrumb">
@@ -95,20 +94,19 @@ class Register extends Component {
                     <li className="breadcrumb-item active">Register</li>
                 </ol>
                 <div className="card card-container">
-                    <img id="profile-img" className="profile-img-card"
-                         src="/favicon/favicon.ico"/>
+                    <img id="profile-img" className="profile-img-card" src="/favicon/favicon.ico"/>
                     <p id="profile-name" className="profile-name-card"/>
                     {
                         isError ? (
-                                <div className="alert alert-danger">
-                                    {console.log(this.state.data)}
-                                    <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
-                                    {/*New line per error*/}
-                                    <p>{this.state.data.errorMessage}</p>
-                                </div>
-                            ) : ""
+                            <div className="alert alert-danger">
+                                {console.log(this.state.data)}
+                                <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
+                                {/*New line per error*/}
+                                <p>{this.state.data.errorMessage}</p>
+                            </div>
+                        ) : ""
                     }
-                    <form className="form-signin">
+                    <form method="POST" className="form-signin">
                         <ReCAPTCHA
                             onChange={this.onChange}
                             sitekey="6LfbUCIUAAAAAM1Vgc3qsz5xomYnTrdvMnXVED8v"
@@ -137,11 +135,6 @@ class Register extends Component {
                                id="inputPasswordConfirm"
                                className="form-control"
                                placeholder="Retype Password"
-                               required/>
-                        <input name="betaKey" onChange={this.handleInputChange} type="text"
-                               id="inputBetaKey"
-                               className="form-control"
-                               placeholder="Beta Key"
                                required/>
                         <button className="btn btn-lg btn-primary btn-block btn-signin" onClick={this.handleSubmit}>
                             Register

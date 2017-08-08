@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router";
 import globals from "../../globals";
+
 const http = require('http');
 
 class Login extends Component {
@@ -35,7 +36,7 @@ class Login extends Component {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        fetch(globals.endPoint + `/auth/login`,
+        fetch(globals.endPoint + '/auth/login',
             {
                 method: "POST",
                 headers: {
@@ -44,13 +45,7 @@ class Login extends Component {
                 },
                 body: formBody
             })
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     let storageSystem = window.sessionStorage;
@@ -58,9 +53,9 @@ class Login extends Component {
                         storageSystem = localStorage;
                     }
                     storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpire', res.data.tokenExpires);
+                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
                     storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpire', res.data.refreshTokenExpires);
+                    storageSystem.setItem('refreshExpires', res.data.refreshTokenExpires);
                     this.props.history.push("/");
                 } else {
                     this.setState({data: res});
@@ -70,6 +65,9 @@ class Login extends Component {
     }
 
     render() {
+        if (globals.isUserLoggedIn())
+            return (<Redirect to={"/"}/>);
+
         document.title = "Login - Diluv";
         const isError = this.state.data.errorMessage;
         return (

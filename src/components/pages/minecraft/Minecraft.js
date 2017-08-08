@@ -10,13 +10,13 @@ class Minecraft extends Component {
 
 
     componentDidMount() {
-        fetch(globals.endPoint + `/games/minecraft`)
-            .then(result => result.json())
+        fetch(globals.endPoint + '/games/minecraft')
+            .then(res => globals.getJson(res))
             .then(gameData => {
                 this.setState({gameData});
 
-                fetch(globals.endPoint + `/games/minecraft/projectTypes`)
-                    .then(result => result.json())
+                fetch(globals.endPoint + '/games/minecraft/projectTypes')
+                    .then(res => globals.getJson(res))
                     .then(projectTypes => {
                         this.setState({items: projectTypes});
                         console.log(projectTypes);
@@ -26,17 +26,22 @@ class Minecraft extends Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    Projects:
-                    {
-                        this.state.items.map(item =>
-                            <Link key={item.slug} className="dropdown-item"
-                                  to={'/minecraft/projects/' + item.slug}>
-                                {item.name}
-                            </Link>
-                        )
-                    }
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4"/>
+                    <div className="col-md-4">
+                        <h1>Projects</h1>
+                    </div>
+                    <div className="col-md-4"/>
+                </div>
+                <div className="row">
+                    <div className="col-md-4"/>
+                    <div className="col-md-4">
+                        <Link to="/minecraft/projects/mods">
+                            Mods
+                        </Link>
+                    </div>
+                    <div className="col-md-4"/>
                 </div>
             </div>
         )

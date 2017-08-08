@@ -12,14 +12,8 @@ class ProjectFiles extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        globals.getFetch(globals.endPoint + `/projects/` + projectSlug, "GET", globals.getToken())
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+        globals.getFetch(globals.endPoint + '/projects/' + projectSlug, "GET", globals.getToken())
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     this.setState({projectData: res.data});
@@ -28,14 +22,8 @@ class ProjectFiles extends Component {
                 }
             });
 
-        fetch(globals.endPoint + `/projects/` + projectSlug + '/files')
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+        fetch(globals.endPoint + '/projects/' + projectSlug + '/files')
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     this.setState({projectFileData: res.data});

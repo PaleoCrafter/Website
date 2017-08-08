@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import ProjectView from "../../../elements/ProjectView";
 import globals from "../../../../globals";
 import ReactPaginate from 'react-paginate';
+import E404 from "../../E404";
 
 class Projects extends Component {
     constructor() {
@@ -14,14 +15,8 @@ class Projects extends Component {
             page = 1;
         const projectTypeName = this.props.match.params.slug;
 
-        fetch(globals.endPoint + `/games/minecraft/projectTypes/${projectTypeName}/projects?page=` + page)
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+        fetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName + '/projects?page=' + page)
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     this.setState({projects: res.data});
@@ -32,15 +27,8 @@ class Projects extends Component {
     }
 
     componentDidMount() {
-        console.log(this);
-        fetch(globals.endPoint + `/games/minecraft`)
-            .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
+        fetch(globals.endPoint + '/games/minecraft')
+            .then(res => globals.getJson(res))
             .then(res => {
                 if (res.status === 200) {
                     this.setState({gameData: res.data});
@@ -51,21 +39,15 @@ class Projects extends Component {
         const projectTypeName = this.props.match.params.slug;
 
 
-        fetch(globals.endPoint + `/games/minecraft/projectTypes/${projectTypeName}`,
-        )
+        fetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName)
+            .then(res => globals.getJson(res))
             .then(res => {
-                return res.json().then(json => ({
-                        status: res.status,
-                        data: json
-                    })
-                )
-            })
-            .then(res => {
-                if (res.status === 200)
-                    this.setState({projectType: res.data});
-                else
-                    console.log('Project types error');
-            });
+            if (res.status === 200)
+                this.setState({projectType: res.data});
+            else {
+                this.setState({projectType: false});
+            }
+        });
         this.getPageData(1);
     }
 
@@ -75,8 +57,11 @@ class Projects extends Component {
     };
 
     render() {
-        const projectTypeName = this.props.match.params.slug;
+        // if (!this.state.projectType)
+        //     return (<E404/>);
 
+        const projectTypeName = this.props.match.params.slug;
+        console.log(this.state.projects.totalPageCount);
         document.title = this.props.match.params.slug.capitalize() + " - Projects - Diluv";
         return (
 
@@ -141,43 +126,43 @@ class Projects extends Component {
 
                                     <div className="col-md-3">
                                         {/*<div className="dropdown">*/}
-                                            {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                                    {/*id="dropdownMenu1" data-toggle="dropdown"*/}
-                                                    {/*aria-haspopup="true" aria-expanded="true">*/}
-                                                {/*Sort by:*/}
-                                                {/*<span className="caret"/>*/}
-                                            {/*</button>*/}
-                                            {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">*/}
-                                                {/*{*/}
-                                                    {/*["Newest", "Top Rated"].map(item =>*/}
-                                                        {/*<li key={item}>*/}
-                                                            {/*<a className="dropdown-item" href="#">{item}</a>*/}
-                                                        {/*</li>*/}
-                                                    {/*)*/}
-                                                {/*}*/}
-                                            {/*</ul>*/}
+                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
+                                        {/*id="dropdownMenu1" data-toggle="dropdown"*/}
+                                        {/*aria-haspopup="true" aria-expanded="true">*/}
+                                        {/*Sort by:*/}
+                                        {/*<span className="caret"/>*/}
+                                        {/*</button>*/}
+                                        {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">*/}
+                                        {/*{*/}
+                                        {/*["Newest", "Top Rated"].map(item =>*/}
+                                        {/*<li key={item}>*/}
+                                        {/*<a className="dropdown-item" href="#">{item}</a>*/}
+                                        {/*</li>*/}
+                                        {/*)*/}
+                                        {/*}*/}
+                                        {/*</ul>*/}
                                         {/*</div>*/}
                                     </div>
 
                                     <div className="col-md-3">
                                         {/*<div className="dropdown">*/}
-                                            {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                                    {/*id="dropdownMenu2" data-toggle="dropdown"*/}
-                                                    {/*aria-haspopup="true" aria-expanded="true">*/}
-                                                {/*Game version:*/}
-                                                {/*<span className="caret"/>*/}
-                                            {/*</button>*/}
-                                            {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">*/}
-                                                {/*{*/}
-                                                    {/*this.state.gameData.versions ? this.state.gameData.versions.map(item =>*/}
-                                                        {/*<li key={item.version}>*/}
-                                                            {/*<a className="dropdown-item" href="#">*/}
-                                                                {/*{item.version}*/}
-                                                            {/*</a>*/}
-                                                        {/*</li>*/}
-                                                    {/*) : ""*/}
-                                                {/*}*/}
-                                            {/*</ul>*/}
+                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
+                                        {/*id="dropdownMenu2" data-toggle="dropdown"*/}
+                                        {/*aria-haspopup="true" aria-expanded="true">*/}
+                                        {/*Game version:*/}
+                                        {/*<span className="caret"/>*/}
+                                        {/*</button>*/}
+                                        {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">*/}
+                                        {/*{*/}
+                                        {/*this.state.gameData.versions ? this.state.gameData.versions.map(item =>*/}
+                                        {/*<li key={item.version}>*/}
+                                        {/*<a className="dropdown-item" href="#">*/}
+                                        {/*{item.version}*/}
+                                        {/*</a>*/}
+                                        {/*</li>*/}
+                                        {/*) : ""*/}
+                                        {/*}*/}
+                                        {/*</ul>*/}
                                         {/*</div>*/}
                                     </div>
                                 </div>
