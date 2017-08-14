@@ -14,16 +14,19 @@ class MMDNav extends PureComponent {
         if (game == "minecraft") {
             this.setState({game: "minecraft"});
             fetch(globals.endPoint + '/games/' + game)
-                .then(res => globals.getJson(res))
-                .then(gameData => {
-                    this.setState({gameData});
+                .then(res => res.json())
+                .then(res => {
+                    if (res.statusCode === 200) {
+                        this.setState({game: game});
 
-                    fetch(globals.endPoint + '/games/' + game + '/projectTypes')
-                        .then(res => globals.getJson(res))
-                        .then(projectTypes => {
-                            this.setState({items: projectTypes});
-                            console.log(projectTypes);
-                        });
+                        fetch(globals.endPoint + '/games/' + game + '/projectTypes')
+                            .then(res => res.json())
+                            .then(res => {
+                                if (res.statusCode === 200) {
+                                    this.setState({items: res.data});
+                                }
+                            });
+                    }
                 });
 
         }
@@ -32,28 +35,33 @@ class MMDNav extends PureComponent {
     renderLoggedIn() {
         return (
             <div>
-                <div className="btn-group" role="group" aria-label="Basic example">
-                    <a href="/private-messages">
-                        <button type="button" className="btn btn-outline-navbar">
-                            <i className="fa fa-envelope" aria-hidden="true"/>
-                        </button>
-                    </a>
-                    <a href="/notifications">
-                        <button type="button" className="btn btn-outline-navbar">
-                            <i className="fa fa-bell" aria-hidden="true"/>
-                        </button>
-                    </a>
-                    <a href="/account">
-                        <button type="button" className="btn btn-outline-navbar">
-                            <i className="fa fa-cog" aria-hidden="true"/>
-                        </button>
-                    </a>
+                <div className="btn-group" role="group">
+                    {/*<a href="/private-messages">*/}
+                    {/*<button type="button" className="btn btn-outline-navbar">*/}
+                    {/*<i className="fa fa-envelope"/>*/}
+                    {/*</button>*/}
+                    {/*</a>*/}
+                    {/*<a href="/notifications">*/}
+                    {/*<button type="button" className="btn btn-outline-navbar">*/}
+                    {/*<i className="fa fa-bell"/>*/}
+                    {/*</button>*/}
+                    {/*</a>*/}
+                    {/*<a href="/account">*/}
+                    {/*<button type="button" className="btn btn-outline-navbar">*/}
+                    {/*<i className="fa fa-cog"/>*/}
+                    {/*</button>*/}
+                    {/*</a>*/}
                 </div>
                 &nbsp;
                 &nbsp;
-                <a href="/account">
+
+                <a className="nav-item dropdown" id="navbarDropdownMenuLink" data-toggle="dropdown">
                     <img className="avatar avatar-small" src="http://placehold.it/400/50B2D6/ffffff"/>
                 </a>
+                <div className="dropdown-menu dropdown-menu-right">
+                    <a className="dropdown-item" href="/account"><i className="fa fa-cog"/> Account</a>
+                    <a className="dropdown-item" href="/logout"><i className="fa fa-sign-out"/> Logout</a>
+                </div>
             </div>
         )
     }
@@ -81,20 +89,14 @@ class MMDNav extends PureComponent {
     render() {
         return (
             <div>
-                <div style={{
-                    width: '100%',
-                    height: '100px',
-                }}/>
                 <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                            data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation">
+                            data-target="#navbarHome">
                         <span className="navbar-toggler-icon"/>
                     </button>
                     <a className="navbar-brand" href="/"><img src="/favicon/favicon.ico" style={{width: 50}}/></a>
 
-                    <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <div className="collapse navbar-collapse" id="navbarHome">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
                                 <a className="nav-link" href={"/" + this.state.game}>
@@ -103,19 +105,19 @@ class MMDNav extends PureComponent {
                                 </a>
                             </li>
                             {
-                                this.state.items.map(item =>
+                                this.state.items.length > 0 ? this.state.items.map(item =>
                                     <li key={item.slug} className="nav-item">
                                         <a className="nav-link" href={'/' + this.state.game + '/projects/' + item.slug}>
                                             {item.name}
                                         </a>
                                     </li>
-                                )
+                                ) : ""
                             }
                         </ul>
                         {/*<form className="form-inline my-2 my-lg-0" action="/search">*/}
                         {/*<input className="form-control mr-sm-2" type="text" name="search" placeholder="Search..."/>*/}
                         {/*<button className="btn btn-outline-navbar my-2 my-sm-0" type="submit"><i*/}
-                        {/*className="fa fa-search" aria-hidden="true"/></button>*/}
+                        {/*className="fa fa-search"/></button>*/}
                         {/*</form>*/}
                         &nbsp;&nbsp;&nbsp;
                         {
