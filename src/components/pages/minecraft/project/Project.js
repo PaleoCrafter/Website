@@ -13,9 +13,9 @@ class Project extends Component {
         const projectSlug = this.props.match.params.slug;
 
         globals.getFetch(globals.endPoint + '/projects/' + projectSlug, "GET", globals.getToken())
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projectData: res.data});
                     console.log(res.data)
                 } else {
@@ -61,7 +61,7 @@ class Project extends Component {
                                 <a className="nav-link" href={"/minecraft/project/" + projectSlug + "/files"}>Files</a>
                             </li>
                             {
-                                (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
+                                (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
                                            href={"/minecraft/project/" + projectSlug + "/settings"}>Settings</a>

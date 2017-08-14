@@ -10,8 +10,8 @@ class ProjectType extends Component {
 
     componentDidMount() {
         fetch(globals.endPoint + '/games/minecraft/projectTypes')
-            .then(res => globals.getJson(res))
-            .then(items => this.setState({items: items}))
+            .then(res => res.json())
+            .then(res => this.setState({items: res}))
             .catch(err => {
                 console.log(err);
             });
@@ -19,7 +19,7 @@ class ProjectType extends Component {
 
     render() {
         return (
-            <div className="dropdown-menu" aria-labelledby="dropdown01">
+            <div className="dropdown-menu">
                 {
                     this.state.items.map(item =>
                         <Link key={item.id} className="dropdown-item" to={'/projects/' + item.slug}>

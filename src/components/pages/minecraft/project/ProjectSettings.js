@@ -13,9 +13,9 @@ class ProjectFiles extends Component {
         const projectSlug = this.props.match.params.slug;
 
         fetch(globals.endPoint + '/projects/' + projectSlug)
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projectData: res.data});
                 } else {
                     console.log('Game');
@@ -30,7 +30,7 @@ class ProjectFiles extends Component {
 
         document.title = "Settings - " + projectSlug.capitalize() + " - Diluv";
 
-        if (!globals.hasProjectPermission(this.state.projectData.permission, "NULL")) {
+        if (!globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) {
             return (<Redirect to={"/minecraft/project/" + projectSlug}/>)
         } else
             return (

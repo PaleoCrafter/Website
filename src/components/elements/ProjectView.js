@@ -40,16 +40,16 @@ class ProjectView extends Component {
                     <div className="right">
                         <a href={"/minecraft/project/" + this.props.slug + "/files"}>
                             <span className="badge badge-primary">
-                                <i className="fa fa-file" aria-hidden="true"/>
+                                <i className="fa fa-file"/>
                             </span>
                         </a>
 
                         {
-                            (globals.hasProjectPermission(this.props.permissioncd, "NULL")) ? (
+                            (globals.hasProjectPermission(this.props.permissioncd, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                 <br>
                                     <a href={"/minecraft/project/" + this.prop.slug + "/settings"}>
                                     <span className="badge badge-primary">
-                                        <i className="fa fa-cog" aria-hidden="true"/>
+                                        <i className="fa fa-cog"/>
                                     </span>
                                     </a>
                                 </br>
@@ -57,7 +57,7 @@ class ProjectView extends Component {
                         }
                         <br/>
                         <span className="badge badge-warning">
-                            <i className="fa fa-star" aria-hidden="true"/>
+                            <i className="fa fa-star"/>
                         </span><br/>
                     </div>
                     <h3>
@@ -70,8 +70,8 @@ class ProjectView extends Component {
                         <p id="modDescription">{this.props.shortDescription}</p>
                     </h3>
                     <div id="modData">
-                        <i className="fa fa-download" aria-hidden="true"/> Downloads: {this.props.totalDownloads} | <i
-                        className="fa fa-clock-o" aria-hidden="true"/> Updated: {ProjectView.getDate(this.props.updatedAt)}
+                        <i className="fa fa-download"/> Downloads: {this.props.totalDownloads} | <i
+                        className="fa fa-clock-o"/> Updated: {ProjectView.getDate(this.props.updatedAt)}
                     </div>
                     {/*<div id="modVersions">Game Versions: {*/}
                     {/*this.props.versions.map(function (item, i) {*/}

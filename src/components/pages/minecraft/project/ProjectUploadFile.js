@@ -42,9 +42,9 @@ class ProjectUploadFile extends Component {
         const projectSlug = this.props.match.params.slug;
 
         fetch(globals.endPoint + '/projects/' + projectSlug)
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projectData: res.data});
                 } else {
                     console.log('Game');
@@ -110,7 +110,7 @@ class ProjectUploadFile extends Component {
                                 <a className="nav-link" href={"/minecraft/project/" + projectSlug + "/files"}>Files</a>
                             </li>
                             {
-                                (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
+                                (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
                                            href={"/minecraft/project/" + projectSlug + "/settings"}>Settings</a>

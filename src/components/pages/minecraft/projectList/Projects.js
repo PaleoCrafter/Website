@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import ProjectView from "../../../elements/ProjectView";
 import globals from "../../../../globals";
 import ReactPaginate from 'react-paginate';
-import E404 from "../../E404";
 
 class Projects extends Component {
     constructor() {
@@ -15,10 +14,10 @@ class Projects extends Component {
             page = 1;
         const projectTypeName = this.props.match.params.slug;
 
-        fetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName + '/projects?page=' + page)
-            .then(res => globals.getJson(res))
+        globals.getFetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName + '/projects?page=' + page)
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projects: res.data});
                 } else {
                     console.log('Project error');
@@ -27,10 +26,10 @@ class Projects extends Component {
     }
 
     componentDidMount() {
-        fetch(globals.endPoint + '/games/minecraft')
-            .then(res => globals.getJson(res))
+        globals.getFetch(globals.endPoint + '/games/minecraft')
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({gameData: res.data});
                 } else {
                     console.log('Game error');
@@ -39,15 +38,15 @@ class Projects extends Component {
         const projectTypeName = this.props.match.params.slug;
 
 
-        fetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName)
-            .then(res => globals.getJson(res))
+        globals.getFetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName, "GET", globals.getToken())
+            .then(res => res.json())
             .then(res => {
-            if (res.status === 200)
-                this.setState({projectType: res.data});
-            else {
-                this.setState({projectType: false});
-            }
-        });
+                if (res.statusCode === 200) {
+                    this.setState({projectType: res.data});
+                } else {
+                    //TODO Error
+                }
+            });
         this.getPageData(1);
     }
 
@@ -61,7 +60,6 @@ class Projects extends Component {
         //     return (<E404/>);
 
         const projectTypeName = this.props.match.params.slug;
-        console.log(this.state.projects.totalPageCount);
         document.title = this.props.match.params.slug.capitalize() + " - Projects - Diluv";
         return (
 
@@ -78,12 +76,12 @@ class Projects extends Component {
                             : ""
                     }
                     <div className="col-md-4">
-                        <h1><i className="fa fa-cog" aria-hidden="true"/> {projectTypeName.capitalize()}</h1>
+                        <h1><i className="fa fa-cog"/> {projectTypeName.capitalize()}</h1>
                     </div>
                     <div className="col-md-6"/>
                     <div className="col-md-2">
                         {
-                            globals.isUserLoggedIn() ? (
+                            globals.hasUserPermission(this.state.projectType.userPermissions, this.state.projectType.permission) ? (
                                 <a className="btn btn-info" role="button"
                                    href={"/minecraft/projects/" + projectTypeName + "/create"}>
                                     Create {projectTypeName.capitalize()}
@@ -127,12 +125,11 @@ class Projects extends Component {
                                     <div className="col-md-3">
                                         {/*<div className="dropdown">*/}
                                         {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                        {/*id="dropdownMenu1" data-toggle="dropdown"*/}
-                                        {/*aria-haspopup="true" aria-expanded="true">*/}
+                                        {/*id="dropdownMenu1" data-toggle="dropdown">*/}
                                         {/*Sort by:*/}
                                         {/*<span className="caret"/>*/}
                                         {/*</button>*/}
-                                        {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">*/}
+                                        {/*<ul className="dropdown-menu">*/}
                                         {/*{*/}
                                         {/*["Newest", "Top Rated"].map(item =>*/}
                                         {/*<li key={item}>*/}
@@ -147,12 +144,11 @@ class Projects extends Component {
                                     <div className="col-md-3">
                                         {/*<div className="dropdown">*/}
                                         {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                        {/*id="dropdownMenu2" data-toggle="dropdown"*/}
-                                        {/*aria-haspopup="true" aria-expanded="true">*/}
+                                        {/*id="dropdownMenu2" data-toggle="dropdown">*/}
                                         {/*Game version:*/}
                                         {/*<span className="caret"/>*/}
                                         {/*</button>*/}
-                                        {/*<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">*/}
+                                        {/*<ul className="dropdown-menu">*/}
                                         {/*{*/}
                                         {/*this.state.gameData.versions ? this.state.gameData.versions.map(item =>*/}
                                         {/*<li key={item.version}>*/}
@@ -172,7 +168,7 @@ class Projects extends Component {
                                     </div>
                                 </div>
                                 {
-                                    this.state.projects && this.state.projects.data ? this.state.projects.data.map(item =>
+                                    this.state.projects.data && this.state.projects.data.length > 0 ? this.state.projects.data.map(item =>
                                         <ProjectView key={item.slug}
                                                      name={item.name}
                                                      authors={item.authors}
@@ -199,17 +195,15 @@ class Projects extends Component {
                     </div>
 
                     <div className="col-md-2">
-                        {/* project type nav */}
                         <div className="list-group list-group-root">
                             {
                                 // console.log(this.state.projectType.categories)
-                                this.state.projectType.categories ? this.state.projectType.categories.map(item =>
+                                this.state.projectType.categories && this.state.projectType.length > 0 ? this.state.projectType.categories.map(item =>
                                     <a key={item.name} href={item.slug}
                                        className="list-group-item">{item.name}</a>
                                 ) : ""
                             }
                         </div>
-                        {/* end project type nav */}
                     </div>
                 </div>
             </div>

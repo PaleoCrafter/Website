@@ -11,16 +11,23 @@ class Minecraft extends Component {
 
     componentDidMount() {
         fetch(globals.endPoint + '/games/minecraft')
-            .then(res => globals.getJson(res))
-            .then(gameData => {
-                this.setState({gameData});
-
-                fetch(globals.endPoint + '/games/minecraft/projectTypes')
-                    .then(res => globals.getJson(res))
-                    .then(projectTypes => {
-                        this.setState({items: projectTypes});
-                        console.log(projectTypes);
-                    });
+            .then(res => res.json())
+            .then(res => {
+                if (res.statusCode === 200) {
+                    this.setState({gameData:res.data});
+                    fetch(globals.endPoint + '/games/minecraft/projectTypes')
+                        .then(res => res.json())
+                        .then(res => {
+                            if (res.statusCode === 200) {
+                                this.setState({items: res.data});
+                                console.log(res.data);
+                            } else {
+                                //TODO Handle
+                            }
+                        });
+                } else {
+                    //TODO Handle
+                }
             });
     }
 

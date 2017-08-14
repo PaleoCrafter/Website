@@ -13,9 +13,9 @@ class ProjectFiles extends Component {
         const projectSlug = this.props.match.params.slug;
 
         globals.getFetch(globals.endPoint + '/projects/' + projectSlug, "GET", globals.getToken())
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projectData: res.data});
                 } else {
                     console.log('Game');
@@ -23,9 +23,9 @@ class ProjectFiles extends Component {
             });
 
         fetch(globals.endPoint + '/projects/' + projectSlug + '/files')
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     this.setState({projectFileData: res.data});
                 } else {
                     console.log('Game');
@@ -46,7 +46,7 @@ class ProjectFiles extends Component {
                         <ul className="nav">
                             <li>
                                 {
-                                    (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
+                                    (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                         <a className="btn btn-info" role="button"
                                            href={"/minecraft/project/" + projectSlug + "/uploadFile"}>
                                             Upload File
@@ -71,7 +71,7 @@ class ProjectFiles extends Component {
                                     <th>Download Count</th>
                                     <th>Link</th>
                                     {
-                                        (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
+                                        (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                             <th>Status</th>
                                         ) : ""
                                     }
@@ -99,12 +99,11 @@ class ProjectFiles extends Component {
                                                 <td>
                                                     <a href={item.downloadUrl}>
                                                         Download
-                                                    </a> <i data-tip={item.sha256} className="fa fa-info-circle"
-                                                            aria-hidden="true"/>
+                                                    </a> <i data-tip={item.sha256} className="fa fa-info-circle"/>
                                                     <ReactTooltip class='hoverSHA' delayHide={1000} effect='solid'/>
                                                 </td>
                                                 {
-                                                    (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
+                                                    (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                                         <td>{item.status}</td>
                                                     ) : ""
                                                 }
@@ -125,14 +124,12 @@ class ProjectFiles extends Component {
                                 <a className="nav-link active" href={"/minecraft/project/" + projectSlug + "/files"}>Files</a>
                             </li>
                             {
-                                console.log(this.state.projectData)
-                            } {
-                            (globals.hasProjectPermission(this.state.projectData.permission, "NULL")) ? (
-                                <li className="nav-item">
-                                    <a className="nav-link"
-                                       href={"/minecraft/project/" + projectSlug + "/settings"}>Settings</a>
-                                </li>) : ""
-                        }
+                                (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
+                                    <li className="nav-item">
+                                        <a className="nav-link"
+                                           href={"/minecraft/project/" + projectSlug + "/settings"}>Settings</a>
+                                    </li>) : ""
+                            }
                         </ul>
                     </div>
                 </div>
