@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from "react-router";
-import globals from "../../globals";
+import globals from "../../../globals";
 
 const http = require('http');
 
@@ -45,9 +45,9 @@ class Login extends Component {
                 },
                 body: formBody
             })
-            .then(res => globals.getJson(res))
+            .then(res => res.json())
             .then(res => {
-                if (res.status === 200) {
+                if (res.statusCode === 200) {
                     let storageSystem = window.sessionStorage;
                     if (this.state.checkbox) {
                         storageSystem = localStorage;
@@ -69,14 +69,9 @@ class Login extends Component {
             return (<Redirect to={"/"}/>);
 
         document.title = "Login - Diluv";
-        const isError = this.state.data.errorMessage;
+        const isError = this.state.data.message;
         return (
             <div>
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="/">Home</a></li>
-                    <li className="breadcrumb-item active">Login</li>
-                </ol>
-
                 <div className="card card-container">
                     <img id="profile-img" className="profile-img-card"
                          src="/favicon/favicon.ico"/>
@@ -86,11 +81,11 @@ class Login extends Component {
                         isError ? (
                             <div className="alert alert-danger">
                                 <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
-                                <p>{this.state.data.errorMessage}</p>
+                                <p>{isError}</p>
                             </div>
                         ) : ""
                     }
-                    <form action="POST" onSubmit={this.handleSubmit} className="form-signin">
+                    <form method="POST" onSubmit={this.handleSubmit} className="form-signin">
                         <span id="reauth-email" className="reauth-email"/>
                         <input name="email" onChange={this.handleInputChange} type="email" id="inputEmail"
                                className="form-control"

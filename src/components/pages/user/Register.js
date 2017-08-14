@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Redirect} from 'react-router'
 import ReCAPTCHA from "react-google-recaptcha";
-import globals from "../../globals";
+import globals from "../../../globals";
 
 const http = require('http');
 
@@ -33,8 +33,6 @@ class Register extends Component {
     }
 
     onChange(value) {
-        console.log('mup');
-
         let payload = {
             'email': this.state.email,
             'username': this.state.username,
@@ -61,19 +59,18 @@ class Register extends Component {
                 },
                 body: formBody
             })
-            .then(res => globals.getJson(res))
-            .then(returnData => {
+            .then(res => res.json())
+            .then(res => {
                 console.log(this);
-                if (returnData.status === 200) {
+                if (res.statusCode === 200) {
                     let storageSystem = window.sessionStorage;
-                    storageSystem.setItem('token', returnData.data.token);
-                    storageSystem.setItem('tokenExpires', returnData.data.tokenExpires);
-                    storageSystem.setItem('refreshToken', returnData.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', returnData.data.refreshExpires);
-                    console.log(this);
+                    storageSystem.setItem('token', res.data.token);
+                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                    storageSystem.setItem('refreshToken', res.data.refreshToken);
+                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
                     this.props.history.push("/");
                 } else {
-                    this.setState({data: returnData});
+                    this.setState({data: res});
                 }
             });
         captcha.reset();
@@ -82,17 +79,12 @@ class Register extends Component {
     render() {
         document.title = "Register - Diluv";
         const isError = this.state.data.errorMessage;
-        console.log(globals.isUserLoggedIn());
 
         if (globals.isUserLoggedIn())
             return <Redirect to='/'/>;
 
         return (
             <div>
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><a href="/">Home</a></li>
-                    <li className="breadcrumb-item active">Register</li>
-                </ol>
                 <div className="card card-container">
                     <img id="profile-img" className="profile-img-card" src="/favicon/favicon.ico"/>
                     <p id="profile-name" className="profile-name-card"/>
