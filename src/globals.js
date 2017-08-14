@@ -4,7 +4,7 @@ module.exports = {
     host: env === 'dev' ? 'http://localhost:1234' : 'http://mcmoddev.com',
     endPoint: env === 'dev' ? 'http://localhost:8080/v1' : 'https://api.mcmoddev.com/v1',
 
-    getFetch(url, method, authorizationToken = null) {
+    getFetch(url, method = "GET", authorizationToken = null) {
         if (authorizationToken != null) {
             return fetch(url,
                 {
@@ -32,7 +32,7 @@ module.exports = {
         if (storageSystem.getItem("token") == null) {
             storageSystem = window.sessionStorage;
             if (storageSystem.getItem("token") == null)
-                return undefined;
+                return null;
             else
                 return storageSystem;
         } else
@@ -51,9 +51,9 @@ module.exports = {
         currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
         if (refreshTokenExpires >= currentDate) {
             this.getFetch(this.endPoint + '/auth/refreshToken', "POST", refreshToken)
-                .then(res => getJson(res))
+                .then(res => res.json())
                 .then(res => {
-                    if (res.status === 200) {
+                    if (res.statusCode === 200) {
                         storageSystem.setItem('token', res.data.token);
                         storageSystem.setItem('tokenExpires', res.data.tokenExpires);
                         storageSystem.setItem('refreshToken', res.data.refreshToken);
@@ -76,27 +76,7 @@ module.exports = {
         }
     },
 
-    isUserLoggedIn() {
-        const storageSystem = this.getStorage();
-        console.log(storageSystem);
 
-        if (storageSystem == null)
-            return false;
-
-        let refreshToken = storageSystem.getItem("refreshToken");
-        let tokenExpires = storageSystem.getItem("tokenExpires");
-
-        if (tokenExpires) {
-            let currentDate = new Date();
-            currentDate = (currentDate.getTime() - currentDate.getMilliseconds()) / 1000;
-            if (tokenExpires >= currentDate) {
-                return true;
-            } else {
-                return this.refreshToken()
-            }
-        }
-        return false;
-    },
     getToken() {
         const storageSystem = this.getStorage();
         if (storageSystem == null)
@@ -116,15 +96,22 @@ module.exports = {
         }
         return null;
     },
-
+    isUserLoggedIn() {
+        return this.getToken() != null;
+    },
     hasProjectPermission(permission, type) {
-        return permission != null && permission === 10000000000
+        return permission != null && (1 << type & permission) > 0
     },
+    hasUserPermission(permission, type) {
+        if (!this.isUserLoggedIn())
+            return false;
+        return permission != null && (1 << type & permission) > 0
+    },
+    PROJECT_PERMISSION: {
+        EDIT_DESCRIPTION: 1,
+        EDIT_SETTINGS: 2,
+        ADD_USER: 3,
 
-    getJson(res) {
-        return res.json().then(json => ({
-            status: res.status,
-            data: json
-        }))
-    },
+        UPLOAD_FILE: 30,
+    }
 };
