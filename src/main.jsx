@@ -5,8 +5,10 @@ import {Switch} from "react-router";
 
 import Index from "./components/pages/Index";
 
-import Login from "./components/pages/Login";
-import Register from "./components/pages/Register";
+import Logout from "./components/pages/user/Logout";
+import Login from "./components/pages/user/Login";
+import Register from "./components/pages/user/Register";
+
 import E404 from "./components/pages/E404";
 import Minecraft from "./components/pages/minecraft/Minecraft";
 import Project from "./components/pages/minecraft/project/Project";
@@ -16,8 +18,11 @@ import ProjectSettings from "./components/pages/minecraft/project/ProjectSetting
 
 import Projects from "./components/pages/minecraft/projectList/Projects";
 
+import Account from "./components/pages/user/Account";
+
 import MMDNav from "./components/MMDNav";
 import MMDFooter from "./components/MMDFooter";
+import ProjectsCreate from "./components/pages/minecraft/projectList/ProjectsCreate";
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -26,7 +31,6 @@ render(
     <BrowserRouter>
         <div>
             <Route render={(props) => {
-                console.log(props);
                 return <MMDNav location={props.location}/>
 
             }}/>
@@ -41,10 +45,15 @@ render(
                 <Route exact path="/minecraft/project/:slug/files" component={ProjectFiles}/>
                 <Route exact path="/minecraft/project/:slug/" component={Project}/>
 
+                <Route exact path="/minecraft/projects/:slug/create/" component={ProjectsCreate}/>
                 <Route exact path="/minecraft/projects/:slug" component={Projects}/>
 
                 <Route path="/login" component={Login}/>
+                <Route path="/logout" component={Logout}/>
                 <Route path="/register" component={Register}/>
+
+                <Route path="/account" component={Account}/>
+
                 <Route component={E404}/>
             </Switch>
             <MMDFooter/>
