@@ -27,6 +27,29 @@ module.exports = {
         }
     },
 
+    postForm(url, payload, callback) {
+        let formBody = [];
+        for (let property in payload) {
+            let encodedKey = encodeURIComponent(property);
+            let encodedValue = encodeURIComponent(payload[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formBody
+            })
+            .then(res => res.json())
+            .then(res => {
+                callback(res)
+            });
+    },
+
     getStorage() {
         let storageSystem = localStorage;
         if (storageSystem.getItem("token") == null) {

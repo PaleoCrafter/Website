@@ -41,38 +41,20 @@ class Register extends Component {
             'g-recaptcha-response': value,
         };
 
-        let formBody = [];
-        for (let property in payload) {
-            if (!payload[property])
-                continue;
-            let encodedKey = encodeURIComponent(property);
-            let encodedValue = encodeURIComponent(payload[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        fetch(globals.endPoint + '/auth/register',
-            {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formBody
-            })
-            .then(res => res.json())
-            .then(res => {
-                console.log(this);
-                if (res.statusCode === 200) {
-                    let storageSystem = window.sessionStorage;
-                    storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                    storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
-                    this.props.history.push("/");
-                } else {
-                    this.setState({data: res});
-                }
-            });
+        globals.postForm(globals.endPoint + '/auth/register', payload, res=>{
+            console.log(this);
+            if (res.statusCode === 200) {
+                let storageSystem = window.sessionStorage;
+                storageSystem.setItem('token', res.data.token);
+                storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                storageSystem.setItem('refreshToken', res.data.refreshToken);
+                storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                this.props.history.push("/");
+            } else {
+                this.setState({data: res});
+            }
+        });
+
         captcha.reset();
     }
 
@@ -107,7 +89,6 @@ class Register extends Component {
                                 captcha = component;
                             }}
                         />
-                        <span id="reauth-email" className="reauth-email"/>
                         <input name="email" onChange={this.handleInputChange} type="email"
                                id="inputEmail"
                                className="form-control"

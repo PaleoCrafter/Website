@@ -14,13 +14,12 @@ class Minecraft extends Component {
             .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({gameData:res.data});
+                    this.setState({gameData: res.data});
                     fetch(globals.endPoint + '/games/minecraft/projectTypes')
                         .then(res => res.json())
                         .then(res => {
                             if (res.statusCode === 200) {
                                 this.setState({items: res.data});
-                                console.log(res.data);
                             } else {
                                 //TODO Handle
                             }
@@ -44,9 +43,13 @@ class Minecraft extends Component {
                 <div className="row">
                     <div className="col-md-4"/>
                     <div className="col-md-4">
-                        <Link to="/minecraft/projects/mods">
-                            Mods
-                        </Link>
+                        {
+                            this.state.items.length > 0 ? this.state.items.map(item =>
+                                <Link key={item.slug} to={"/minecraft/projects/" + item.slug}>
+                                    {item.name}
+                                </Link>
+                            ) : ""
+                        }
                     </div>
                     <div className="col-md-4"/>
                 </div>

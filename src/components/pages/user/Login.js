@@ -29,38 +29,22 @@ class Login extends Component {
             'password': this.state.password
         };
 
-        let formBody = [];
-        for (let property in payload) {
-            let encodedKey = encodeURIComponent(property);
-            let encodedValue = encodeURIComponent(payload[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        fetch(globals.endPoint + '/auth/login',
-            {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: formBody
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.statusCode === 200) {
-                    let storageSystem = window.sessionStorage;
-                    if (this.state.checkbox) {
-                        storageSystem = localStorage;
-                    }
-                    storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                    storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', res.data.refreshTokenExpires);
-                    this.props.history.push("/");
-                } else {
-                    this.setState({data: res});
+        globals.postForm(globals.endPoint + '/auth/login', payload, res => {
+            if (res.statusCode === 200) {
+                let storageSystem = window.sessionStorage;
+                if (this.state.checkbox) {
+                    storageSystem = localStorage;
                 }
-            });
+                storageSystem.setItem('token', res.data.token);
+                storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                storageSystem.setItem('refreshToken', res.data.refreshToken);
+                storageSystem.setItem('refreshExpires', res.data.refreshTokenExpires);
+                this.props.history.push("/");
+            } else {
+                this.setState({data: res});
+            }
+        });
+
         event.preventDefault();
     }
 
@@ -86,10 +70,9 @@ class Login extends Component {
                         ) : ""
                     }
                     <form method="POST" onSubmit={this.handleSubmit} className="form-signin">
-                        <span id="reauth-email" className="reauth-email"/>
-                        <input name="email" onChange={this.handleInputChange} type="email" id="inputEmail"
+                        <input name="email" onChange={this.handleInputChange} type="text" id="inputEmail"
                                className="form-control"
-                               placeholder="Email address"
+                               placeholder="Username/Email"
                                required autoFocus/>
                         <input name="password" onChange={this.handleInputChange} type="password" id="inputPassword"
                                className="form-control"

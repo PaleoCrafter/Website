@@ -18,7 +18,10 @@ import ProjectSettings from "./components/pages/minecraft/project/ProjectSetting
 
 import Projects from "./components/pages/minecraft/projectList/Projects";
 
-import Account from "./components/pages/user/Account";
+import Account from "./components/pages/user/account/Account";
+import AccountProjects from "./components/pages/user/account/AccountProjects";
+import AccountSettings from "./components/pages/user/account/AccountSettings";
+import AccountSecurity from "./components/pages/user/account/AccountSecurity";
 
 import MMDNav from "./components/MMDNav";
 import MMDFooter from "./components/MMDFooter";
@@ -32,7 +35,6 @@ render(
         <div>
             <Route render={(props) => {
                 return <MMDNav location={props.location}/>
-
             }}/>
 
             <Switch>
@@ -52,7 +54,10 @@ render(
                 <Route path="/logout" component={Logout}/>
                 <Route path="/register" component={Register}/>
 
-                <Route path="/account" component={Account}/>
+                <Route exact path="/account/projects" component={AccountProjects}/>
+                <Route exact path="/account/settings" component={AccountSettings}/>
+                <Route exact path="/account/security" component={AccountSecurity}/>
+                <Route exact path="/account" component={Account}/>
 
                 <Route component={E404}/>
             </Switch>

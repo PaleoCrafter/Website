@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 class Projects extends Component {
     constructor() {
         super();
-        this.state = {gameData: [], projects: [], projectType: [], error: []};
+        this.state = {projects: [], projectType: [], error: []};
     }
 
     getPageData(page) {
@@ -19,6 +19,7 @@ class Projects extends Component {
             .then(res => {
                 if (res.statusCode === 200) {
                     this.setState({projects: res.data});
+                    console.log(res.data)
                 } else {
                     console.log('Project error');
                 }
@@ -26,15 +27,6 @@ class Projects extends Component {
     }
 
     componentDidMount() {
-        globals.getFetch(globals.endPoint + '/games/minecraft')
-            .then(res => res.json())
-            .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({gameData: res.data});
-                } else {
-                    console.log('Game error');
-                }
-            });
         const projectTypeName = this.props.match.params.slug;
 
 
@@ -169,20 +161,20 @@ class Projects extends Component {
                                 </div>
                                 {
                                     this.state.projects.data && this.state.projects.data.length > 0 ? this.state.projects.data.map(item =>
-                                        <ProjectView key={item.slug}
-                                                     name={item.name}
-                                                     authors={item.authors}
-                                                     description={item.description}
-                                                     logo={item.logo}
-                                                     totalDownloads={item.totalDownloads}
-                                                     createdAt={item.createdAt}
-                                                     updatedAt={item.updatedAt}
-                                            // gameVersions={item.gameVersions}
-                                                     categories={item.categories}
-                                                     shortDescription={item.shortDescription}
-                                                     slug={item.slug}
-                                                     permission={item.permission}
-                                        />
+                                            <ProjectView key={item.slug}
+                                                         name={item.name}
+                                                         authors={item.authors}
+                                                         description={item.description}
+                                                         logo={item.logo}
+                                                         totalDownloads={item.totalDownloads}
+                                                         createdAt={item.createdAt}
+                                                         updatedAt={item.updatedAt}
+                                                // gameVersions={item.gameVersions}
+                                                         categories={item.categories}
+                                                         shortDescription={item.shortDescription}
+                                                         slug={item.slug}
+                                                         permission={item.permission}
+                                            />
                                     ) : ""
                                 }
                                 <div className="row">
@@ -198,9 +190,10 @@ class Projects extends Component {
                         <div className="list-group list-group-root">
                             {
                                 // console.log(this.state.projectType.categories)
-                                this.state.projectType.categories && this.state.projectType.length > 0 ? this.state.projectType.categories.map(item =>
-                                    <a key={item.name} href={item.slug}
-                                       className="list-group-item">{item.name}</a>
+                                this.state.projectType.categories && this.state.projectType.categories.length > 0 ? this.state.projectType.categories.map(item =>
+                                    <a key={item.name} className="list-group-item">
+                                        {item.name}
+                                    </a>
                                 ) : ""
                             }
                         </div>

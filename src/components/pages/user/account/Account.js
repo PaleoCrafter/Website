@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import AccountNav from "../../../elements/account/AccountNav";
 
 class Account extends Component {
 
@@ -20,8 +21,7 @@ class Account extends Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2">
-                    </div>
+                    <AccountNav/>
                 </div>
             </div>
         )
