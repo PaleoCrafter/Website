@@ -38,27 +38,27 @@ class ProjectView extends Component {
                 </div>
                 <div className="col-9">
                     <div className="right">
-                        <a href={"/minecraft/project/" + this.props.slug + "/files"}>
+                        <a className="project-badge" href={"/minecraft/project/" + this.props.slug + "/files"}>
                             <span className="badge badge-primary">
                                 <i className="fa fa-file"/>
                             </span>
                         </a>
 
                         {
-                            (globals.hasProjectPermission(this.props.permissioncd, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
-                                <br>
-                                    <a href={"/minecraft/project/" + this.prop.slug + "/settings"}>
+                            (globals.hasProjectPermission(this.props.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
+                                <a className="project-badge"
+                                   href={"/minecraft/project/" + this.props.slug + "/settings"}>
                                     <span className="badge badge-primary">
                                         <i className="fa fa-cog"/>
                                     </span>
-                                    </a>
-                                </br>
+                                </a>
                             ) : ""
                         }
-                        <br/>
-                        <span className="badge badge-warning">
-                            <i className="fa fa-star"/>
-                        </span><br/>
+                        <a className="project-badge">
+                            <span className="badge badge-warning">
+                                <i className="fa fa-star"/>
+                            </span>
+                        </a>
                     </div>
                     <h3>
                         <a href={"/minecraft/project/" + this.props.slug}>
@@ -92,4 +92,5 @@ class ProjectView extends Component {
     }
 
 }
+
 export default ProjectView;
