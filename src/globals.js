@@ -1,8 +1,8 @@
 const env = process.env.NODE_ENV || 'dev';
 
 module.exports = {
-    host: env === 'dev' ? 'http://localhost:1234' : 'http://mcmoddev.com',
-    endPoint: env === 'dev' ? 'http://localhost:8080/v1' : 'https://api.mcmoddev.com/v1',
+    host: env === 'dev' ? 'http://localhost:1234' : env === 'staging' ? 'http://diluv-dev.com' : 'http://diluv.com',
+    endPoint: env === 'dev' ? 'http://localhost:8080/v1' : env === 'staging' ? 'http://api.diluv-dev.com/v1' : 'https://api.diluv.com/v1',
 
     getFetch(url, method = "GET", authorizationToken = null) {
         if (authorizationToken != null) {
