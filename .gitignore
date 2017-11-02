@@ -32,3 +32,4 @@ settings.json
 /dataSources
 /.gradle
 /.ideaDataSources
+/dist

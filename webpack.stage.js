@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     context: path.join(__dirname, 'src'),
@@ -20,13 +21,17 @@ module.exports = {
             title: 'Diluv',
             template: 'index.html',
         }),
-        // new UglifyJSPlugin({
-        // })
+        new UglifyJSPlugin({}),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('staging')
+            }
+        }),
     ],
     module: {
         loaders: [
-            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+            {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
         ],
     },
 };

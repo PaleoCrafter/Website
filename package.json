@@ -1,17 +1,19 @@
 {
-  "name": "mmd-alt-site",
+  "name": "diluv",
   "version": "0.1.0",
   "description": "",
   "scripts": {
+    "stage": "webpack --config webpack.stage.js",
+    "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --progress --colors"
   },
-  "repository": "https://github.com/MinecraftModDevelopment/Website",
+  "repository": "https://github.com/Diluv/Website",
   "keywords": [
     "minecraft",
     "modded",
-    "mmd"
+    "diluv"
   ],
-  "author": "Minecraft Mod Development",
+  "author": "Diluv",
   "license": "LGPL v2.1",
   "dependencies": {
     "babel-core": "^6.24.1",
