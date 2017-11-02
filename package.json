@@ -5,7 +5,7 @@
   "scripts": {
     "stage": "webpack --config webpack.stage.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --progress --colors"
+    "start": "webpack-dev-server --config webpack.stage.js --progress --colors"
   },
   "repository": "https://github.com/Diluv/Website",
   "keywords": [
@@ -34,11 +34,11 @@
     "webpack": "^2.3.3"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/preset-env": "^7.0.0-beta.4",
     "babel-preset-react": "^6.24.1",
-    "webpack-dev-server": "^2.4.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.2",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "webpack-dev-server": "^2.4.2"
   }
 }
