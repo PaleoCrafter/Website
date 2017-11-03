@@ -5,7 +5,7 @@
   "scripts": {
     "stage": "webpack --config webpack.stage.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.stage.js --progress --colors"
+    "start": "webpack-dev-server --config webpack.config.js --progress --colors"
   },
   "repository": "https://github.com/Diluv/Website",
   "keywords": [
