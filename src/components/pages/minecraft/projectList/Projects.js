@@ -14,7 +14,7 @@ class Projects extends Component {
             page = 1;
         const projectTypeName = this.props.match.params.slug;
 
-        globals.getFetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName + '/projects?page=' + page)
+        globals.getFetch(globals.endPoint + '/games/minecraft/' + projectTypeName + '/projects?page=' + page)
             .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {
@@ -30,7 +30,7 @@ class Projects extends Component {
         const projectTypeName = this.props.match.params.slug;
 
 
-        globals.getFetch(globals.endPoint + '/games/minecraft/projectTypes/' + projectTypeName, "GET", globals.getToken())
+        globals.getFetch(globals.endPoint + '/games/minecraft/' + projectTypeName, "GET", globals.getToken())
             .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {

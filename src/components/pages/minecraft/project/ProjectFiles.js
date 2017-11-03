@@ -22,7 +22,7 @@ class ProjectFiles extends Component {
                 }
             });
 
-        fetch(globals.endPoint + '/projects/' + projectSlug + '/files')
+        fetch(globals.endPoint + '/games/minecraft/' + projectSlug + '/files')
             .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {
@@ -48,7 +48,7 @@ class ProjectFiles extends Component {
                                 {
                                     (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                         <a className="btn btn-info" role="button"
-                                           href={"/minecraft/project/" + projectSlug + "/uploadFile"}>
+                                           href={"/minecraft/project/" + projectSlug + "/upload"}>
                                             Upload File
                                         </a>
                                     ) : ""
