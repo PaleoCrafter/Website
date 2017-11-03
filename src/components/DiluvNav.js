@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import globals from "../globals";
 
-class MMDNav extends PureComponent {
+class DiluvNav extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -30,9 +30,7 @@ class MMDNav extends PureComponent {
                     }
                 });
         }
-    }
 
-    shouldComponentUpdate(nextProps, nextState) {
         if (globals.isUserLoggedIn() && !this.state.loggedIn) {
             this.setState({loggedIn: true});
 
@@ -133,4 +131,4 @@ class MMDNav extends PureComponent {
     }
 }
 
-export default MMDNav;
+export default DiluvNav;

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class MMDFooter extends Component {
+class DiluvFooter extends Component {
     render() {
         return (
             <div>
@@ -17,4 +17,4 @@ class MMDFooter extends Component {
     }
 }
 
-export default MMDFooter;
+export default DiluvFooter;

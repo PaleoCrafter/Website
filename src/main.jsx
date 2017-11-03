@@ -23,8 +23,8 @@ import AccountProjects from "./components/pages/user/account/AccountProjects";
 import AccountSettings from "./components/pages/user/account/AccountSettings";
 import AccountSecurity from "./components/pages/user/account/AccountSecurity";
 
-import MMDNav from "./components/MMDNav";
-import MMDFooter from "./components/MMDFooter";
+import DiluvNav from "./components/DiluvNav";
+import DiluvFooter from "./components/DiluvFooter";
 import ProjectsCreate from "./components/pages/minecraft/projectList/ProjectsCreate";
 
 String.prototype.capitalize = function () {
@@ -34,7 +34,7 @@ render(
     <BrowserRouter>
         <div>
             <Route render={(props) => {
-                return <MMDNav location={props.location}/>
+                return <DiluvNav location={props.location}/>
             }}/>
 
             <Switch>
@@ -43,7 +43,7 @@ render(
                 <Route exact path="/minecraft/" component={Minecraft}/>
 
                 <Route exact path="/minecraft/project/:slug/settings" component={ProjectSettings}/>
-                <Route exact path="/minecraft/project/:slug/uploadfile" component={ProjectUploadFile}/>
+                <Route exact path="/minecraft/project/:slug/upload" component={ProjectUploadFile}/>
                 <Route exact path="/minecraft/project/:slug/files" component={ProjectFiles}/>
                 <Route exact path="/minecraft/project/:slug/" component={Project}/>
 
@@ -61,7 +61,7 @@ render(
 
                 <Route component={E404}/>
             </Switch>
-            <MMDFooter/>
+            <DiluvFooter/>
         </div>
     </BrowserRouter>
     , document.querySelector('#react-app')
