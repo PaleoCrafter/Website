@@ -12,7 +12,7 @@ node {
         if (env.BRANCH_NAME == 'master') {
 
         } else {
-            ansiblePlaybook('deploy/dev-deploy.yml')
+            ansiblePlaybook('dev-deploy.yml')
         }
     }
 }
