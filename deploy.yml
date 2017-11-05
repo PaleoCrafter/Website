@@ -5,7 +5,7 @@
         state: absent
 
     - name: copies the public files over
-      copy: src=public/ dest=/var/www/diluv-dev.com/html/
+      copy: src=public/ dest=/var/www/dev.diluv.com/
 
     - name: copies dist
-      copy: src=dist/ dest=/var/www/diluv-dev.com/html/
+      copy: src=dist/ dest=/var/www/dev.diluv.com/
