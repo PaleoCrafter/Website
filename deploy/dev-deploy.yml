@@ -1,0 +1,14 @@
+- hosts: apiservers
+  tasks:
+    - file:
+        path: "/var/www/diluv-dev.com/html/*"
+        state: absent
+
+    - name: copy index.html to nginx
+      copy: src=../dist/index.html dest=/var/www/dev.diluv.com/
+
+    - name: copy main-bundle.js cdn
+      copy: src=../dist/main-bundle.js dest=/var/cdn/dev/
+
+    - name: copy public folder to nginx
+      copy: src=../public/ dest=/var/cdn/dev/

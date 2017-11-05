@@ -4,23 +4,15 @@ node {
     }
 
     stage("build") {
-        if (isUnix()) {
-            sh 'npm install'
-            sh 'npm run stage'
-        } else {
-            bat 'npm install'
-            bat 'npm run stage'
-        }
+        sh 'npm install'
+        sh 'npm run staging'
     }
 
     stage("deploy") {
         if (env.BRANCH_NAME == 'master') {
-            
+
         } else {
-            if (isUnix()) {
-                ansiblePlaybook('deploy.yml')
-            } else {
-            }
+            ansiblePlaybook('deploy/dev-deploy.yml')
         }
     }
 }

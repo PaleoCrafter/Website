@@ -20,11 +20,12 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
+            bundleUrl: 'https://download.nodecdn.net/containers/diluv/'
         }),
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('staging')
+                'NODE_ENV': JSON.stringify('production')
             }
         }),
     ],

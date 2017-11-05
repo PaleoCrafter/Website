@@ -1,7 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
     context: path.join(__dirname, 'src'),
@@ -20,12 +18,7 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
-        }),
-        new UglifyJSPlugin({}),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
+            bundleUrl: ''
         }),
     ],
     module: {
