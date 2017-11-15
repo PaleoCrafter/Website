@@ -5,7 +5,7 @@
   "scripts": {
     "staging": "webpack --config webpack.staging.js",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.config.js --progress --colors"
+    "start": "webpack-dev-server --config webpack.dev.js --progress --colors"
   },
   "repository": "https://github.com/Diluv/Website",
   "keywords": [
@@ -16,22 +16,21 @@
   "author": "Diluv",
   "license": "LGPL v2.1",
   "dependencies": {
-    "babel-core": "^6.24.1",
-    "babel-loader": "^6.4.1",
-    "dateformat": "^2.0.0",
-    "html-webpack-plugin": "^2.28.0",
-    "react": "^15.5.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "dateformat": "^3.0.2",
+    "html-webpack-plugin": "^2.30.1",
+    "react": "^16.1.1",
     "react-async-script": "^0.9.1",
-    "react-dom": "^15.5.3",
-    "react-dropzone-component": "^2.0.0",
+    "react-dom": "^16.1.1",
     "react-fileupload-progress": "^0.4.0",
-    "react-google-recaptcha": "^0.9.3",
-    "react-paginate": "^4.4.3",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1",
+    "react-google-recaptcha": "^0.9.7",
+    "react-paginate": "^5.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-tooltip": "^3.3.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^2.3.3"
+    "webpack": "^2.3.3",
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",

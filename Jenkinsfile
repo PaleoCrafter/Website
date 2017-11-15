@@ -11,7 +11,7 @@ node {
     stage("deploy") {
         if (env.BRANCH_NAME == 'master') {
 
-        } else {
+        } else if (env.BRANCH_NAME == 'development') {
             ansiblePlaybook('dev-deploy.yml')
         }
     }
