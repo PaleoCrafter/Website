@@ -27,6 +27,8 @@ import DiluvNav from "./components/DiluvNav";
 import DiluvFooter from "./components/DiluvFooter";
 import ProjectsCreate from "./components/pages/minecraft/projectList/ProjectsCreate";
 
+import globals from "./globals";
+
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -34,7 +36,7 @@ render(
     <BrowserRouter>
         <div>
             <Route render={(props) => {
-                return <DiluvNav location={props.location}/>
+                return <DiluvNav loggedIn={globals.isUserLoggedIn()} location={props.location}/>
             }}/>
 
             <Switch>

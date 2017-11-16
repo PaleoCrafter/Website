@@ -30,7 +30,7 @@
     "react-router-dom": "^4.2.2",
     "react-tooltip": "^3.3.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "webpack": "^2.3.3",
+    "webpack": "^2.3.3"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",

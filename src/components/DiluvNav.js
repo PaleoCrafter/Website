@@ -5,10 +5,11 @@ class DiluvNav extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {game: "", items: [], user: [], loggedIn: false};
+        this.state = {game: "", items: [], user: []};
     }
 
     componentDidMount() {
+        console.log(this.props.loggedIn);
         const location = this.props.location.pathname;
         let game = location.split("/")[1];
         if (game == "minecraft") {
@@ -30,10 +31,15 @@ class DiluvNav extends PureComponent {
                     }
                 });
         }
+        this.getUserData()
+    }
 
-        if (globals.isUserLoggedIn() && !this.state.loggedIn) {
-            this.setState({loggedIn: true});
+    componentDidUpdate() {
+        this.getUserData()
+    }
 
+    getUserData() {
+        if (this.props.loggedIn) {
             globals.getFetch(globals.endPoint + '/users/me', "GET", globals.getToken())
                 .then(res => res.json())
                 .then(res => {
@@ -43,11 +49,6 @@ class DiluvNav extends PureComponent {
                         console.log(res.data)
                     }
                 });
-
-            return true
-        } else {
-            this.setState({loggedIn: false});
-            return true
         }
     }
 
@@ -111,7 +112,7 @@ class DiluvNav extends PureComponent {
                                             {item.name}
                                         </a>
                                     </li>
-                                ) : console.log(this.state.items)
+                                ) : ""
                             }
                         </ul>
                         {/*<form className="form-inline my-2 my-lg-0" action="/search">*/}
@@ -121,7 +122,7 @@ class DiluvNav extends PureComponent {
                         {/*</form>*/}
                         &nbsp;&nbsp;&nbsp;
                         {
-                            globals.isUserLoggedIn() ? this.renderLoggedIn() : this.renderNotLoggedIn()
+                            this.props.loggedIn ? this.renderLoggedIn() : this.renderNotLoggedIn()
                         }
                     </div>
                 </nav>
