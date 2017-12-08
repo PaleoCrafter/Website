@@ -20,7 +20,7 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
-            bundleUrl: 'https://download.nodecdn.net/containers/diluv/dev/'
+            bundleUrl: 'https://download.nodecdn.net/containers/diluv/dev/public/'
         }),
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
