@@ -1,8 +1,8 @@
 const env = process.env.NODE_ENV || 'dev';
 
 module.exports = {
-    host: env === 'dev' ? 'http://localhost:1234' : env === 'staging' ? 'https://dev.diluv.com' : 'http://diluv.com',
-    endPoint: env === 'dev' ? 'http://localhost:8080/v1' : env === 'staging' ? 'https://devapi.diluv.com/v1' : 'https://api.diluv.com/v1',
+    host: env === 'dev' ? 'http://localhost:1234' : env === 'staging' ? 'https://dev.diluv.io' : 'http://diluv.com',
+    endPoint: env === 'dev' ? 'http://localhost:8080/v1' : env === 'staging' ? 'https://api.diluv.io/v1' : 'https://api.diluv.com/v1',
 
     getFetch(url, method = 'GET', authorizationToken = null) {
         if (authorizationToken != null) {
