@@ -1,15 +1,14 @@
-- hosts: apiservers
-  tasks:
+- hosts: webservers
+  vars:
     empty_dirs:
       - "/var/cdn/dev/public/"
       - "/var/www/dev.diluv.io/"
-
-    - file: state=absent path={{ item.path }}
-      with_items:
-        - "{{ files }}"
+  tasks:
+    - file: state=absent path={{ item }}
+      with_items: empty_dirs
 
     - name: copy dist
       copy: src=dist/ dest=/var/www/dev.diluv.io/
 
     - name: copy public folder to nginx
-      copy: src=public/ dest=/var/cdn/dev/public
+      copy: src=public/ dest=/var/cdn/dev/public/
