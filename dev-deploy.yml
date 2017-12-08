@@ -1,11 +1,8 @@
 - hosts: apiservers
   tasks:
-    - find: path=/var/cdn/dev/ file_type=file
-      register: files
-
-    - find: path=/var/www/dev.diluv.io/ file_type=file
-      register: files
-
+    empty_dirs:
+      - "/var/cdn/dev/public/"
+      - "/var/www/dev.diluv.io/"
 
     - file: state=absent path={{ item.path }}
       with_items:
@@ -15,4 +12,4 @@
       copy: src=dist/ dest=/var/www/dev.diluv.io/
 
     - name: copy public folder to nginx
-      copy: src=public/ dest=/var/cdn/dev/
+      copy: src=public/ dest=/var/cdn/dev/public
