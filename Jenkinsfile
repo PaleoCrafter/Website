@@ -5,7 +5,11 @@ node {
 
     stage("build") {
         sh 'npm install'
-        sh 'npm run staging'
+        if (env.BRANCH_NAME == 'master') {
+            sh 'npm run build'
+        } else if (env.BRANCH_NAME == 'development') {
+            sh 'npm run staging'
+        }
     }
 
     stage("deploy") {
