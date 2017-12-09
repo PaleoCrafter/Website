@@ -35,7 +35,7 @@ class DiluvNav extends PureComponent {
     }
 
     componentDidUpdate() {
-        this.getUserData()
+        // this.getUserData()
     }
 
     getUserData() {

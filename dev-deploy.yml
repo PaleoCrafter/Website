@@ -13,5 +13,5 @@
     - name: copy main bundle
       copy: src=dist/main-bundle.js dest=/var/cdn/dev/public/
 
-    - name: copy public folder to nginx
+    - name: copy public folder to NodeCDN
       copy: src=public/ dest=/var/cdn/dev/public/
