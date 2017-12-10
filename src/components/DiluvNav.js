@@ -61,7 +61,7 @@ class DiluvNav extends PureComponent {
 
                 <div className="dropdown-menu dropdown-menu-right">
                     <a className="dropdown-item" href="/account"><i className="fa fa-cog"/> Account</a>
-                    <a className="dropdown-item" href="/logout"><i className="fa fa-sign-out"/> Logout</a>
+                    <a className="dropdown-item" href="/logout"><i className="fa fa-sign-out-alt"/> Logout</a>
                 </div>
             </div>
         )
