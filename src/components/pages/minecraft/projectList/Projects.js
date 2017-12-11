@@ -63,7 +63,7 @@ class Projects extends Component {
                             <div className="alert alert-dismissible alert-warning">
                                 <button type="button" className="close" data-dismiss="alert">&times;</button>
                                 <h4>Warning!</h4>
-                                <p>An error occured while getting a list of projectTypeName.</p>
+                                <p>An error occured while getting a list of projects.</p>
                             </div>
                             : ""
                     }
@@ -73,7 +73,7 @@ class Projects extends Component {
                     <div className="col-md-6"/>
                     <div className="col-md-2">
                         {
-                            globals.hasUserPermission(this.state.projectType.userPermissions, this.state.projectType.permission) ? (
+                            globals.isUserLoggedIn() ? (
                                 <a className="btn btn-info" role="button"
                                    href={"/minecraft/projects/" + projectTypeName + "/create"}>
                                     Create {projectTypeName.capitalize()}
@@ -161,20 +161,20 @@ class Projects extends Component {
                                 </div>
                                 {
                                     this.state.projects.data && this.state.projects.data.length > 0 ? this.state.projects.data.map(item =>
-                                            <ProjectView key={item.slug}
-                                                         name={item.name}
-                                                         authors={item.authors}
-                                                         description={item.description}
-                                                         logo={item.logo}
-                                                         totalDownloads={item.totalDownloads}
-                                                         createdAt={item.createdAt}
-                                                         updatedAt={item.updatedAt}
-                                                // gameVersions={item.gameVersions}
-                                                         categories={item.categories}
-                                                         shortDescription={item.shortDescription}
-                                                         slug={item.slug}
-                                                         permission={item.permission}
-                                            />
+                                        <ProjectView key={item.slug}
+                                                     name={item.name}
+                                                     authors={item.authors}
+                                                     description={item.description}
+                                                     logo={item.logo}
+                                                     totalDownloads={item.totalDownloads}
+                                                     createdAt={item.createdAt}
+                                                     updatedAt={item.updatedAt}
+                                            // gameVersions={item.gameVersions}
+                                                     categories={item.categories}
+                                                     shortDescription={item.shortDescription}
+                                                     slug={item.slug}
+                                                     permission={item.permission}
+                                        />
                                     ) : ""
                                 }
                                 <div className="row">

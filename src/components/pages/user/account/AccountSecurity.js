@@ -53,7 +53,7 @@ class AccountSecurity extends Component {
             'newPasswordConfirm': this.state.newPasswordConfirm
         };
 
-        globals.postForm(globals.endPoint + '/user/security', payload, res => {
+        globals.postForm(globals.endPoint + '/users/me/security', payload, res => {
             if (res.statusCode === 200) {
 
             } else {
