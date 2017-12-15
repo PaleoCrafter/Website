@@ -39,7 +39,7 @@ class Login extends Component {
                 storageSystem.setItem('tokenExpires', res.data.tokenExpires);
                 storageSystem.setItem('refreshToken', res.data.refreshToken);
                 storageSystem.setItem('refreshExpires', res.data.refreshTokenExpires);
-                this.props.history.push("/");
+                window.location.reload();
             } else {
                 this.setState({data: res});
             }
