@@ -3,15 +3,20 @@
     empty_dirs:
       - "/var/cdn/dev/public/"
       - "/var/www/dev.diluv.io/"
+      - "/var/www/dev.diluv.io/public"
   tasks:
     - file: state=absent path={{ item }}
       with_items: empty_dirs
 
-    - name: copy index
-      copy: src=dist/index.html dest=/var/www/dev.diluv.io/
+    - name: copy dist to nginx
+      copy: src=dist/ dest=/var/www/dev.diluv.io/
 
-    - name: copy main bundle
+    - name: copy public folder to nginx
+      copy: src=public/ dest=/var/www/dev.diluv.io/public
+
+    - name: copy main bundle to cdn
       copy: src=dist/main-bundle.js dest=/var/cdn/dev/public/
 
-    - name: copy public folder to NodeCDN
+    - name: copy public folder to cdn
       copy: src=public/ dest=/var/cdn/dev/public/
+

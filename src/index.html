@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <title>Diluv</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="bootstrap" rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.options.bundleUrl %>bootstrap/css/bootstrap.min.css">
-    <link id="style" rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.options.bundleUrl %>stylesheet.css">
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.bundleUrl %>favicon/favicon-128.png" sizes="128x128" />
+    <link id="bootstrap" rel="stylesheet" type="text/css" href="<%= webpackConfig.output.publicPath %>bootstrap/css/bootstrap.min.css">
+    <link id="style" rel="stylesheet" type="text/css" href="<%= webpackConfig.output.publicPath %>stylesheet.css">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="<%= webpackConfig.output.publicPath %>favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="<%= webpackConfig.output.publicPath %>favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="<%= webpackConfig.output.publicPath %>favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="<%= webpackConfig.output.publicPath %>favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="<%= webpackConfig.output.publicPath %>favicon/favicon-128.png" sizes="128x128" />
     <meta name="application-name" content="&nbsp;"/>
     <meta name="msapplication-TileColor" content="#FFFFFF" />
     <meta name="msapplication-TileImage" content="favicon/mstile-144x144.png" />
@@ -34,7 +34,6 @@
 
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-  <script src="<%= htmlWebpackPlugin.options.bundleUrl %>bootstrap/js/bootstrap.min.js"></script>
-  <script src="<%= htmlWebpackPlugin.options.bundleUrl %>font-awesome/js/fontawesome-all.min.js"></script>
-  <script src="<%= htmlWebpackPlugin.options.bundleUrl %>main-bundle.js"></script>
+  <script src="<%= webpackConfig.output.publicPath %>bootstrap/js/bootstrap.min.js"></script>
+  <script src="<%= webpackConfig.output.publicPath %>font-awesome/js/fontawesome-all.min.js"></script>
 </html>

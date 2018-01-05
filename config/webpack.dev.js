@@ -2,11 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    context: path.join(__dirname, 'src'),
+    context: path.join(__dirname, '../src'),
     entry: './main.jsx',
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, '../dist'),
         filename: 'main-bundle.js',
+        publicPath: '/',
+
     },
     devServer: {
         contentBase: './public',
@@ -15,16 +17,15 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            inject: false,
+            inject: true,
             title: 'Diluv',
             template: 'index.html',
-            bundleUrl: '/'
         }),
     ],
     module: {
         loaders: [
-            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
-            {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
+            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
         ],
     },
 };

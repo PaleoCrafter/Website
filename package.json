@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "staging": "webpack --config webpack.staging.js",
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js --progress --colors"
+    "staging": "webpack --config config/webpack.staging.js",
+    "build": "webpack --config config/webpack.prod.js",
+    "start": "webpack-dev-server --config config/webpack.dev.js --progress --colors"
   },
   "repository": "https://github.com/Diluv/Website",
   "keywords": [

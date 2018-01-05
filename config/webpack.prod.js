@@ -3,12 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 
+const version = process.env.BUILD_NUMBER ? process.env.BUILD_NUMBER : 0;
 module.exports = {
-    context: path.join(__dirname, 'src'),
+    context: path.join(__dirname, '../'),
     entry: './main.jsx',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'main-bundle.js',
+        path: path.join(__dirname, '../dist'),
+        filename: `main-bundle-${version}.js`,
+        publicPath: 'https://download.nodecdn.net/containers/diluv/',
     },
     devServer: {
         contentBase: './public',
@@ -17,22 +19,21 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            inject: false,
+            inject: true,
             title: 'Diluv',
             template: 'index.html',
-            bundleUrl: 'https://download.nodecdn.net/containers/diluv/'
         }),
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
+                NODE_ENV: JSON.stringify('production'),
+            },
         }),
     ],
     module: {
         loaders: [
-            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
-            {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
+            { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
+            { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
         ],
     },
 };
