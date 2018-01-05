@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import globals from "../../globals";
+import globals from "../../utils/globals";
 import {Link} from "react-router-dom";
 
 class ProjectType extends Component {
@@ -9,7 +9,7 @@ class ProjectType extends Component {
     }
 
     componentDidMount() {
-        fetch(globals.endPoint + '/games/minecraft/projectTypes')
+        fetch(globals.endPoint() + '/games/minecraft/projectTypes')
             .then(res => res.json())
             .then(res => this.setState({items: res}))
             .catch(err => {

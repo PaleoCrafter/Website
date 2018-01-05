@@ -1,33 +1,45 @@
-import React, {Component} from "react";
-import globals from "../../../../globals";
-import AccountNav from "../../../elements/account/AccountNav";
+import React, { Component } from 'react';
+import globals from '../../../../utils/globals';
+import requestUtils from '../../../../utils/requestUtils';
+import AccountNav from '../../../elements/account/AccountNav';
 
 class AccountSettings extends Component {
 
     constructor() {
         super();
-        this.state = {user: [], userSettings: []};
+        this.state = {
+            user: [],
+            userSettings: [],
+            error: ''
+        };
 
-        globals.getFetch(globals.endPoint + '/users/me', "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({user: res.data});
-                    console.log(res.data)
-
+                    this.setState({ user: res.data });
                 } else {
-                    console.log(res.data)
+                    this.setState({ error: { message: 'An unknown error occurred' } });
+                    console.error('The request /users/me to the api had an error. ' + err);
                 }
+            })
+            .catch(err => {
+                this.setState({ error: { message: 'An unknown error occurred' } });
+                console.error('The request /users/me to the api had an error. ' + err);
             });
 
-        globals.getFetch(globals.endPoint + '/users/me/settings', "GET", globals.getToken())
+        requestUtils.getFetchJSON(globals.endPoint() + '/users/me/settings')
             .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({userSettings: res.data});
+                    this.setState({ userSettings: res.data });
                 } else {
-                    console.log(res.data)
+                    this.setState({ error: { message: 'An unknown error occurred' } });
+                    console.error('The request /users/me/settings to the api had an error. ' + err);
                 }
+            })
+            .catch(err => {
+                this.setState({ error: { message: 'An unknown error occurred' } });
+                console.error('The request /users/me/settings to the api had an error. ' + err);
             });
 
         this.handleChangeProfile = this.handleChangeProfile.bind(this);
@@ -53,13 +65,17 @@ class AccountSettings extends Component {
             'newPasswordConfirm': this.state.newPasswordConfirm
         };
 
-        globals.postForm(globals.endPoint + '/user/settings', payload, res => {
+        //TODO
+        globals.postForm(globals.endPoint() + '/user/settings', payload, res => {
             if (res.statusCode === 200) {
 
             } else {
-                this.setState({data: res});
+                this.setState({ data: res });
             }
-        });
+        })
+            .catch(err => {
+
+            });
 
         event.preventDefault();
     }
@@ -71,11 +87,11 @@ class AccountSettings extends Component {
             'newPasswordConfirm': this.state.newPasswordConfirm
         };
 
-        globals.postForm(globals.endPoint + '/user/security', payload, res => {
+        globals.postForm(globals.endPoint() + '/user/security', payload, res => {
             if (res.statusCode === 200) {
 
             } else {
-                this.setState({data: res});
+                this.setState({ data: res });
             }
         });
 
@@ -83,7 +99,7 @@ class AccountSettings extends Component {
     }
 
     render() {
-        document.title = "Account Settings - Diluv";
+        document.title = 'Account Settings - Diluv';
         return (
             <div className="container">
                 <div className="row">
@@ -101,7 +117,8 @@ class AccountSettings extends Component {
                             <div className="col-md-6">
                                 <h4><b>Change Email</b></h4>
                                 <form method="POST" className="form-signin" autoComplete="off">
-                                    Email: <input name="email" onChange={this.handleInputChange} type="email"
+                                    Email: <input name="email" onChange={this.handleInputChange}
+                                                  type="email"
                                                   value={this.state.userSettings.email || ''}
                                                   id="inputEmail"
                                                   className="form-control"
@@ -118,17 +135,20 @@ class AccountSettings extends Component {
                             <div className="col-md-6">
                                 <h4><b>Change Profile</b></h4>
                                 <form method="POST" className="form-signin" autoComplete="off">
-                                    <input name="firstName" onChange={this.handleInputChange} type="text"
+                                    <input name="firstName" onChange={this.handleInputChange}
+                                           type="text"
                                            value={this.state.userSettings.firstName || ''}
                                            id="inputFirstName"
                                            className="form-control"
                                            placeholder="First Name"/>
-                                    <input name="lastName" onChange={this.handleInputChange} type="text"
+                                    <input name="lastName" onChange={this.handleInputChange}
+                                           type="text"
                                            value={this.state.userSettings.lastName || ''}
                                            id="inputLastName"
                                            className="form-control"
                                            placeholder="Last Name"/>
-                                    <input name="location" onChange={this.handleInputChange} type="text"
+                                    <input name="location" onChange={this.handleInputChange}
+                                           type="text"
                                            value={this.state.userSettings.location || ''}
                                            id="inputLocation"
                                            className="form-control"
@@ -144,7 +164,7 @@ class AccountSettings extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

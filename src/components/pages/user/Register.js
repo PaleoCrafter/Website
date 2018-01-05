@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Redirect} from 'react-router'
-import ReCAPTCHA from "react-google-recaptcha";
-import globals from "../../../globals";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+import ReCAPTCHA from 'react-google-recaptcha';
+import globals from '../../../utils/globals';
 
 const http = require('http');
 
@@ -10,7 +10,10 @@ let captcha;
 class Register extends Component {
     constructor(props) {
         super(props);
-        this.state = {data: []};
+        this.state = {
+            data: [],
+            error: ''
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
 
@@ -41,29 +44,36 @@ class Register extends Component {
             'g-recaptcha-response': value,
         };
 
-        globals.postForm(globals.endPoint + '/auth/register', payload, res=>{
-            console.log(this);
-            if (res.statusCode === 200) {
-                let storageSystem = window.sessionStorage;
-                storageSystem.setItem('token', res.data.token);
-                storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                storageSystem.setItem('refreshToken', res.data.refreshToken);
-                storageSystem.setItem('refreshExpires', res.data.refreshExpires);
-                this.props.history.push("/");
-            } else {
-                this.setState({data: res});
-            }
-        });
+        globals.postForm(globals.endPoint() + '/auth/register', payload)
+            .then(res => {
+                if (res.statusCode === 200) {
+                    let storageSystem = window.sessionStorage;
+                    storageSystem.setItem('token', res.data.token);
+                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                    storageSystem.setItem('refreshToken', res.data.refreshToken);
+                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                    this.props.history.push('/');
+                } else {
+                    //TODO Handle Error
+                    this.setState({ data: res });
+                }
+            })
+            .catch(err => {
+                this.setState({ error: { message: 'An unknown error occurred' } });
+                console.error('The request /auth/register to the api had an error. ' + err);
+            });
 
         captcha.reset();
     }
 
     render() {
-        document.title = "Register - Diluv";
+        document.title = 'Register - Diluv';
         const isError = this.state.data.errorMessage;
+        //TODO Handle Error
 
-        if (globals.isUserLoggedIn())
+        if (globals.isUserLoggedIn()) {
             return <Redirect to='/'/>;
+        }
 
         return (
             <div>
@@ -73,12 +83,12 @@ class Register extends Component {
                     {
                         isError ? (
                             <div className="alert alert-danger">
-                                {console.log(this.state.data)}
+                                {/*TODO Handle Error*/}
                                 <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
                                 {/*New line per error*/}
                                 <p>{this.state.data.errorMessage}</p>
                             </div>
-                        ) : ""
+                        ) : ''
                     }
                     <form method="POST" className="form-signin">
                         <ReCAPTCHA
@@ -104,18 +114,20 @@ class Register extends Component {
                                className="form-control"
                                placeholder="Password"
                                required/>
-                        <input name="passwordConfirm" onChange={this.handleInputChange} type="password"
+                        <input name="passwordConfirm" onChange={this.handleInputChange}
+                               type="password"
                                id="inputPasswordConfirm"
                                className="form-control"
                                placeholder="Retype Password"
                                required/>
-                        <button className="btn btn-lg btn-primary btn-block btn-signin" onClick={this.handleSubmit}>
+                        <button className="btn btn-lg btn-primary btn-block btn-signin"
+                                onClick={this.handleSubmit}>
                             Register
                         </button>
                     </form>
                 </div>
             </div>
-        )
+        );
     }
 }
 

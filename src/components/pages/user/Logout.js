@@ -1,17 +1,16 @@
-import React, {Component} from "react";
-import {Redirect} from "react-router";
-import globals from "../../../globals";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+import userUtils from '../../../utils/userUtils';
 
 class Logout extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        if (globals.getStorage() != null) {
-            globals.getStorage().clear();
+        if (userUtils.getStorage() !== null) {
+            userUtils.getStorage()
+                .clear();
         }
-        return (<Redirect to={"/"}/>);
+        return (
+            <Redirect to={'/'}/>
+        );
     }
 }
 

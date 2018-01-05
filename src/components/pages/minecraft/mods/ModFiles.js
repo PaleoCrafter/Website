@@ -1,41 +1,55 @@
-import React, {Component} from "react";
-import globals from "../../../../globals";
-import ReactTooltip from "react-tooltip";
+import React, { Component } from 'react';
+import globals from '../../../../utils/globals';
+import ReactTooltip from 'react-tooltip';
+import requestUtils from '../../../../utils/requestUtils';
+import dateFormat from 'dateformat';
+import prettyBytes from 'pretty-bytes';
 
-class ProjectFiles extends Component {
+class ModFiles extends Component {
 
     constructor() {
         super();
-        this.state = {projectData: [], projectFileData: []};
+        this.state = {
+            projectData: [],
+            projectFileData: []
+        };
     }
 
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        globals.getFetch(globals.endPoint + '/projects/' + projectSlug, "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug)
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({projectData: res.data});
+                    this.setState({ projectData: res.data });
                 } else {
                     console.log('Game');
                 }
+            })
+            .catch(err => {
+                //TODO
             });
 
-        fetch(globals.endPoint + '/games/minecraft/' + projectSlug + '/files')
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug + '/files')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({projectFileData: res.data});
+                    this.setState({ projectFileData: res.data });
+                    console.log(res.data);
+
                 } else {
                     console.log('Game');
                 }
+            })
+            .catch(err => {
+                //TODO
             });
     }
-
+    static getDate(epoch) {
+        return dateFormat(new Date(epoch), 'hh:mm:ss dd/mm/yyyy');
+    }
     render() {
         const projectSlug = this.props.match.params.slug;
-        document.title = "Files - " + this.state.projectData.name + " - Diluv";
+        document.title = this.state.projectData.name + ' - Files - Diluv';
         return (
             <div className="container">
                 <div className="row">
@@ -48,10 +62,10 @@ class ProjectFiles extends Component {
                                 {
                                     (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                         <a className="btn btn-info" role="button"
-                                           href={"/minecraft/project/" + projectSlug + "/upload"}>
+                                           href={'/minecraft/project/' + projectSlug + '/upload'}>
                                             Upload File
                                         </a>
-                                    ) : ""
+                                    ) : ''
                                 }
                             </li>
                         </ul>
@@ -71,9 +85,9 @@ class ProjectFiles extends Component {
                                     <th>Download Count</th>
                                     <th>Link</th>
                                     {
-                                        (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
+                                        (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                             <th>Status</th>
-                                        ) : ""
+                                        ) : ''
                                     }
                                 </tr>
                                 </thead>
@@ -83,8 +97,8 @@ class ProjectFiles extends Component {
                                         return (
                                             <tr key={item.sha256}>
                                                 <td>{item.displayName}</td>
-                                                <td>{item.createdAt}</td>
-                                                <td>{item.size}</td>
+                                                <td>{ModFiles.getDate(item.createdAt)}</td>
+                                                <td>{prettyBytes(item.size)}</td>
                                                 <td>
                                                     {
                                                         //TODO Max to like 5, and add comma's
@@ -92,23 +106,40 @@ class ProjectFiles extends Component {
                                                             <div key={item.version}>
                                                                 {item.version}
                                                             </div>
-                                                        ) : ""
+                                                        ) : ''
                                                     }
                                                 </td>
                                                 <td>{item.downloads}</td>
                                                 <td>
-                                                    <a href={item.downloadUrl}>
-                                                        Download
-                                                    </a> <i data-tip={item.sha256} className="fa fa-info-circle"/>
-                                                    <ReactTooltip class='hoverSHA' delayHide={1000} effect='solid'/>
+                                                    {(item.public) ? (
+                                                            <div>
+                                                                <a href={item.downloadUrl}>Download</a>
+                                                                <i data-tip={item.sha256}
+                                                                   className='fa fa-info-circle'/>
+                                                                <ReactTooltip class='hoverSHA'
+                                                                              delayHide={1000}
+                                                                              effect='solid'/>
+                                                            </div>
+                                                        ) :
+                                                        (
+                                                            <div>
+                                                                <a>Download Not Public</a>
+                                                            </div>
+                                                        )
+                                                    }
+
                                                 </td>
                                                 {
-                                                    (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
-                                                        <td>{item.status}</td>
-                                                    ) : ""
+                                                    (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
+                                                        <td>
+                                                            {(item.public) ? 'Public' :
+                                                                item.status
+                                                            }
+                                                        </td>
+                                                    ) : ''
                                                 }
                                             </tr>
-                                        )
+                                        );
                                     }, this)
                                 }
                                 </tbody>
@@ -118,24 +149,26 @@ class ProjectFiles extends Component {
                     <div className="col-md-2">
                         <ul className="nav flex-column">
                             <li className="nav-item">
-                                <a className="nav-link" href={"/minecraft/project/" + projectSlug}>Overview</a>
+                                <a className="nav-link"
+                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link active" href={"/minecraft/project/" + projectSlug + "/files"}>Files</a>
+                                <a className="nav-link active"
+                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
                             </li>
                             {
                                 (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
-                                           href={"/minecraft/project/" + projectSlug + "/settings"}>Settings</a>
-                                    </li>) : ""
+                                           href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
+                                    </li>) : ''
                             }
                         </ul>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-export default ProjectFiles;
+export default ModFiles;

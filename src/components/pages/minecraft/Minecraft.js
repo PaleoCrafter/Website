@@ -1,32 +1,41 @@
-import React, {Component} from "react";
-import globals from "../../../globals";
-import {Link} from "react-router-dom";
+import React, { Component } from 'react';
+import globals from '../../../utils/globals';
+import { Link } from 'react-router-dom';
+import requestUtils from '../../../utils/requestUtils';
 
 class Minecraft extends Component {
     constructor() {
         super();
-        this.state = {gameData: [], items: []};
+        this.state = {
+            gameData: [],
+            items: [],
+            error: ''
+        };
     }
 
 
     componentDidMount() {
-        fetch(globals.endPoint + '/games/minecraft')
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({gameData: res.data});
-                    fetch(globals.endPoint + '/games/minecraft/projectTypes')
-                        .then(res => res.json())
-                        .then(res => {
-                            if (res.statusCode === 200) {
-                                this.setState({items: res.data});
-                            } else {
-                                //TODO Handle
-                            }
-                        });
+                    this.setState({ gameData: res.data });
                 } else {
                     //TODO Handle
                 }
+            })
+            .catch(err => {
+
+            });
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/projectTypes')
+            .then(res => {
+                if (res.statusCode === 200) {
+                    this.setState({ items: res.data });
+                } else {
+                    //TODO Handle
+                }
+            })
+            .catch(err => {
+
             });
     }
 
@@ -45,16 +54,16 @@ class Minecraft extends Component {
                     <div className="col-md-4">
                         {
                             this.state.items.length > 0 ? this.state.items.map(item =>
-                                <Link key={item.slug} to={"/minecraft/projects/" + item.slug}>
+                                <Link key={item.slug} to={'/minecraft/projects/' + item.slug}>
                                     {item.name}
                                 </Link>
-                            ) : ""
+                            ) : ''
                         }
                     </div>
                     <div className="col-md-4"/>
                 </div>
             </div>
-        )
+        );
     }
 }
 

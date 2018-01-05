@@ -1,50 +1,60 @@
-import React, {Component} from "react";
-import ProjectView from "../../../elements/ProjectView";
-import globals from "../../../../globals";
+import React, { Component } from 'react';
+import ProjectView from '../../elements/ProjectView';
+import globals from '../../../utils/globals';
 import ReactPaginate from 'react-paginate';
+import capitalize from 'capitalize';
+import requestUtils from '../../../utils/requestUtils';
+import userUtils from '../../../utils/userUtils';
 
 class Projects extends Component {
     constructor() {
         super();
-        this.state = {projects: [], projectType: [], error: []};
+        this.state = {
+            projects: [],
+            projectType: [],
+            error: []
+        };
     }
 
     getPageData(page) {
-        if (page == null)
+        if (page == null) {
             page = 1;
+        }
         const projectTypeName = this.props.match.params.slug;
 
-        globals.getFetch(globals.endPoint + '/games/minecraft/' + projectTypeName + '/projects?page=' + page)
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/' + projectTypeName + '/projects?page=' + page)
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({projects: res.data});
-                    console.log(res.data)
+                    this.setState({ projects: res.data });
+                    console.log(res.data);
                 } else {
                     console.log('Project error');
                 }
             })
+            .catch(err => {
+                //TODO
+            });
     }
 
     componentDidMount() {
         const projectTypeName = this.props.match.params.slug;
-
-
-        globals.getFetch(globals.endPoint + '/games/minecraft/' + projectTypeName, "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/' + projectTypeName)
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({projectType: res.data});
+                    this.setState({ projectType: res.data });
                 } else {
                     //TODO Error
                 }
+            })
+            .catch(err => {
+                //TODO
             });
+
         this.getPageData(1);
     }
 
     handlePageClick(data) {
-        let selected = data.selected + 1;
-        this.getPageData(selected)
+        this.getPageData(data.selected + 1);
     };
 
     render() {
@@ -52,33 +62,33 @@ class Projects extends Component {
         //     return (<E404/>);
 
         const projectTypeName = this.props.match.params.slug;
-        document.title = this.props.match.params.slug.capitalize() + " - Projects - Diluv";
+        document.title = capitalize(projectTypeName) + ' - Projects - Diluv';
         return (
-
             <div className="container">
                 <div className="row">
                     {
                         //TODO
                         false ?
                             <div className="alert alert-dismissible alert-warning">
-                                <button type="button" className="close" data-dismiss="alert">&times;</button>
+                                <button type="button" className="close"
+                                        data-dismiss="alert">&times;</button>
                                 <h4>Warning!</h4>
                                 <p>An error occured while getting a list of projects.</p>
                             </div>
-                            : ""
+                            : ''
                     }
                     <div className="col-md-4">
-                        <h1><i className="fa fa-cog"/> {projectTypeName.capitalize()}</h1>
+                        <h1><i className="fa fa-cog"/> {capitalize(projectTypeName)}</h1>
                     </div>
                     <div className="col-md-6"/>
                     <div className="col-md-2">
                         {
-                            globals.isUserLoggedIn() ? (
+                            userUtils.isUserLoggedIn() ? (
                                 <a className="btn btn-info" role="button"
-                                   href={"/minecraft/projects/" + projectTypeName + "/create"}>
-                                    Create {projectTypeName.capitalize()}
+                                   href={'/minecraft/projects/' + projectTypeName + '/create'}>
+                                    Create {capitalize(projectTypeName)}
                                 </a>
-                            ) : ""
+                            ) : ''
                         }
 
                     </div>
@@ -94,24 +104,24 @@ class Projects extends Component {
                                 <div className="row">
                                     <div className="col-md-5">
                                         <ReactPaginate
-                                            nextClassName={"page-item"}
-                                            nextLinkClassName={"page-link"}
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
                                             previousLabel="&laquo;"
 
-                                            previousClassName={"page-item"}
-                                            previousLinkClassName={"page-link"}
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
                                             nextLabel="&raquo;"
 
                                             breakLabel={<a href="">...</a>}
-                                            breakClassName={"break-me"}
+                                            breakClassName={'break-me'}
                                             pageCount={this.state.projects.totalPageCount}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={5}
                                             onPageChange={this.handlePageClick.bind(this)}
-                                            containerClassName={"pagination pagination-sm"}
-                                            pageClassName={"page-item"}
-                                            pageLinkClassName={"page-link"}
-                                            activeClassName={"active"}/>
+                                            containerClassName={'pagination pagination-sm'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            activeClassName={'active'}/>
                                     </div>
 
                                     <div className="col-md-3">
@@ -175,7 +185,7 @@ class Projects extends Component {
                                                      slug={item.slug}
                                                      permission={item.permission}
                                         />
-                                    ) : ""
+                                    ) : ''
                                 }
                                 <div className="row">
                                     <div className="col-md-12">
@@ -194,13 +204,13 @@ class Projects extends Component {
                                     <a key={item.name} className="list-group-item">
                                         {item.name}
                                     </a>
-                                ) : ""
+                                ) : ''
                             }
                         </div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

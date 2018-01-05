@@ -301,3 +301,7 @@
 .project-badge {
     display: block;
 }
+
+.mod-view {
+    padding-top: 10px;
+}

@@ -1,35 +1,43 @@
-import React, {Component} from "react";
-import globals from "../../../../globals";
-import AccountNav from "../../../elements/account/AccountNav";
-import {Link} from "react-router-dom";
+import React, { Component } from 'react';
+import globals from '../../../../utils/globals';
+import AccountNav from '../../../elements/account/AccountNav';
+import { Link } from 'react-router-dom';
+import requestUtils from '../../../../utils/requestUtils';
 
 class AccountSecurity extends Component {
 
     constructor() {
         super();
-        this.state = {user: [], userSettings: []};
+        this.state = {
+            user: [],
+            userSettings: []
+        };
 
-        globals.getFetch(globals.endPoint + '/users/me', "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({user: res.data});
-                    console.log(res.data)
+                    this.setState({ user: res.data });
+                    console.log(res.data);
 
                 } else {
-                    console.log(res.data)
+                    console.log(res.data);
                 }
+            })
+            .catch(err => {
+                //TODO
             });
 
-        globals.getFetch(globals.endPoint + '/users/me/settings', "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/users/me/settings')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({userSettings: res.data});
-                    console.log(res.data)
+                    this.setState({ userSettings: res.data });
+                    console.log(res.data);
                 } else {
-                    console.log(res.data)
+                    console.log(res.data);
                 }
+            })
+            .catch(err => {
+                //TODO
             });
 
         this.handleUpdatePassword = this.handleUpdatePassword.bind(this);
@@ -53,11 +61,11 @@ class AccountSecurity extends Component {
             'newPasswordConfirm': this.state.newPasswordConfirm
         };
 
-        globals.postForm(globals.endPoint + '/users/me/security', payload, res => {
+        globals.postForm(globals.endPoint() + '/users/me/security', payload, res => {
             if (res.statusCode === 200) {
 
             } else {
-                this.setState({data: res});
+                this.setState({ data: res });
             }
         });
 
@@ -73,7 +81,7 @@ class AccountSecurity extends Component {
                     <strong> Status: </strong>: Enabled
                 </div>
             </div>
-        )
+        );
     }
 
     renderMfaDisabled() {
@@ -87,11 +95,11 @@ class AccountSecurity extends Component {
                     </Link>
                 </div>
             </div>
-        )
+        );
     }
 
     render() {
-        document.title = "Account Security - Diluv";
+        document.title = 'Account Security - Diluv';
         return (
             <div className="container">
                 <div className="row">
@@ -111,12 +119,14 @@ class AccountSecurity extends Component {
                             <div className="col-md-6">
                                 <h4><b>Change Password</b></h4>
                                 <form method="POST" className="form-signin" autoComplete="off">
-                                    Old password: <input name="oldPassword" onChange={this.handleInputChange}
+                                    Old password: <input name="oldPassword"
+                                                         onChange={this.handleInputChange}
                                                          type="password"
                                                          id="inputOldPassword"
                                                          className="form-control"
                                                          required autoFocus/>
-                                    New password: <input name="newPassword" onChange={this.handleInputChange}
+                                    New password: <input name="newPassword"
+                                                         onChange={this.handleInputChange}
                                                          type="password"
                                                          id="inputNewPassword"
                                                          className="form-control"
@@ -138,7 +148,7 @@ class AccountSecurity extends Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

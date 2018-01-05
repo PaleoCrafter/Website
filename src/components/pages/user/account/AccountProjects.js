@@ -1,31 +1,34 @@
-import React, {Component} from "react";
-import globals from "../../../../globals";
-import ProjectView from "../../../elements/ProjectView";
-import AccountNav from "../../../elements/account/AccountNav";
+import React, { Component } from 'react';
+import globals from '../../../../utils/globals';
+import ProjectView from '../../../elements/ProjectView';
+import AccountNav from '../../../elements/account/AccountNav';
+import requestUtils from '../../../../utils/requestUtils';
 
 class AccountProjects extends Component {
 
     constructor() {
         super();
-        this.state = {user: []};
+        this.state = { user: [] };
     }
 
     componentDidMount() {
-        globals.getFetch(globals.endPoint + '/users/me', "GET", globals.getToken())
-            .then(res => res.json())
+        requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({user: res.data});
-                    console.log(res.data)
+                    this.setState({ user: res.data });
+                    console.log(res.data);
 
                 } else {
-                    console.log(res.data)
+                    console.log(res.data);
                 }
+            })
+            .catch(err => {
+                //TODO
             });
     }
 
     render() {
-        document.title = "Account Projects - Diluv";
+        document.title = 'Account Projects - Diluv';
         return (
             <div className="container">
                 <div className="row">
@@ -53,12 +56,12 @@ class AccountProjects extends Component {
                                              slug={item.slug}
                                              permission={item.permission}
                                 />
-                            ) : ""
+                            ) : ''
                         }
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
