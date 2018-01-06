@@ -54,17 +54,13 @@ class DiluvNav extends PureComponent {
 
     renderLoggedIn() {
         return (
-            <div>
-                <a className="nav-item dropdown text-white" id="navbarDropdownMenuLink"
-                   data-toggle="dropdown">
-                    <img className="avatar avatar-small"
-                         src={this.state.user.avatar}/> {this.state.user.username}
+            <div className="nav-item dropdown ">
+                <a className="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img className="avatar avatar-small" src={this.state.user.avatar}/> {this.state.user.username}
                 </a>
-
-                <div className="dropdown-menu dropdown-menu-right">
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a className="dropdown-item" href="/account"><i className="fa fa-cog"/> Account</a>
-                    <a className="dropdown-item" href="/logout"><i
-                        className="fa fa-sign-out-alt"/> Logout</a>
+                    <a className="dropdown-item" href="/logout"><i className="fa fa-sign-out-alt"/> Logout</a>
                 </div>
             </div>
         );
@@ -93,8 +89,8 @@ class DiluvNav extends PureComponent {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-                    <button className="navbar-toggler navbar-toggler-right" type="button"
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <button className="navbar-toggler" type="button"
                             data-toggle="collapse"
                             data-target="#navbarHome">
                         <span className="navbar-toggler-icon"/>
@@ -104,7 +100,7 @@ class DiluvNav extends PureComponent {
 
                     <div className="collapse navbar-collapse" id="navbarHome">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
+                            <li className="nav-item">
                                 <a className="nav-link" href={'/' + this.state.game}>
                                     Home
                                     <span className="sr-only">(current)</span>
@@ -120,6 +116,7 @@ class DiluvNav extends PureComponent {
                                     </li>
                                 ) : ''
                             }
+
                         </ul>
                         {/*<form className="form-inline my-2 my-lg-0" action="/search">*/}
                         {/*<input className="form-control mr-sm-2" type="text" name="search" placeholder="Search..."/>*/}

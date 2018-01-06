@@ -36,11 +36,11 @@
           "debug": true,
           "libs": {
 
-              "Tether": {
+              "Popper": {
                   'urls': [
-                      'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',
-                      '<%= webpackConfig.output.publicPath %>js/tether/tether.min.js',
-                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/tether/tether.min.js',
+                      'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
+                      '<%= webpackConfig.output.publicPath %>js/popper.js/popper.min.js',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/popper.js/popper.min.js',
                   ]
               },
 
@@ -56,14 +56,16 @@
                   "exports": ".col-md-12",
 
                   'urls': [
+                      'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css',
                       '<%= webpackConfig.output.publicPath %>css/bootstrap/bootstrap.min.css',
                       '<%= htmlWebpackPlugin.options.bundleUrl %>css/bootstrap/bootstrap.min.css',
                   ]
               },
               "bootstrap": {
-                  "deps": ["jQuery", "Tether"],
+                  "deps": ["jQuery", "Popper"],
 
                   'urls': [
+                      'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js',
                       '<%= webpackConfig.output.publicPath %>js/bootstrap/bootstrap.min.js',
                       '<%= htmlWebpackPlugin.options.bundleUrl %>js/bootstrap/bootstrap.min.js',
                   ]
