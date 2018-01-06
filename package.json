@@ -21,6 +21,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "capitalize": "^1.0.0",
+    "clean-webpack-plugin": "^0.1.17",
     "data-uri-to-blob": "0.0.4",
     "dateformat": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",

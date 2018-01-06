@@ -1,4 +1,5 @@
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -8,7 +9,6 @@ module.exports = {
         path: path.join(__dirname, '../dist'),
         filename: 'main-bundle.js',
         publicPath: '/',
-
     },
     devServer: {
         contentBase: './public',
@@ -16,10 +16,12 @@ module.exports = {
         historyApiFallback: true,
     },
     plugins: [
+        new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
         new HtmlWebpackPlugin({
-            inject: true,
+            inject: false,
             title: 'Diluv',
             template: 'index.html',
+            bundleUrl: '//dev.diluv.io/public/',
         }),
     ],
     module: {

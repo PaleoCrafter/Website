@@ -1,4 +1,5 @@
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
@@ -12,16 +13,13 @@ module.exports = {
         filename: `main-bundle-${version}.js`,
         publicPath: 'https://download.nodecdn.net/containers/diluv/',
     },
-    devServer: {
-        contentBase: './public',
-        port: 1234,
-        historyApiFallback: true,
-    },
     plugins: [
+        new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
         new HtmlWebpackPlugin({
             inject: true,
             title: 'Diluv',
             template: 'index.html',
+            bundleUrl: '//diluv.com/public/',
         }),
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
