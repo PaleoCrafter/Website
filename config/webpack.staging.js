@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '../dist'),
         filename: `main-bundle-dev-${version}.js`,
-        publicPath: 'https://download.nodecdn.net/containers/diluv/public/',
+        publicPath: 'https://download.nodecdn.net/containers/diluv/dev/public/',
 
     },
     plugins: [
