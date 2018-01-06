@@ -12,7 +12,9 @@
       copy: src=dist/index.html dest=/var/www/dev.diluv.io/index.html
 
     - name: copy main bundle to nginx
-      copy: src=dist/main-bundle.js dest=/var/www/dev.diluv.io/public/
+      copy: src=dist/ dest=/var/www/dev.diluv.io/public/
+
+    - file: state=absent path=/var/www/dev.diluv.io/public/index.html
 
     - name: copy public folder to nginx
       copy: src=public/ dest=/var/www/dev.diluv.io/public
