@@ -18,6 +18,7 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "capitalize": "^1.0.0",
     "data-uri-to-blob": "0.0.4",
