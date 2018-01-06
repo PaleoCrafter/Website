@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>Diluv</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link id="bootstrap" rel="stylesheet" type="text/css" href="<%= webpackConfig.output.publicPath %>bootstrap/css/bootstrap.min.css">
-    <link id="style" rel="stylesheet" type="text/css" href="<%= webpackConfig.output.publicPath %>stylesheet.css">
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-72x72.png" />
@@ -26,14 +24,82 @@
     <meta name="msapplication-square150x150logo" content="favicon/mstile-150x150.png" />
     <meta name="msapplication-wide310x150logo" content="favicon/mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="favicon/mstile-310x310.png" />
+    <script src="<%= htmlWebpackPlugin.options.bundleUrl %>js/fallback/fallback.min.js" type="text/javascript"></script>
   </head>
 
   <body>
     <div id="react-app"></div>
   </body>
 
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script>
+      var config = {
+          "debug": true,
+          "libs": {
+
+              "Tether": {
+                  'urls': [
+                      'https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',
+                      '<%= webpackConfig.output.publicPath %>js/tether/tether.min.js',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/tether/tether.min.js',
+                  ]
+              },
+
+              "jQuery": {
+                  'urls': [
+                      'https://code.jquery.com/jquery-3.2.1.slim.min.js',
+                      '<%= webpackConfig.output.publicPath %>js/jquery/jquery-3.2.1.slim.min.js',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/jquery/jquery-3.2.1.slim.min.js',
+                  ]
+              },
+
+              "css$bootstrap": {
+                  "exports": ".col-md-12",
+
+                  'urls': [
+                      '<%= webpackConfig.output.publicPath %>css/bootstrap/bootstrap.min.css',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>css/bootstrap/bootstrap.min.css',
+                  ]
+              },
+              "bootstrap": {
+                  "deps": ["jQuery", "Tether"],
+
+                  'urls': [
+                      '<%= webpackConfig.output.publicPath %>js/bootstrap/bootstrap.min.js',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/bootstrap/bootstrap.min.js',
+                  ]
+              },
+              "FontAwesome": {
+                  "urls": [
+                      'https://use.fontawesome.com/releases/v5.0.2/js/all.js',
+                      '<%= webpackConfig.output.publicPath %>js/font-awesome/fontawesome-all.min.js',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>js/font-awesome/fontawesome-all.min.js',
+                  ],
+              },
+
+              'css$main': {
+                  "exports": ".mod-view",
+                  'urls': [
+                      '<%= webpackConfig.output.publicPath %>css/stylesheet.css',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>css/stylesheet.css'
+                  ]
+              },
+              'main-bundle': {
+                  "urls": [
+                      '<%= webpackConfig.output.publicPath %><%= webpackConfig.output.filename %>',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %><%= webpackConfig.output.filename %>',
+                  ],
+              },
+          },
+      };
+      fallback.config(config);
+      for (var lib in config.libs) {
+          require([lib]);
+      }
+  </script>
+  <script src="/main-bundle.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-  <script src="<%= webpackConfig.output.publicPath %>bootstrap/js/bootstrap.min.js"></script>
-  <script src="<%= webpackConfig.output.publicPath %>font-awesome/js/fontawesome-all.min.js"></script>
+  <script src="/js/bootstrap/bootstrap.min.js"></script>
+  <script src="<%= webpackConfig.output.publicPath %>js/font-awesome/fontawesome-all.min.js"></script>
 </html>

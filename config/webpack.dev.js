@@ -21,7 +21,7 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
-            bundleUrl: '//dev.diluv.io/public/',
+            bundleUrl: '/',
         }),
     ],
     module: {
