@@ -138,7 +138,7 @@ class ProjectUploadFile extends Component {
                                    href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
                             </li>
                             {
-                                (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
+                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
                                            href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>

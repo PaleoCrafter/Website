@@ -60,7 +60,7 @@ class ModFiles extends Component {
                         <ul className="nav">
                             <li>
                                 {
-                                    (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
+                                    (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                         <a className="btn btn-info" role="button"
                                            href={'/minecraft/project/' + projectSlug + '/upload'}>
                                             Upload File
@@ -157,7 +157,7 @@ class ModFiles extends Component {
                                    href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
                             </li>
                             {
-                                (globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
+                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
                                            href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>

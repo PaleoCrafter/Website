@@ -4,10 +4,8 @@ import Plain from 'slate-plain-serializer';
 import DropzoneComponent from 'react-dropzone-component';
 import globals from '../../../../utils/globals';
 import toBlock from 'data-uri-to-blob';
-import capitalize from 'capitalize';
 
 import ReactDOMServer from 'react-dom/server';
-import requestUtils from '../../../../utils/requestUtils';
 import userUtils from '../../../../utils/userUtils';
 import { Redirect } from 'react-router';
 

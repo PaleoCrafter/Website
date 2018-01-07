@@ -17,7 +17,6 @@ module.exports = {
     },
 
     hasProjectPermission(permission, type) {
-        console.log(permission +":"+ type);
         return permission != null && ((1 << type) & permission) > 0;
     },
 
