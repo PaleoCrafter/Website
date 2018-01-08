@@ -6,12 +6,12 @@ import dateFormat from 'dateformat';
 import marked from 'marked';
 
 marked.setOptions({
-    sanitize:true,
+    sanitize: true,
     highlight: function (code) {
-        return require('highlight.js').highlightAuto(code).value;
+        return require('highlight.js')
+            .highlightAuto(code).value;
     }
 });
-
 
 class Mods extends Component {
 
@@ -49,7 +49,8 @@ class Mods extends Component {
                 <div className="row">
                     <div className="col-md-2">
                         <a href="#" className="thumbnail">
-                            <img src={this.state.projectData.logo} width="175" height="175"/>
+                            <img src={globals.publicFolder() + this.state.projectData.logo}
+                                 width="175" height="175"/>
                         </a>
                     </div>
                     <div className="col-md-8">

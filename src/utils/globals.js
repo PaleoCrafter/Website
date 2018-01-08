@@ -3,6 +3,14 @@ const userUtils = require('./userUtils');
 const env = process.env.NODE_ENV || 'dev';
 
 module.exports = {
+    publicFolder: () => {
+        if (env === 'dev') {
+            return 'http://localhost:1234';
+        } else if (env === 'staging') {
+            return 'https://download.nodecdn.net/containers/diluv/dev';
+        }
+        return 'https://download.nodecdn.net/containers/diluv';
+    },
     /**
      * Returns the endpoint for the current build type
      * @returns {string} The endpoint for the build type, either dev, staging or production

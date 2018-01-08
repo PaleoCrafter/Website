@@ -34,7 +34,7 @@ class ProjectView extends Component {
             <div className="row mod-view">
                 <div className="col-3">
                     <a href="#" className="thumbnail">
-                        <img src={this.props.logo} width="150" height="150"/>
+                        <img src={globals.publicFolder() + this.props.logo} width="150" height="150"/>
                     </a>
                 </div>
                 <div className="col-9">
