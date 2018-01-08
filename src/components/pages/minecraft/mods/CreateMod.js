@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
-import DropzoneComponent from 'react-dropzone-component';
+import Dropzone from 'react-dropzone';
 import globals from '../../../../utils/globals';
 import toBlock from 'data-uri-to-blob';
 
@@ -12,11 +12,12 @@ import { Redirect } from 'react-router';
 import marked from 'marked';
 
 marked.setOptions({
-    sanitize:true,
+    sanitize: true,
     highlight: function (code) {
-        return require('highlight.js').highlightAuto(code).value;
+        return require('highlight.js')
+            .highlightAuto(code).value;
     }
-})
+});
 
 class ProjectsCreate extends Component {
 
@@ -25,39 +26,19 @@ class ProjectsCreate extends Component {
         this.state = {
             error: [],
             value: Plain.deserialize(''),
-            markdown:'No description to preview'
+            markdown: 'No description to preview',
+            imageFiles: []
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
-        this.dropzone = null;
-        this.eventHandlers = {
-            init: (dropzone) => {
-                this.dropzone = dropzone;
-            },
-            maxfilesexceeded: (file) => {
-                this.dropzone.removeAllFiles();
-                this.dropzone.addFile(file);
-            },
-        };
-        this.djsConfig = {
-            autoProcessQueue: false,
-            // dictDefaultMessage:'',
-            previewTemplate: ReactDOMServer.renderToStaticMarkup(
-                <div className="dz-preview dz-file-preview">
-                    <div className="dz-message"></div>
-                    <div className="dz-details">
-                        <img data-dz-thumbnail="true"/>
-                    </div>
-                </div>
-            ),
-            maxFiles: 1,
-        };
-        this.componentConfig = {
-            postUrl: 'no-url'
-        };
+        this.onDrop = this.onDrop.bind(this);
     }
 
+    onDrop(imageFiles) {
+        this.setState({
+            imageFiles: imageFiles
+        });
+    }
 
     onChange(change) {
         this.setState({ value: change.value });
@@ -66,7 +47,7 @@ class ProjectsCreate extends Component {
         if (description === '') {
             description = ' No description to preview';
         }
-        this.setState({markdown: marked(description)})
+        this.setState({ markdown: marked(description) });
     }
 
     onSubmit() {
@@ -86,7 +67,7 @@ class ProjectsCreate extends Component {
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', Plain.serialize(this.state.value));
-        formData.append('logo', this.dropzone.files[0] ? toBlock(this.dropzone.files[0].dataURL) : '');
+        formData.append('logo', this.state.imageFiles[0] ? toBlock(this.state.imageFiles[0].dataURL) : '');
 
 
         //TODO Make slug more dynamic
@@ -130,9 +111,20 @@ class ProjectsCreate extends Component {
 
                 <div className="row">
                     <div className="col-md-2">
-                        <DropzoneComponent config={this.componentConfig}
-                                           eventHandlers={this.eventHandlers}
-                                           djsConfig={this.djsConfig}/>
+                        <Dropzone
+                            onDrop={this.onDrop}
+                            className='dropzone'
+                            activeClassName='active-dropzone'
+                            accept="image/jpeg, image/png"
+                            multiple={false}>
+
+                            {this.state.imageFiles.length > 0 ? <div>
+                                <div>{this.state.imageFiles.map((file) =>
+                                    <img width="180" height="180" src={file.preview}/>)}</div>
+                            </div> : <div>Drag and drop or click to select a logo to upload.</div>}
+                        </Dropzone>
+
+
                     </div>
                     <div className="col-md-6">
                         <div className="col-md-auto">
@@ -171,7 +163,8 @@ class ProjectsCreate extends Component {
                                 </div>
                             </div>
                             <div className="tab-pane" id="preview" role="tabpanel">
-                                <div className="form-control" dangerouslySetInnerHTML={{ __html: this.state.markdown }}/>
+                                <div className="form-control"
+                                     dangerouslySetInnerHTML={{ __html: this.state.markdown }}/>
                             </div>
                         </div>
                     </div>
