@@ -3,12 +3,15 @@ import globals from '../../../../utils/globals';
 import requestUtils from '../../../../utils/requestUtils';
 import dateFormat from 'dateformat';
 
-let markdown = require('markdown-it')({
-    html: false,
-    xhtmlOut: false,
-    breaks: false,
-    linkify: false,
+import marked from 'marked';
+
+marked.setOptions({
+    sanitize:true,
+    highlight: function (code) {
+        return require('highlight.js').highlightAuto(code).value;
+    }
 });
+
 
 class Mods extends Component {
 
@@ -64,7 +67,7 @@ class Mods extends Component {
 
                 <div className="row">
                     <div className="col-md-10">
-                        <p dangerouslySetInnerHTML={{ __html: this.state.projectData.description ? markdown.render(this.state.projectData.description) : '' }}/>
+                        <p dangerouslySetInnerHTML={{ __html: this.state.projectData.description ? marked(this.state.projectData.description) : '' }}/>
                     </div>
                     <div className="col-md-2">
                         <ul className="nav flex-column">

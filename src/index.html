@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link id="bootstrap" rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
     <link id="style" rel="stylesheet" type="text/css" href="<%= webpackConfig.output.publicPath %>css/stylesheet.css">
+    <link id="stylesheet" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<%= webpackConfig.output.publicPath %>favicon/apple-touch-icon-114x114.png" />
@@ -41,9 +42,17 @@
 
   <script>
       var config = {
-          "debug": true,
+          "debug": false,
           "libs": {
 
+              "css$highlight.js": {
+                  "exports": ".hljs",
+                  'urls': [
+                      'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/default.min.css',
+                      '<%= webpackConfig.output.publicPath %>css/highlight.js/default.min.css',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %>css/highlight.js/default.min.css',
+                  ]
+              },
               "Popper": {
                   'urls': [
                       '<%= webpackConfig.output.publicPath %>js/popper.js/popper.min.js',

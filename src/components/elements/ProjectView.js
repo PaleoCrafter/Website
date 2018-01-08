@@ -47,7 +47,7 @@ class ProjectView extends Component {
                         </a>
 
                         {
-                            (this.state.projectData.permission && globals.hasProjectPermission(this.props.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
+                            (this.props.permission && globals.hasProjectPermission(this.props.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                 <a className="project-badge"
                                    href={'/minecraft/project/' + this.props.slug + '/settings'}>
                                     <span className="badge badge-primary">

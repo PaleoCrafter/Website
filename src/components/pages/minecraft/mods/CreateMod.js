@@ -9,12 +9,14 @@ import ReactDOMServer from 'react-dom/server';
 import userUtils from '../../../../utils/userUtils';
 import { Redirect } from 'react-router';
 
-let markdown = require('markdown-it')({
-    html: false,
-    xhtmlOut: false,
-    breaks: false,
-    linkify: false,
-});
+import marked from 'marked';
+
+marked.setOptions({
+    sanitize:true,
+    highlight: function (code) {
+        return require('highlight.js').highlightAuto(code).value;
+    }
+})
 
 class ProjectsCreate extends Component {
 
@@ -22,7 +24,8 @@ class ProjectsCreate extends Component {
         super();
         this.state = {
             error: [],
-            value: Plain.deserialize('')
+            value: Plain.deserialize(''),
+            markdown:'No description to preview'
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -63,8 +66,7 @@ class ProjectsCreate extends Component {
         if (description === '') {
             description = ' No description to preview';
         }
-        this.refs.markdownArea.innerHTML = markdown.render(description)
-            .trim();
+        this.setState({markdown: marked(description)})
     }
 
     onSubmit() {
@@ -117,7 +119,7 @@ class ProjectsCreate extends Component {
             return (<Redirect to={'/'}/>);
         }
 
-        document.title = ' - Create Mod - Diluv';
+        document.title = 'Create Mod - Diluv';
         return (
             <div className="container">
                 <div className="row">
@@ -169,9 +171,7 @@ class ProjectsCreate extends Component {
                                 </div>
                             </div>
                             <div className="tab-pane" id="preview" role="tabpanel">
-                                <div ref="markdownArea" className="form-control">
-                                    No description to preview
-                                </div>
+                                <div className="form-control" dangerouslySetInnerHTML={{ __html: this.state.markdown }}/>
                             </div>
                         </div>
                     </div>

@@ -114,7 +114,7 @@ class Projects extends Component {
 
                                             breakLabel={<a href="">...</a>}
                                             breakClassName={'break-me'}
-                                            pageCount={this.state.projects.totalPageCount}
+                                            pageCount={this.state.projects.totalPageCount?this.state.projects.totalPageCount:1}
                                             marginPagesDisplayed={2}
                                             pageRangeDisplayed={5}
                                             onPageChange={this.handlePageClick.bind(this)}
