@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Editor } from 'slate-react';
-import Plain from 'slate-plain-serializer';
 import Dropzone from 'react-dropzone';
 import globals from '../../../../utils/globals';
 import toBlock from 'data-uri-to-blob';
+import Textarea from "react-textarea-autosize";
 
-import ReactDOMServer from 'react-dom/server';
 import userUtils from '../../../../utils/userUtils';
 import { Redirect } from 'react-router';
 
@@ -25,7 +23,7 @@ class ProjectsCreate extends Component {
         super();
         this.state = {
             error: [],
-            value: Plain.deserialize(''),
+            value: '',
             markdown: 'No description to preview',
             imageFiles: []
         };
@@ -41,9 +39,9 @@ class ProjectsCreate extends Component {
     }
 
     onChange(change) {
-        this.setState({ value: change.value });
-        let description = Plain.serialize(change.value)
-            .trim();
+        this.setState({ value: change.target.value });
+        let description = change.target.value;
+        console.log(change.target.value);
         if (description === '') {
             description = ' No description to preview';
         }
@@ -66,7 +64,7 @@ class ProjectsCreate extends Component {
         const formData = new FormData();
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
-        formData.append('description', Plain.serialize(this.state.value));
+        formData.append('description', this.state.value);
         formData.append('logo', this.state.imageFiles[0] ? toBlock(this.state.imageFiles[0].dataURL) : '');
 
 
@@ -155,12 +153,11 @@ class ProjectsCreate extends Component {
 
                         <div className="tab-content">
                             <div className="tab-pane active" id="write" role="tabpanel">
-                                <div className="form-control">
-                                    <Editor
-                                        placeholder="Enter some markdown..."
-                                        value={this.state.value}
-                                        onChange={this.onChange}/>
-                                </div>
+                                    <Textarea ref="shortDescription" className="form-control"
+                                              placeholder="Enter some markdown..."
+                                              value={this.state.value}
+                                              onChange={this.onChange}
+                                              required={true}/>
                             </div>
                             <div className="tab-pane" id="preview" role="tabpanel">
                                 <div className="form-control"
