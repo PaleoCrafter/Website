@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import globals from '../../../../utils/globals';
-import toBlock from 'data-uri-to-blob';
 import Textarea from "react-textarea-autosize";
 
 import userUtils from '../../../../utils/userUtils';
@@ -12,8 +11,7 @@ import marked from 'marked';
 marked.setOptions({
     sanitize: true,
     highlight: function (code) {
-        return require('highlight.js')
-            .highlightAuto(code).value;
+        return require('highlight.js').highlightAuto(code).value;
     }
 });
 
@@ -65,7 +63,7 @@ class ProjectsCreate extends Component {
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', this.state.value);
-        formData.append('logo', this.state.imageFiles[0] ? toBlock(this.state.imageFiles[0].dataURL) : '');
+        formData.append('logo', this.state.imageFiles[0] ? this.state.imageFiles[0].dataURL : '');
 
 
         //TODO Make slug more dynamic
@@ -119,7 +117,7 @@ class ProjectsCreate extends Component {
                             {this.state.imageFiles.length > 0 ? <div>
                                 <div>{this.state.imageFiles.map((file) =>
                                     <img width="180" height="180" src={file.preview}/>)}</div>
-                            </div> : <div>Drag and drop or click to select a logo to upload.</div>}
+                            </div> : <div>Drag and drop or click to select a logo to upload (Optional).</div>}
                         </Dropzone>
 
 
