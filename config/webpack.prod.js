@@ -16,7 +16,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
         new HtmlWebpackPlugin({
-            inject: true,
+            inject: false,
             title: 'Diluv',
             template: 'index.html',
             bundleUrl: '//diluv.com/public/',
