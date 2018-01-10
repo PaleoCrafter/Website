@@ -20,7 +20,7 @@
       copy: src=public/ dest=/var/www/dev.diluv.io/public
 
     - name: copy main bundle to cdn
-      copy: src={{ item }} dest=/var/cdn/dev/public/
+      copy: src={{ item }} dest=/var/cdn/dev/public/js
       with_fileglob:
         - dist/main-bundle*.js
 
