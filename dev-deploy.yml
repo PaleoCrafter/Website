@@ -1,4 +1,4 @@
-- hosts: webservers
+- hosts: devwebservers
   vars:
     empty_dirs:
       - "/var/cdn/dev/public/"
