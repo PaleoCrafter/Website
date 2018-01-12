@@ -4,6 +4,7 @@ import requestUtils from '../../../../utils/requestUtils';
 import dateFormat from 'dateformat';
 
 import marked from 'marked';
+import ProjectView from '../../../elements/ProjectView';
 
 marked.setOptions({
     sanitize: true,
@@ -49,26 +50,20 @@ class Mods extends Component {
                 <div className="row">
                     <div className="col-md-2">
                         <a href="#" className="thumbnail">
-                            <img src={globals.publicFolder() + this.state.projectData.logo}
-                                 width="175" height="175"/>
+                            <img className="mod-logo" src={globals.publicFolder() + this.state.projectData.logo}/>
                         </a>
                     </div>
                     <div className="col-md-8">
                         <h2>{this.state.projectData.name}</h2>
                         <br/>
+                        <h6>Authors: {this.state.projectData.authors?ProjectView.getOwner(this.state.projectData.authors):''}</h6>
+
                         <h6>Total Downloads: {this.state.projectData.totalDownloads}</h6>
                         <h6>Created: {this.state.projectData.createdAt ? Mods.getDate(this.state.projectData.createdAt) : ''}</h6>
                         <h6>Updated: {this.state.projectData.createdAt ? Mods.getDate(this.state.projectData.updatedAt) : ''}</h6>
-                        {/*<h6>Authors: {this.state.projectData.authors}</h6>*/}
                         {/*<h6>Categories: {this.state.projectData.categories}</h6>*/}
 
                         {/*TODO Options*/}
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-10">
-                        <p dangerouslySetInnerHTML={{ __html: this.state.projectData.description ? marked(this.state.projectData.description) : '' }}/>
                     </div>
                     <div className="col-md-2">
                         <ul className="nav flex-column">
@@ -88,6 +83,12 @@ class Mods extends Component {
                                     </li>) : ''
                             }
                         </ul>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-10">
+                        <p dangerouslySetInnerHTML={{ __html: this.state.projectData.description ? marked(this.state.projectData.description) : '' }}/>
                     </div>
                 </div>
             </div>

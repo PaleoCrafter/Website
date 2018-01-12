@@ -11,7 +11,7 @@ module.exports = {
     entry: './main.jsx',
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: `main-bundle-dev-${version}.js`,
+        filename: `js/main-bundle-dev-${version}.js`,
         publicPath: 'https://download.nodecdn.net/containers/diluv/dev/public/',
 
     },

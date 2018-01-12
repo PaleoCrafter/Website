@@ -53,7 +53,7 @@ class ModFiles extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-10">
+                    <div className="col-md-8">
                         <h2>{this.state.projectData.name}</h2>
                     </div>
                     <div className="col-md-2">
@@ -68,6 +68,25 @@ class ModFiles extends Component {
                                     ) : ''
                                 }
                             </li>
+                        </ul>
+                    </div>
+                    <div className="col-md-2">
+                        <ul className="nav flex-column">
+                            <li className="nav-item">
+                                <a className="nav-link"
+                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link active"
+                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
+                            </li>
+                            {
+                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
+                                    <li className="nav-item">
+                                        <a className="nav-link"
+                                           href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
+                                    </li>) : ''
+                            }
                         </ul>
                     </div>
                 </div>
@@ -145,25 +164,6 @@ class ModFiles extends Component {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div className="col-md-2">
-                        <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <a className="nav-link"
-                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link active"
-                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
-                            </li>
-                            {
-                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
-                                    <li className="nav-item">
-                                        <a className="nav-link"
-                                           href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
-                                    </li>) : ''
-                            }
-                        </ul>
                     </div>
                 </div>
             </div>

@@ -45,7 +45,7 @@ class ProjectFiles extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-10">
-
+                        <h2>{this.state.projectData.name} Settings</h2>
                     </div>
                     <div className="col-md-2">
                         <ul className="nav flex-column">

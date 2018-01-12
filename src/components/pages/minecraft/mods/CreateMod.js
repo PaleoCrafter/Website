@@ -39,7 +39,7 @@ class ProjectsCreate extends Component {
     onChange(change) {
         this.setState({ value: change.target.value });
         let description = change.target.value;
-        console.log(change.target.value);
+
         if (description === '') {
             description = ' No description to preview';
         }
@@ -47,15 +47,15 @@ class ProjectsCreate extends Component {
     }
 
     onSubmit() {
-        if (this.refs.projectName.value === '') {
+        if (this.refs.projectName.value) {
             this.setState({ errors: 'A mod name is needed.' });
             return;
         }
-        if (this.refs.shortDescription.value === '') {
+        if (this.refs.shortDescription.value) {
             this.setState({ errors: 'A short description is needed.' });
             return;
         }
-        if (this.state.value === '') {
+        if (this.state.value) {
             this.setState({ errors: 'A description is needed.' });
             return;
         }
@@ -151,7 +151,7 @@ class ProjectsCreate extends Component {
 
                         <div className="tab-content">
                             <div className="tab-pane active" id="write" role="tabpanel">
-                                    <Textarea ref="shortDescription" className="form-control"
+                                    <Textarea className="form-control"
                                               placeholder="Enter some markdown..."
                                               value={this.state.value}
                                               onChange={this.onChange}

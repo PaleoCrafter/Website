@@ -10,7 +10,7 @@ module.exports = {
     entry: './main.jsx',
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: `main-bundle-${version}.js`,
+        filename: `js/main-bundle-${version}.js`,
         publicPath: 'https://download.nodecdn.net/containers/diluv/',
     },
     plugins: [
