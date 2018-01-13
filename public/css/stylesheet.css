@@ -306,5 +306,7 @@
     padding-top: 10px;
 }
 
-.mod-logo{
+.mod-logo {
+    width: 150px;
+    height: 150px;
 }
