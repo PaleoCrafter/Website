@@ -7,7 +7,7 @@ module.exports = {
         if (env === 'dev') {
             return 'http://localhost:1234';
         } else if (env === 'staging') {
-            return 'https://download.nodecdn.net/containers/diluv/dev';
+            return 'https://dev.diluv.io';
         }
         return 'https://download.nodecdn.net/containers/diluv';
     },

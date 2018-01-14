@@ -23,7 +23,7 @@ class ProjectsCreate extends Component {
             error: [],
             value: '',
             markdown: 'No description to preview',
-            imageFiles: []
+            imageFiles: null
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -31,8 +31,11 @@ class ProjectsCreate extends Component {
     }
 
     onDrop(imageFiles) {
+
+        if(this.state.imageFiles)
+            window.URL.revokeObjectURL(this.state.imageFiles);
         this.setState({
-            imageFiles: imageFiles
+            imageFiles: imageFiles[0]
         });
     }
 
@@ -47,23 +50,28 @@ class ProjectsCreate extends Component {
     }
 
     onSubmit() {
-        if (this.refs.projectName.value) {
+        if (!this.refs.projectName.value) {
             this.setState({ errors: 'A mod name is needed.' });
+            console.log("Project Name Is missing");
             return;
         }
-        if (this.refs.shortDescription.value) {
+        if (!this.refs.shortDescription.value) {
             this.setState({ errors: 'A short description is needed.' });
+            console.log("Short Description Is missing");
             return;
         }
-        if (this.state.value) {
+        if (!this.state.value) {
             this.setState({ errors: 'A description is needed.' });
+            console.log("Description is missing");
+
             return;
         }
+
         const formData = new FormData();
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', this.state.value);
-        formData.append('logo', this.state.imageFiles[0] ? this.state.imageFiles[0].dataURL : '');
+        formData.append('logo', this.state.imageFiles ? this.state.imageFiles : '');
 
 
         //TODO Make slug more dynamic
@@ -114,9 +122,8 @@ class ProjectsCreate extends Component {
                             accept="image/jpeg, image/png"
                             multiple={false}>
 
-                            {this.state.imageFiles.length > 0 ? <div>
-                                <div>{this.state.imageFiles.map((file) =>
-                                    <img width="180" height="180" src={file.preview}/>)}</div>
+                            {this.state.imageFiles ? <div>
+                                <div><img width="180" height="180" src={this.state.imageFiles.preview}/></div>
                             </div> : <div>Drag and drop or click to select a logo to upload (Optional).</div>}
                         </Dropzone>
 

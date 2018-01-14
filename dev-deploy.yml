@@ -2,7 +2,6 @@
   vars:
     empty_dirs:
       - "/var/cdn/dev/public/"
-      - "/var/www/dev.diluv.io/"
       - "/var/www/dev.diluv.io/public"
   tasks:
     - file: state=absent path={{ item }}
