@@ -25,9 +25,6 @@ class ProjectView extends Component {
         }
     }
 
-    static getDate(epoch) {
-        return dateFormat(new Date(epoch), 'hh:mm:ss dd/mm/yyyy');
-    }
 
     render() {
         return (
@@ -73,7 +70,7 @@ class ProjectView extends Component {
                     </h3>
                     <div id="modData">
                         <i className="fa fa-download"/> Downloads: {this.props.totalDownloads} | <i
-                        className="fa fa-clock"/> Updated: {ProjectView.getDate(this.props.updatedAt)}
+                        className="fa fa-clock"/> Updated: {globals.getDate(this.props.updatedAt)}
                     </div>
                     {/*<div id="modVersions">Game Versions: {*/}
                     {/*this.props.versions.map(function (item, i) {*/}

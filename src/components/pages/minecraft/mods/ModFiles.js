@@ -44,9 +44,6 @@ class ModFiles extends Component {
                 //TODO
             });
     }
-    static getDate(epoch) {
-        return dateFormat(new Date(epoch), 'hh:mm:ss dd/mm/yyyy');
-    }
     render() {
         const projectSlug = this.props.match.params.slug;
         document.title = this.state.projectData.name + ' - Files - Diluv';
@@ -116,7 +113,7 @@ class ModFiles extends Component {
                                         return (
                                             <tr key={item.sha256}>
                                                 <td>{item.displayName}</td>
-                                                <td>{ModFiles.getDate(item.createdAt)}</td>
+                                                <td>{globals.getDate(item.createdAt)}</td>
                                                 <td>{prettyBytes(item.size)}</td>
                                                 <td>
                                                     {

@@ -38,10 +38,6 @@ class Mods extends Component {
             });
     }
 
-    static getDate(epoch) {
-        return dateFormat(new Date(epoch), 'HH:mm:ss dd/mm/yyyy');
-    }
-
     render() {
         document.title = this.state.projectData.name + ' - Overview - Diluv';
         const projectSlug = this.props.match.params.slug;
@@ -59,8 +55,8 @@ class Mods extends Component {
                         <h6>Authors: {this.state.projectData.authors?ProjectView.getOwner(this.state.projectData.authors):''}</h6>
 
                         <h6>Total Downloads: {this.state.projectData.totalDownloads}</h6>
-                        <h6>Created: {this.state.projectData.createdAt ? Mods.getDate(this.state.projectData.createdAt) : ''}</h6>
-                        <h6>Updated: {this.state.projectData.createdAt ? Mods.getDate(this.state.projectData.updatedAt) : ''}</h6>
+                        <h6>Created: {this.state.projectData.createdAt ? globals.getDate(this.state.projectData.createdAt) : ''}</h6>
+                        <h6>Updated: {this.state.projectData.createdAt ? globals.getDate(this.state.projectData.updatedAt) : ''}</h6>
                         {/*<h6>Categories: {this.state.projectData.categories}</h6>*/}
 
                         {/*TODO Options*/}

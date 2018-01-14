@@ -1,4 +1,5 @@
 const userUtils = require('./userUtils');
+const dateFormat = require('dateformat');
 
 const env = process.env.NODE_ENV || 'dev';
 
@@ -41,5 +42,9 @@ module.exports = {
         ADD_USER: 4,
 
         UPLOAD_FILE: 30,
+    },
+
+    getDate(epoch) {
+        return dateFormat(new Date(epoch), 'HH:mm:ss dd/mm/yyyy');
     },
 };
