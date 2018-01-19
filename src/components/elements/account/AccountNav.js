@@ -19,6 +19,9 @@ class AccountNav extends Component {
                     <a className="list-group-item" href="/account/security">
                         Security
                     </a>
+                    <a className="list-group-item" href="/account/settings">
+                        Settings
+                    </a>
                 </div>
             </div>
         )
