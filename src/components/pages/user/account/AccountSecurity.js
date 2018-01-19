@@ -3,6 +3,7 @@ import globals from '../../../../utils/globals';
 import AccountNav from '../../../elements/account/AccountNav';
 import { Link } from 'react-router-dom';
 import requestUtils from '../../../../utils/requestUtils';
+import userUtils from '../../../../utils/userUtils';
 
 class AccountSecurity extends Component {
 
@@ -40,13 +41,13 @@ class AccountSecurity extends Component {
                 //TODO
             });
 
-        this.handleUpdatePassword = this.handleUpdatePassword.bind(this);
+        this.submitChangePassword = this.submitChangePassword.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleInputChange(event) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.value;
         const name = target.name;
 
         this.setState({
@@ -54,22 +55,40 @@ class AccountSecurity extends Component {
         });
     }
 
-    handleUpdatePassword(event) {
-        let payload = {
-            'oldPassword': this.state.oldPassword,
-            'newPassword': this.state.newPassword,
-            'newPasswordConfirm': this.state.newPasswordConfirm
-        };
+    submitChangePassword(event) {
 
-        globals.postForm(globals.endPoint() + '/users/me/security', payload, res => {
-            if (res.statusCode === 200) {
+        //TODO CHeck this.state.newPassword and this.state.newPasswordConfirm
+        if (this.state.newPassword === this.state.newPasswordConfirm) {
+            const formData = new FormData();
+            formData.append('oldPassword', this.state.oldPassword);
+            formData.append('newPassword', this.state.newPassword);
 
-            } else {
-                this.setState({ data: res });
-            }
-        });
+            fetch(`${globals.endPoint()}/users/me/security`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Authorization': `Bearer ${userUtils.getToken()}`,
+                    },
+                    body: formData
+                },
+            )
+                .then(res => res.json())
+                .then((res) => {
+                    if (res.statusCode === 200) {
+                        console.log(res.data);
+                    }
+
+                })
+                .catch(() => {
+                    console.log('error');
+                });
+        } else {
+            console.error('Passwords not equal');
+        }
 
         event.preventDefault();
+
     }
 
     renderMfaEnabled() {
@@ -139,7 +158,7 @@ class AccountSecurity extends Component {
                                                                  required/>
 
                                     <button className="btn btn-primary btn-sm"
-                                            onClick={this.handleUpdatePassword}>
+                                            onClick={this.submitChangePassword}>
                                         Update Password
                                     </button>
                                 </form>
