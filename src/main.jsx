@@ -28,8 +28,6 @@ import AccountSecurity from './components/pages/user/account/AccountSecurity';
 import DiluvNav from './components/DiluvNav';
 import DiluvFooter from './components/DiluvFooter';
 
-import userUtils from './utils/userUtils';
-
 render(
     <BrowserRouter>
         <div>
@@ -48,9 +46,9 @@ render(
                 <Route exact path="/minecraft/projects/mods/create/" component={CreateMod}/>
                 <Route exact path="/minecraft/projects/:slug" component={ListMods}/>
 
-                <Route path="/login" component={Login}/>
-                <Route path="/logout" component={Logout}/>
-                <Route path="/register" component={Register}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/logout" component={Logout}/>
+                <Route exact path="/register" component={Register}/>
 
                 <Route exact path="/account/projects" component={AccountProjects}/>
                 <Route exact path="/account/settings" component={AccountSettings}/>

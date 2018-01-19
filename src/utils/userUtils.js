@@ -50,8 +50,6 @@ module.exports = {
                         storageSystem.setItem('refreshExpires', res.data.refreshExpires);
                         return true;
                     }
-                    console.log('non status');
-
                     storageSystem.removeItem('token');
                     storageSystem.removeItem('tokenExpires');
                     storageSystem.removeItem('refreshToken');
@@ -59,7 +57,6 @@ module.exports = {
                     return false;
                 })
                 .catch(() => {
-                    console.log('error');
                     storageSystem.removeItem('token');
                     storageSystem.removeItem('tokenExpires');
                     storageSystem.removeItem('refreshToken');

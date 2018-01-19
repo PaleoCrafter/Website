@@ -139,7 +139,7 @@ class ModFiles extends Component {
                                                         ) :
                                                         (
                                                             <div>
-                                                                <a>Download Not Public</a>
+                                                                <a>N/A</a>
                                                             </div>
                                                         )
                                                     }

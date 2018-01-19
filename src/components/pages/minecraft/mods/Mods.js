@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import globals from '../../../../utils/globals';
 import requestUtils from '../../../../utils/requestUtils';
-import dateFormat from 'dateformat';
 
 import marked from 'marked';
 import ProjectView from '../../../elements/ProjectView';
@@ -46,13 +45,14 @@ class Mods extends Component {
                 <div className="row">
                     <div className="col-md-2">
                         <a href="#" className="thumbnail">
-                            <img className="mod-logo" src={globals.publicFolder() + this.state.projectData.logo}/>
+                            <img className="mod-logo"
+                                 src={globals.publicFolder() + this.state.projectData.logo}/>
                         </a>
                     </div>
                     <div className="col-md-8">
                         <h2>{this.state.projectData.name}</h2>
                         <br/>
-                        <h6>Authors: {this.state.projectData.authors?ProjectView.getOwner(this.state.projectData.authors):''}</h6>
+                        <h6>Authors: {this.state.projectData.authors ? ProjectView.getOwner(this.state.projectData.authors) : ''}</h6>
 
                         <h6>Total Downloads: {this.state.projectData.totalDownloads}</h6>
                         <h6>Created: {this.state.projectData.createdAt ? globals.getDate(this.state.projectData.createdAt) : ''}</h6>

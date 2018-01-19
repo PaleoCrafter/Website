@@ -95,7 +95,7 @@ class DiluvNav extends PureComponent {
                             data-target="#navbarHome">
                         <span className="navbar-toggler-icon"/>
                     </button>
-                    <a className="navbar-brand" href="/"><img src="/public/favicon/favicon.ico"
+                    <a className="navbar-brand" href="/"><img src="/favicon/favicon.ico"
                                                               style={{ width: 50 }}/></a>
 
                     <div className="collapse navbar-collapse" id="navbarHome">

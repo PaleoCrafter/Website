@@ -52,7 +52,7 @@ class ProjectUploadFile extends Component {
             })
             .catch(err => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
-                console.error('The request /auth/login to the api had an error. ' + err);
+                console.error('The request /games/minecraft/mods/projects/' + projectSlug + '/files to the api had an error. ' + err);
             });
     }
 
