@@ -5,7 +5,7 @@ import userUtils from '../../../utils/userUtils';
 
 const http = require('http');
 
-class Login extends Component {
+class MFA extends Component {
     constructor(props) {
         super(props);
         this.state = { data: [] };
@@ -16,7 +16,7 @@ class Login extends Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const value = target.value;
         const name = target.name;
 
         this.setState({
@@ -26,15 +26,14 @@ class Login extends Component {
 
     handleSubmit(event) {
         const formData = new FormData();
-        formData.append('usernameEmail', this.state.email);
-        formData.append('password', this.state.password);
+        formData.append('mfaCode', this.state.mfaCode);
 
-        fetch(globals.endPoint() + '/auth/login',
+        fetch(globals.endPoint() + '/auth/mfa',
             {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    'Authorization': `Bearer ${window.sessionStorage.getItem("mfaToken")}`,
                 },
                 body: formData,
             })
@@ -42,31 +41,23 @@ class Login extends Component {
             .then(res => {
                 console.log(res);
                 if (res.statusCode === 200) {
-                    if (res.data.mfa) {
-                        let storageSystem = window.sessionStorage;
-                        storageSystem.setItem('mfa', true);
-                        storageSystem.setItem('mfaToken', res.data.token);
-                        storageSystem.setItem('mfaTokenExpires', res.data.tokenExpires);
-                        storageSystem.setItem('rememberMe', this.state.checkbox ? this.state.checkbox : false);
-                        this.props.history.push('/mfa');
-                    } else {
-                        let storageSystem = window.sessionStorage;
-                        if (this.state.checkbox) {
-                            storageSystem = localStorage;
-                        }
-                        storageSystem.setItem('token', res.data.token);
-                        storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                        storageSystem.setItem('refreshToken', res.data.refreshToken);
-                        storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                    let storageSystem = window.sessionStorage;
+                    if (storageSystem.getItem("rememberMe")) {
+                        storageSystem = localStorage;
                     }
+                    storageSystem.setItem('token', res.data.token);
+                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                    storageSystem.setItem('refreshToken', res.data.refreshToken);
+                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
                     window.location.reload();
                 } else {
+                    //TODO Wrong token or expired
                     this.setState({ data: res });
                 }
             })
             .catch(err => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
-                console.error('The request /auth/login to the api had an error. ' + err);
+                console.error('The request /auth/mfa to the api had an error. ' + err);
             });
 
         event.preventDefault();
@@ -76,8 +67,7 @@ class Login extends Component {
         if (userUtils.isUserLoggedIn()) {
             return (<Redirect to={'/'}/>);
         }
-
-        document.title = 'Login - Diluv';
+        document.title = 'Two Factor - Diluv';
         const isError = this.state.data.message;
         return (
             <div>
@@ -85,7 +75,6 @@ class Login extends Component {
                     <img id="profile-img" className="profile-img-card"
                          src="/favicon/favicon.ico"/>
                     <p id="profile-name" className="profile-name-card"/>
-
                     {
                         isError ? (
                             <div className="alert alert-danger">
@@ -95,34 +84,19 @@ class Login extends Component {
                         ) : ''
                     }
                     <form method="POST" onSubmit={this.handleSubmit} className="form-signin">
-                        <input name="email" onChange={this.handleInputChange} type="text"
-                               id="inputEmail"
+                        <input name="mfaCode" onChange={this.handleInputChange} type="text"
+                               id="inputCode"
                                className="form-control"
-                               placeholder="Username/Email"
+                               placeholder="2FA Code"
                                required autoFocus/>
-                        <input name="password" onChange={this.handleInputChange} type="password"
-                               id="inputPassword"
-                               className="form-control"
-                               placeholder="Password"
-                               required/>
-                        <div id="remember" className="checkbox">
-                            <label>
-                                <input name="checkbox" onChange={this.handleInputChange}
-                                       type="checkbox"
-                                       value="remember-me"/> Remember me
-                            </label>
-                        </div>
                         <button className="btn btn-lg btn-primary btn-block btn-signin"
                                 type="submit">Sign in
                         </button>
                     </form>
-                    <a href="#" className="forgot-password">
-                        Forgot your password?
-                    </a>
                 </div>
             </div>
         );
     }
 }
 
-export default Login;
+export default MFA;

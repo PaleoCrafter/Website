@@ -7,6 +7,7 @@ import Index from './components/pages/Index';
 
 import Logout from './components/pages/user/Logout';
 import Login from './components/pages/user/Login';
+import MFA from './components/pages/user/MFA';
 import Register from './components/pages/user/Register';
 
 import E404 from './components/pages/E404';
@@ -48,6 +49,7 @@ render(
 
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/logout" component={Logout}/>
+                <Route exact path="/mfa" component={MFA}/>
                 <Route exact path="/register" component={Register}/>
 
                 <Route exact path="/account/projects" component={AccountProjects}/>

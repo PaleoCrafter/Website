@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import ReCAPTCHA from 'react-google-recaptcha';
 import globals from '../../../utils/globals';
+import userUtils from '../../../utils/userUtils';
 
 const http = require('http');
 
@@ -36,22 +37,25 @@ class Register extends Component {
     }
 
     onChange(value) {
-        let payload = {
-            'email': this.state.email,
-            'username': this.state.username,
-            'password': this.state.password,
-            'passwordConfirm': this.state.passwordConfirm,
-            'g-recaptcha-response': value,
-        };
+        const formData = new FormData();
+        formData.append('email', this.state.email);
+        formData.append('username', this.state.username);
+        formData.append('password', this.state.password);
+        formData.append('passwordConfirm', this.state.passwordConfirm);
+        formData.append('g-recaptcha-response', value);
 
-        globals.postForm(globals.endPoint() + '/auth/register', payload)
+        fetch(globals.endPoint() + '/auth/register',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                },
+                body: formData,
+            })
+            .then(res => res.json())
             .then(res => {
                 if (res.statusCode === 200) {
-                    let storageSystem = window.sessionStorage;
-                    storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                    storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
                     this.props.history.push('/');
                 } else {
                     //TODO Handle Error
@@ -71,7 +75,7 @@ class Register extends Component {
         const isError = this.state.data.errorMessage;
         //TODO Handle Error
 
-        if (globals.isUserLoggedIn()) {
+        if (userUtils.isUserLoggedIn()) {
             return <Redirect to='/'/>;
         }
 

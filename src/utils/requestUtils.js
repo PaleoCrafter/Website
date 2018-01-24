@@ -29,26 +29,4 @@ module.exports = {
             .then(res => res.json());
     },
 
-    getPayload(url, payload) {
-        let formBody = [];
-        Object.keys(payload)
-            .forEach((key) => {
-                const encodedKey = encodeURIComponent(key);
-                const encodedValue = encodeURIComponent(payload[key]);
-                formBody.push(`${encodedKey}=${encodedValue}`);
-            });
-        formBody = formBody.join('&');
-        return fetch(
-            url,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formBody,
-            },
-        )
-            .then(res => res.json());
-    },
 };
