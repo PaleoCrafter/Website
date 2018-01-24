@@ -1,5 +1,6 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
@@ -12,7 +13,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '../dist'),
         filename: `js/main-bundle-dev-${version}.js`,
-        publicPath: 'https://download.nodecdn.net/containers/diluv/dev/public/',
+        publicPath: '//dev.diluv.io/public/',
 
     },
     plugins: [
@@ -22,12 +23,20 @@ module.exports = {
             title: 'Diluv',
             template: 'index.html',
             bundleUrl: '//dev.diluv.io/public/',
+            gz: '.gz',
         }),
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('staging'),
             },
+        }),
+        new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8,
         }),
     ],
     module: {

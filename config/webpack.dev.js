@@ -22,6 +22,7 @@ module.exports = {
             title: 'Diluv',
             template: 'index.html',
             bundleUrl: '/',
+            gz: '',
         }),
     ],
     module: {

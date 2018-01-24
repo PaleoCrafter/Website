@@ -39,7 +39,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" type="text/javascript"></script>
 
   <script src="<%= htmlWebpackPlugin.options.bundleUrl %>js/fallback/fallback.min.js" type="text/javascript"></script>
-  <script src="<%= webpackConfig.output.publicPath %><%= webpackConfig.output.filename %>" type="text/javascript"></script>
+  <script src="<%= webpackConfig.output.publicPath %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>" type="text/javascript"></script>
 
   <script>
       var config = {
@@ -99,7 +99,7 @@
               },
               'main-bundle': {
                   "urls": [
-                      '<%= htmlWebpackPlugin.options.bundleUrl %><%= webpackConfig.output.filename %>',
+                      '<%= htmlWebpackPlugin.options.bundleUrl %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>',
                   ],
               },
           },

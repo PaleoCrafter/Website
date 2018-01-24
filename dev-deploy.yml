@@ -13,7 +13,7 @@
     - name: copy main bundle to nginx
       synchronize: src={{ item }} dest=/var/www/dev.diluv.io/public/js/
       with_fileglob:
-        - dist/js/main-bundle*.js
+        - dist/js/main-bundle*.js.gz
 
     - name: copy public folder to nginx
       synchronize: src=public/ dest=/var/www/dev.diluv.io/public/
@@ -24,5 +24,5 @@
     - name: copy main bundle to cdn
       synchronize: src={{ item }} dest=/var/cdn/dev/public/js/
       with_fileglob:
-        - dist/js/main-bundle*.js
+        - dist/js/main-bundle*.js.gz
 
