@@ -95,9 +95,39 @@ class AccountSecurity extends Component {
 
         return (
             <div>
-                Multi-Factor
-                <div>
-                    <strong> Status: </strong>: Enabled
+                <button type="button" className="btn btn-primary" data-toggle="modal"
+                        data-target="#mfaDisableModal">
+                    Disable MFA
+                </button>
+
+                <div className="modal fade" id="mfaDisableModal" tabindex="-1" role="dialog"
+                     aria-labelledby="mfaDisableModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="mfaDisableModalLabel">Disable
+                                    MFA</h5>
+                                <button type="button" className="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="input-group input-group-sm mb-3">
+                                    <input type="password" className="form-control"
+                                           id="mfaInputPassword" placeholder="Password"/>
+                                </div>
+
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                                <button type="button" className="btn btn-primary">Disable MFA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -107,11 +137,38 @@ class AccountSecurity extends Component {
 
         return (
             <div>
-                Multi-Factor
-                <div>
-                    <Link to="/account/mfa">
-                        Enable Multi-factor verification
-                    </Link>
+                <button type="button" className="btn btn-primary" data-toggle="modal"
+                        data-target="#mfaEnableModal">
+                    Enable MFA
+                </button>
+
+                <div className="modal fade" id="mfaEnableModal" tabindex="-1" role="dialog"
+                     aria-labelledby="mfaEnableModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="mfaEnableModalLabel">Enable MFA</h5>
+                                <button type="button" className="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="input-group input-group-sm mb-3">
+                                    <input type="password" className="form-control"
+                                           id="mfaInputPassword" placeholder="Password"/>
+                                </div>
+
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                                <button type="button" className="btn btn-primary">Enable MFA
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -122,7 +179,7 @@ class AccountSecurity extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <h1><i className="fa fa-cog"/> Account Security</h1>
                     </div>
                 </div>
@@ -130,39 +187,42 @@ class AccountSecurity extends Component {
                 <div className="row">
                     <AccountNav/>
                     <div className="col-md-8">
-                        {
-                            //this.state.userSettings.mfaEnabled ? this.renderMfaEnabled() : this.renderMfaDisabled()
-                        }
-
-                        <div className="row">
-                            <div className="col-md-6">
-                                <h4><b>Change Password</b></h4>
-                                <form method="POST" className="form-signin" autoComplete="off">
-                                    Old password: <input name="oldPassword"
-                                                         onChange={this.handleInputChange}
-                                                         type="password"
-                                                         id="inputOldPassword"
-                                                         className="form-control"
-                                                         required autoFocus/>
-                                    New password: <input name="newPassword"
-                                                         onChange={this.handleInputChange}
-                                                         type="password"
-                                                         id="inputNewPassword"
-                                                         className="form-control"
-                                                         required/>
-                                    Confirm new password: <input name="newPasswordConfirm"
-                                                                 onChange={this.handleInputChange}
-                                                                 type="password"
-                                                                 id="inputNewPasswordConfirm"
-                                                                 className="form-control"
-                                                                 required/>
-
-                                    <button className="btn btn-primary btn-sm"
-                                            onClick={this.submitChangePassword}>
-                                        Update Password
-                                    </button>
-                                </form>
+                        <div className="container">
+                            <h4><b>Multi-Factor</b></h4>
+                            <div>
+                                <strong> Status: </strong> {this.state.userSettings.mfaEnabled ? 'Enabled' : 'Disabled'}
                             </div>
+                            {
+                                this.state.userSettings.mfaEnabled ? this.renderMfaEnabled() : this.renderMfaDisabled()
+                            }
+                        </div>
+                        <div className="col-md-6">
+                            <h4><b>Change Password</b></h4>
+                            <form method="POST" className="form-signin" autoComplete="off">
+                                Old password: <input name="oldPassword"
+                                                     onChange={this.handleInputChange}
+                                                     type="password"
+                                                     id="inputOldPassword"
+                                                     className="form-control"
+                                                     required autoFocus/>
+                                New password: <input name="newPassword"
+                                                     onChange={this.handleInputChange}
+                                                     type="password"
+                                                     id="inputNewPassword"
+                                                     className="form-control"
+                                                     required/>
+                                Confirm new password: <input name="newPasswordConfirm"
+                                                             onChange={this.handleInputChange}
+                                                             type="password"
+                                                             id="inputNewPasswordConfirm"
+                                                             className="form-control"
+                                                             required/>
+
+                                <button className="btn btn-primary btn-sm"
+                                        onClick={this.submitChangePassword}>
+                                    Update Password
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

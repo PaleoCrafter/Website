@@ -19,18 +19,18 @@ class DiluvNav extends PureComponent {
         let game = location.split('/')[1];
         if (game === 'minecraft') {
             this.setState({ game: 'minecraft' });
-            requestUtils.getFetchJSON(globals.endPoint()  + '/games/minecraft/projectTypes')
-                .then(res => {
-                    if (res.statusCode === 200) {
-                        this.setState({ items: res.data });
-                    } else {
-                        this.setState({ error: { message: res.data.message } });
-                    }
-                })
-                .catch(err => {
-                    this.setState({ error: { message: 'An unknown error occurred' } });
-                    console.error('The request /games/minecraft/projectTypes in DiluvNav to the api had an error. ' + err);
-                });
+            // requestUtils.getFetchJSON(globals.endPoint()  + '/games/minecraft/projectTypes')
+            //     .then(res => {
+            //         if (res.statusCode === 200) {
+            //             this.setState({ items: res.data });
+            //         } else {
+            //             this.setState({ error: { message: res.data.message } });
+            //         }
+            //     })
+            //     .catch(err => {
+            //         this.setState({ error: { message: 'An unknown error occurred' } });
+            //         console.error('The request /games/minecraft/projectTypes in DiluvNav to the api had an error. ' + err);
+            //     });
         }
         this.getUserData();
     }

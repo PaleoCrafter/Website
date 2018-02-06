@@ -3,7 +3,7 @@ import globals from '../../../../utils/globals';
 import requestUtils from '../../../../utils/requestUtils';
 
 import marked from 'marked';
-import ProjectView from '../../../elements/ProjectView';
+import ProjectView from '../../../elements/mods/ModView';
 
 marked.setOptions({
     sanitize: true,
@@ -65,17 +65,17 @@ class Mods extends Component {
                         <ul className="nav flex-column">
                             <li className="nav-item">
                                 <a className="nav-link active"
-                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
+                                   href={'/minecraft/' + projectSlug}>Overview</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link"
-                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
+                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
                             </li>
                             {
                                 (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
-                                           href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
+                                           href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
                                     </li>) : ''
                             }
                         </ul>

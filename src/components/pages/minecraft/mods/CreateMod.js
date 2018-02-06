@@ -74,7 +74,6 @@ class ProjectsCreate extends Component {
         formData.append('logo', this.state.imageFiles ? this.state.imageFiles : '');
 
 
-        //TODO Make slug more dynamic
         fetch(globals.endPoint() + '/games/minecraft/mods/projects',
             {
                 method: 'POST',
@@ -98,7 +97,7 @@ class ProjectsCreate extends Component {
 
     render() {
         if (this.state.redirect) {
-            return (<Redirect to={'/minecraft/project/' + this.state.redirect + '/'}/>);
+            return (<Redirect to={'/minecraft/mods/' + this.state.redirect + '/'}/>);
         }
         if (!userUtils.isUserLoggedIn()) {
             return (<Redirect to={'/'}/>);

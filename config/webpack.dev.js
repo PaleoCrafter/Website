@@ -1,6 +1,7 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     context: path.join(__dirname, '../src'),
@@ -17,6 +18,12 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('dev'),
+                BUILD_ENV: JSON.stringify('dev'),
+            },
+        }),
         new HtmlWebpackPlugin({
             inject: false,
             title: 'Diluv',

@@ -1,7 +1,7 @@
 const userUtils = require('./userUtils');
 const dateFormat = require('dateformat');
 
-const env = process.env.NODE_ENV || 'dev';
+const env = process.env.BUILD_ENV || 'dev';
 
 module.exports = {
     publicFolder: () => {

@@ -38,7 +38,7 @@ class ProjectFiles extends Component {
         document.title = this.state.projectData.name + ' - Settings - Diluv';
 
         if (this.state.projectData.permission && !globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) {
-            return (<Redirect to={'/minecraft/project/' + projectSlug}/>);
+            return (<Redirect to={'/minecraft/' + projectSlug}/>);
         }
 
         return (
@@ -51,15 +51,15 @@ class ProjectFiles extends Component {
                         <ul className="nav flex-column">
                             <li className="nav-item">
                                 <a className="nav-link active"
-                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
+                                   href={'/minecraft/mods/' + projectSlug}>Overview</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link"
-                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
+                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link"
-                                   href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
+                                   href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
                             </li>
                         </ul>
                     </div>

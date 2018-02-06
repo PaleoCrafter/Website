@@ -42,8 +42,8 @@ class AccountSettings extends Component {
                 console.error('The request /users/me/settings to the api had an error. ' + err);
             });
 
-        this.handleChangeProfile = this.handleChangeProfile.bind(this);
-        this.handleUpdateEmail = this.handleUpdateEmail.bind(this);
+        this.submitChangeProfile = this.submitChangeProfile.bind(this);
+        this.submitChangeEmail = this.submitChangeEmail.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
 
     }
@@ -58,7 +58,7 @@ class AccountSettings extends Component {
         });
     }
 
-    handleUpdateEmail(event) {
+    submitChangeEmail(event) {
         let payload = {
             'oldPassword': this.state.oldPassword,
             'newPassword': this.state.newPassword,
@@ -66,34 +66,21 @@ class AccountSettings extends Component {
         };
 
         //TODO
-        globals.postForm(globals.endPoint() + '/user/settings', payload, res => {
-            if (res.statusCode === 200) {
-
-            } else {
-                this.setState({ data: res });
-            }
-        })
-            .catch(err => {
-
-            });
+        // globals.postForm(globals.endPoint() + '/user/settings', payload, res => {
+        //     if (res.statusCode === 200) {
+        //
+        //     } else {
+        //         this.setState({ data: res });
+        //     }
+        // })
+        //     .catch(err => {
+        //
+        //     });
 
         event.preventDefault();
     }
 
-    handleChangeProfile(event) {
-        let payload = {
-            'oldPassword': this.state.oldPassword,
-            'newPassword': this.state.newPassword,
-            'newPasswordConfirm': this.state.newPasswordConfirm
-        };
-
-        globals.postForm(globals.endPoint() + '/user/security', payload, res => {
-            if (res.statusCode === 200) {
-
-            } else {
-                this.setState({ data: res });
-            }
-        });
+    submitChangeProfile(event) {
 
         event.preventDefault();
     }
@@ -103,11 +90,9 @@ class AccountSettings extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                         <h1><i className="fa fa-cog"/> Account Settings</h1>
                     </div>
-                    <div className="col-md-6"/>
-
                 </div>
 
                 <div className="row">
@@ -125,7 +110,7 @@ class AccountSettings extends Component {
                                                   placeholder="Email address"
                                                   required autoFocus/>
                                     <button className="btn btn-lg btn-primary btn-block btn-signin"
-                                            onClick={this.handleUpdateEmail}>
+                                            onClick={this.submitChangeEmail}>
                                         Update Email
                                     </button>
                                 </form>
@@ -155,7 +140,7 @@ class AccountSettings extends Component {
                                            placeholder="Location"/>
 
                                     <button className="btn btn-lg btn-primary btn-block btn-signin"
-                                            onClick={this.handleChangeProfile}>
+                                            onClick={this.submitChangeProfile}>
                                         Save
                                     </button>
                                 </form>

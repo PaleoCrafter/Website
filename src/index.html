@@ -45,7 +45,6 @@
       var config = {
           "debug": false,
           "libs": {
-
               "css$highlightjs": {
                   "exports": ".hljs",
                   'urls': [
@@ -96,11 +95,6 @@
                   'urls': [
                       '<%= htmlWebpackPlugin.options.bundleUrl %>css/stylesheet.css'
                   ]
-              },
-              'main-bundle': {
-                  "urls": [
-                      '<%= htmlWebpackPlugin.options.bundleUrl %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>',
-                  ],
               },
           },
       };

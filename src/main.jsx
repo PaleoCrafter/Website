@@ -18,11 +18,10 @@ import ModFiles from './components/pages/minecraft/mods/ModFiles';
 import ModUploadFile from './components/pages/minecraft/mods/ModUploadFile';
 import ModSettings from './components/pages/minecraft/mods/ModSettings';
 
-import ListMods from './components/pages/minecraft/ProjectList';
+import ListMods from './components/pages/minecraft/ListMods';
 import CreateMod from './components/pages/minecraft/mods/CreateMod';
 
 import Account from './components/pages/user/account/Account';
-import AccountProjects from './components/pages/user/account/AccountProjects';
 import AccountSettings from './components/pages/user/account/AccountSettings';
 import AccountSecurity from './components/pages/user/account/AccountSecurity';
 
@@ -39,20 +38,20 @@ render(
 
                 <Route exact path="/minecraft/" component={Minecraft}/>
 
-                <Route exact path="/minecraft/project/:slug/settings" component={ModSettings}/>
-                <Route exact path="/minecraft/project/:slug/upload" component={ModUploadFile}/>
-                <Route exact path="/minecraft/project/:slug/files" component={ModFiles}/>
-                <Route exact path="/minecraft/project/:slug/" component={Mods}/>
+                <Route exact path="/minecraft/mods" component={ListMods}/>
+                <Route exact path="/minecraft/mods/create/" component={CreateMod}/>
 
-                <Route exact path="/minecraft/projects/mods/create/" component={CreateMod}/>
-                <Route exact path="/minecraft/projects/:slug" component={ListMods}/>
+                <Route exact path="/minecraft/mods/:slug/settings" component={ModSettings}/>
+                <Route exact path="/minecraft/mods/:slug/upload" component={ModUploadFile}/>
+                <Route exact path="/minecraft/mods/:slug/files" component={ModFiles}/>
+                <Route exact path="/minecraft/mods/:slug/" component={Mods}/>
+
 
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/logout" component={Logout}/>
                 <Route exact path="/mfa" component={MFA}/>
                 <Route exact path="/register" component={Register}/>
 
-                <Route exact path="/account/projects" component={AccountProjects}/>
                 <Route exact path="/account/settings" component={AccountSettings}/>
                 <Route exact path="/account/security" component={AccountSecurity}/>
                 <Route exact path="/account" component={Account}/>

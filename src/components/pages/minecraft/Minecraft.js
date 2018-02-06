@@ -17,6 +17,7 @@ class Minecraft extends Component {
     componentDidMount() {
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft')
             .then(res => {
+                console.log(res);
                 if (res.statusCode === 200) {
                     this.setState({ gameData: res.data });
                 } else {
@@ -28,6 +29,8 @@ class Minecraft extends Component {
             });
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/projectTypes')
             .then(res => {
+                console.log(res);
+
                 if (res.statusCode === 200) {
                     this.setState({ items: res.data });
                 } else {
@@ -54,7 +57,7 @@ class Minecraft extends Component {
                     <div className="col-md-4">
                         {
                             this.state.items.length > 0 ? this.state.items.map(item =>
-                                <Link key={item.slug} to={'/minecraft/projects/' + item.slug}>
+                                <Link key={item.slug} to={'/minecraft/' + item.slug}>
                                     {item.name}
                                 </Link>
                             ) : ''

@@ -28,7 +28,8 @@ module.exports = {
         new UglifyJSPlugin({}),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify('staging'),
+                NODE_ENV: JSON.stringify('production'),
+                BUILD_ENV: JSON.stringify('staging'),
             },
         }),
         new CompressionPlugin({

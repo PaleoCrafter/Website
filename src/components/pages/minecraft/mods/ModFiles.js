@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import globals from '../../../../utils/globals';
-import ReactTooltip from 'react-tooltip';
 import requestUtils from '../../../../utils/requestUtils';
-import dateFormat from 'dateformat';
-import prettyBytes from 'pretty-bytes';
+
+import ProjectFile from '../../../elements/mods/files/ModFile';
 
 class ModFiles extends Component {
 
@@ -34,8 +33,6 @@ class ModFiles extends Component {
             .then(res => {
                 if (res.statusCode === 200) {
                     this.setState({ projectFileData: res.data });
-                    console.log(res.data);
-
                 } else {
                     console.log('Game');
                 }
@@ -44,6 +41,7 @@ class ModFiles extends Component {
                 //TODO
             });
     }
+
     render() {
         const projectSlug = this.props.match.params.slug;
         document.title = this.state.projectData.name + ' - Files - Diluv';
@@ -59,7 +57,7 @@ class ModFiles extends Component {
                                 {
                                     (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
                                         <a className="btn btn-info" role="button"
-                                           href={'/minecraft/project/' + projectSlug + '/upload'}>
+                                           href={'/minecraft/mods/' + projectSlug + '/upload'}>
                                             Upload File
                                         </a>
                                     ) : ''
@@ -71,17 +69,17 @@ class ModFiles extends Component {
                         <ul className="nav flex-column">
                             <li className="nav-item">
                                 <a className="nav-link"
-                                   href={'/minecraft/project/' + projectSlug}>Overview</a>
+                                   href={'/minecraft/mods/' + projectSlug}>Overview</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link active"
-                                   href={'/minecraft/project/' + projectSlug + '/files'}>Files</a>
+                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
                             </li>
                             {
                                 (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                     <li className="nav-item">
                                         <a className="nav-link"
-                                           href={'/minecraft/project/' + projectSlug + '/settings'}>Settings</a>
+                                           href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
                                     </li>) : ''
                             }
                         </ul>
@@ -100,61 +98,23 @@ class ModFiles extends Component {
                                     <th>Game Version</th>
                                     <th>Download Count</th>
                                     <th>Link</th>
-                                    {
-                                        (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
-                                            <th>Status</th>
-                                        ) : ''
-                                    }
+                                    <th>Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
-                                    this.state.projectFileData.map(function (item) {
+                                    this.state.projectFileData.map(function (item, i) {
                                         return (
-                                            <tr key={item.sha256}>
-                                                <td>{item.displayName}</td>
-                                                <td>{globals.getDate(item.createdAt)}</td>
-                                                <td>{prettyBytes(item.size)}</td>
-                                                <td>
-                                                    {
-                                                        //TODO Max to like 5, and add comma's
-                                                        item.gameVersions ? item.gameVersions.map(item =>
-                                                            <div key={item.version}>
-                                                                {item.version}
-                                                            </div>
-                                                        ) : ''
-                                                    }
-                                                </td>
-                                                <td>{item.downloads}</td>
-                                                <td>
-                                                    {(item.public) ? (
-                                                            <div>
-                                                                <a href={item.downloadUrl}>Download</a>
-                                                                <i data-tip={item.sha256}
-                                                                   className='fa fa-info-circle'/>
-                                                                <ReactTooltip class='hoverSHA'
-                                                                              delayHide={1000}
-                                                                              effect='solid'/>
-                                                            </div>
-                                                        ) :
-                                                        (
-                                                            <div>
-                                                                <a>N/A</a>
-                                                            </div>
-                                                        )
-                                                    }
-
-                                                </td>
-                                                {
-                                                    (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
-                                                        <td>
-                                                            {(item.public) ? 'Public' :
-                                                                item.status
-                                                            }
-                                                        </td>
-                                                    ) : ''
-                                                }
-                                            </tr>
+                                            <ProjectFile
+                                                key={item.sha512 | i}
+                                                sha512={item.sha512}
+                                                createdAt={item.createdAt}
+                                                displayName={item.displayName}
+                                                downloads={item.downloads}
+                                                gameVersions={item.gameVersions}
+                                                releaseType={item.releaseType}
+                                                size={item.size}
+                                            />
                                         );
                                     }, this)
                                 }

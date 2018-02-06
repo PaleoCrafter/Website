@@ -10,12 +10,6 @@ class AccountNav extends Component {
                     <a className="list-group-item" href="/account">
                         Profile
                     </a>
-                    <a className="list-group-item" href="/account/projects">
-                        Projects
-                    </a>
-                    {/*<a className="list-group-item" href="/account/settings">*/}
-                        {/*Settings*/}
-                    {/*</a>*/}
                     <a className="list-group-item" href="/account/security">
                         Security
                     </a>

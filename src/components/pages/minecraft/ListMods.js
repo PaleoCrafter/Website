@@ -1,0 +1,214 @@
+import React, { Component } from 'react';
+import ProjectView from '../../elements/mods/ModView';
+import globals from '../../../utils/globals';
+import ReactPaginate from 'react-paginate';
+import capitalize from 'capitalize';
+import requestUtils from '../../../utils/requestUtils';
+import userUtils from '../../../utils/userUtils';
+
+class ListMods extends Component {
+    constructor() {
+        super();
+        this.state = {
+            projects: [],
+            projectType: [],
+            error: []
+        };
+    }
+
+    getPageData(page) {
+        if (page == null) {
+            page = 1;
+        }
+
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects?page=' + page)
+            .then(res => {
+                console.log(res);
+                if (res.statusCode === 200) {
+                    this.setState({ projects: res.data });
+                } else {
+                    console.log('Project error');
+                }
+            })
+            .catch(err => {
+                //TODO
+            });
+    }
+
+    componentDidMount() {
+        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods')
+            .then(res => {
+                if (res.statusCode === 200) {
+                    this.setState({ projectType: res.data });
+                } else {
+                    //TODO Error
+                }
+            })
+            .catch(err => {
+                //TODO
+            });
+
+        this.getPageData(1);
+    }
+
+    handlePageClick(data) {
+        this.getPageData(data.selected + 1);
+    };
+
+    render() {
+        // if (!this.state.projectType)
+        //     return (<E404/>);
+
+        document.title = 'Mods - Projects - Diluv';
+        return (
+            <div className="container">
+                <div className="row">
+                    {
+                        //TODO
+                        false ?
+                            <div className="alert alert-dismissible alert-warning">
+                                <button type="button" className="close"
+                                        data-dismiss="alert">&times;</button>
+                                <h4>Warning!</h4>
+                                <p>An error occured while getting a list of projects.</p>
+                            </div>
+                            : ''
+                    }
+                    <div className="col-md-4">
+                        <h1><i className="fa fa-cog"/> Mods</h1>
+                    </div>
+                    <div className="col-md-6"/>
+                    <div className="col-md-2">
+                        {
+                            userUtils.isUserLoggedIn() ? (
+                                <a className="btn btn-info" role="button"
+                                   href={'/minecraft/mods/create'}>
+                                    Create Mod
+                                </a>
+                            ) : ''
+                        }
+
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-2"/>
+                    <div className="col-md-8">
+                        <div className="row">
+                            <div className="panel push-down col-md-12">
+
+                                {/* page numbers nav, leaves 1 unit spare to align dropdowns */}
+                                <div className="row">
+                                    <div className="col-md-5">
+                                        <ReactPaginate
+                                            nextClassName={'page-item'}
+                                            nextLinkClassName={'page-link'}
+                                            previousLabel="&laquo;"
+
+                                            previousClassName={'page-item'}
+                                            previousLinkClassName={'page-link'}
+                                            nextLabel="&raquo;"
+
+                                            breakLabel={<a href="">...</a>}
+                                            breakClassName={'break-me'}
+                                            pageCount={this.state.projects.totalPageCount ? this.state.projects.totalPageCount : 1}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={5}
+                                            onPageChange={this.handlePageClick.bind(this)}
+                                            containerClassName={'pagination pagination-sm'}
+                                            pageClassName={'page-item'}
+                                            pageLinkClassName={'page-link'}
+                                            activeClassName={'active'}/>
+                                    </div>
+
+                                    <div className="col-md-3">
+                                        {/*<div className="dropdown">*/}
+                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
+                                        {/*id="dropdownMenu1" data-toggle="dropdown">*/}
+                                        {/*Sort by:*/}
+                                        {/*<span className="caret"/>*/}
+                                        {/*</button>*/}
+                                        {/*<ul className="dropdown-menu">*/}
+                                        {/*{*/}
+                                        {/*["Newest", "Top Rated"].map(item =>*/}
+                                        {/*<li key={item}>*/}
+                                        {/*<a className="dropdown-item" href="#">{item}</a>*/}
+                                        {/*</li>*/}
+                                        {/*)*/}
+                                        {/*}*/}
+                                        {/*</ul>*/}
+                                        {/*</div>*/}
+                                    </div>
+
+                                    <div className="col-md-3">
+                                        {/*<div className="dropdown">*/}
+                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
+                                        {/*id="dropdownMenu2" data-toggle="dropdown">*/}
+                                        {/*Game version:*/}
+                                        {/*<span className="caret"/>*/}
+                                        {/*</button>*/}
+                                        {/*<ul className="dropdown-menu">*/}
+                                        {/*{*/}
+                                        {/*this.state.gameData.versions ? this.state.gameData.versions.map(item =>*/}
+                                        {/*<li key={item.version}>*/}
+                                        {/*<a className="dropdown-item" href="#">*/}
+                                        {/*{item.version}*/}
+                                        {/*</a>*/}
+                                        {/*</li>*/}
+                                        {/*) : ""*/}
+                                        {/*}*/}
+                                        {/*</ul>*/}
+                                        {/*</div>*/}
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col">
+                                        <hr/>
+                                    </div>
+                                </div>
+                                {
+                                    this.state.projects && this.state.projects.length > 0 ? this.state.projects.map(item =>
+                                        <ProjectView key={item.slug}
+                                                     name={item.name}
+                                                     authors={item.authors}
+                                                     description={item.description}
+                                                     logo={item.logo}
+                                                     totalDownloads={item.totalDownloads}
+                                                     createdAt={item.createdAt}
+                                                     updatedAt={item.updatedAt}
+                                            // gameVersions={item.gameVersions}
+                                                     categories={item.categories}
+                                                     shortDescription={item.shortDescription}
+                                                     slug={item.slug}
+                                                     permission={item.permission}
+                                        />
+                                    ) : ''
+                                }
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-md-2">
+                        <div className="list-group list-group-root">
+                            {
+                                // console.log(this.state.projectType.categories)
+                                this.state.projectType.categories && this.state.projectType.categories.length > 0 ? this.state.projectType.categories.map(item =>
+                                    <a key={item.name} className="list-group-item">
+                                        {item.name}
+                                    </a>
+                                ) : ''
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default ListMods;

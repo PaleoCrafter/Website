@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import globals from '../../utils/globals';
+import globals from '../../../utils/globals';
 
 import dateFormat from 'dateformat';
 
@@ -37,7 +37,7 @@ class ProjectView extends Component {
                 <div className="col-9">
                     <div className="right">
                         <a className="project-badge"
-                           href={'/minecraft/project/' + this.props.slug + '/files'}>
+                           href={'/minecraft/mods/' + this.props.slug + '/files'}>
                             <span className="badge badge-primary">
                                 <i className="fa fa-file"/>
                             </span>
@@ -46,7 +46,7 @@ class ProjectView extends Component {
                         {
                             (this.props.permission && globals.hasProjectPermission(this.props.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
                                 <a className="project-badge"
-                                   href={'/minecraft/project/' + this.props.slug + '/settings'}>
+                                   href={'/minecraft/mods/' + this.props.slug + '/settings'}>
                                     <span className="badge badge-primary">
                                         <i className="fa fa-cog"/>
                                     </span>
@@ -60,7 +60,7 @@ class ProjectView extends Component {
                         </a>
                     </div>
                     <h3>
-                        <a href={'/minecraft/project/' + this.props.slug}>
+                        <a href={'/minecraft/mods/' + this.props.slug}>
                             <div id="modName">{this.props.name}</div>
                         </a>
 
@@ -89,7 +89,6 @@ class ProjectView extends Component {
             </div>
         );
     }
-
 }
 
 export default ProjectView;
