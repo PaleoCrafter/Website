@@ -10,6 +10,12 @@
         "polyfill": false,
         "regenerator": true
       }
+    ],
+    [
+      "babel-plugin-root-import",
+      {
+        "rootPathSuffix": "src/"
+      }
     ]
   ]
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import globals from '../../../../utils/globals';
 
-import prettyBytes from 'pretty-bytes';
+import prettyBytes from '../../../../utils/pretty-bytes';
 import ReactTooltip from 'react-tooltip';
 
 class ProjectFile extends Component {
@@ -14,7 +14,7 @@ class ProjectFile extends Component {
             <tr>
                 <td>{this.props.displayName}</td>
                 <td>{globals.getDate(this.props.createdAt)}</td>
-                <td>{prettyBytes(this.props.size)}</td>
+                <td>{prettyBytes(100000000000000000000000)}</td>
                 <td>
                     {
                         //TODO Max to like 5, and add comma's
