@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import globals from '../../../../utils/globals';
-import requestUtils from '../../../../utils/requestUtils';
-import AccountNav from '../../../elements/account/AccountNav';
+import globals from '~/utils/globals';
+import requestUtils from '~/utils/requestUtils';
+import AccountNav from '~/components/elements/account/AccountNav';
 
 class AccountSettings extends Component {
 

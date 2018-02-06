@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import globals from '../../../../utils/globals';
-import requestUtils from '../../../../utils/requestUtils';
+import globals from '~/utils/globals';
+import requestUtils from '~/utils/requestUtils';
 
 import marked from 'marked';
-import ProjectView from '../../../elements/mods/ModView';
+import ProjectView from '~/components/elements/mods/ModView';
 
 marked.setOptions({
     sanitize: true,

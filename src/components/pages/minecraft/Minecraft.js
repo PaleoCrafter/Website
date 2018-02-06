@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import globals from '../../../utils/globals';
+import globals from '~/utils/globals';
 import { Link } from 'react-router-dom';
-import requestUtils from '../../../utils/requestUtils';
+import requestUtils from '~/utils/requestUtils';
 
 class Minecraft extends Component {
     constructor() {

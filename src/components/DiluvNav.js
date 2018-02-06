@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import globals from '../utils/globals';
-import requestUtils from '../utils/requestUtils';
-import userUtils from '../utils/userUtils';
+import globals from '~/utils/globals';
+import requestUtils from '~/utils/requestUtils';
+import userUtils from '~/utils/userUtils';
 
 class DiluvNav extends PureComponent {
     constructor(props) {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import globals from '../../../../utils/globals';
-import AccountNav from '../../../elements/account/AccountNav';
+import globals from '~/utils/globals';
+import AccountNav from '~/components/elements/account/AccountNav';
 import { Link } from 'react-router-dom';
-import requestUtils from '../../../../utils/requestUtils';
-import userUtils from '../../../../utils/userUtils';
+import requestUtils from '~/utils/requestUtils';
+import userUtils from '~/utils/userUtils';
 
 class AccountSecurity extends Component {
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import globals from '../../../utils/globals';
-import userUtils from '../../../utils/userUtils';
+import globals from '~/utils/globals';
+import userUtils from '~/utils/userUtils';
 
 const http = require('http');
 

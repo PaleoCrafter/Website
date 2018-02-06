@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import globals from '../../../utils/globals';
-
-import dateFormat from 'dateformat';
+import globals from '~/utils/globals';
 
 class ProjectView extends Component {
     constructor(props) {

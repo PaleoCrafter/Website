@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import AccountNav from "../../../elements/account/AccountNav";
+import AccountNav from "~/components/elements/account/AccountNav";
 
 class Account extends Component {
 

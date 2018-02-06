@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import ProjectView from '../../elements/mods/ModView';
-import globals from '../../../utils/globals';
+import ProjectView from '~/components/elements/mods/ModView';
+import globals from '~/utils/globals';
 import ReactPaginate from 'react-paginate';
-import capitalize from 'capitalize';
-import requestUtils from '../../../utils/requestUtils';
-import userUtils from '../../../utils/userUtils';
+import requestUtils from '~/utils/requestUtils';
+import userUtils from '~/utils/userUtils';
 
 class ListMods extends Component {
     constructor() {

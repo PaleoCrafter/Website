@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
-import globals from '../../../../utils/globals';
+import globals from '~/utils/globals';
 import Textarea from "react-textarea-autosize";
 
-import userUtils from '../../../../utils/userUtils';
+import userUtils from '~/utils/userUtils';
 import { Redirect } from 'react-router';
 
 import marked from 'marked';

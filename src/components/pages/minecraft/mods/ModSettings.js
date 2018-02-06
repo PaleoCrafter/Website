@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import globals from '../../../../utils/globals';
-import capitalize from 'capitalize';
-import requestUtils from '../../../../utils/requestUtils';
+import globals from '~/utils/globals';
+import requestUtils from '~/utils/requestUtils';
 
 class ProjectFiles extends Component {
 

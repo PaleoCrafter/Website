@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import globals from '../../../../utils/globals';
-import requestUtils from '../../../../utils/requestUtils';
+import globals from '~/utils/globals';
+import requestUtils from '~/utils/requestUtils';
 
-import ProjectFile from '../../../elements/mods/files/ModFile';
+import ModFile from '~/components/elements/mods/files/ModFile';
 
 class ModFiles extends Component {
 
@@ -10,7 +10,7 @@ class ModFiles extends Component {
         super();
         this.state = {
             projectData: [],
-            projectFileData: []
+            modFileData: []
         };
     }
 
@@ -32,7 +32,7 @@ class ModFiles extends Component {
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug + '/files')
             .then(res => {
                 if (res.statusCode === 200) {
-                    this.setState({ projectFileData: res.data });
+                    this.setState({ modFileData: res.data });
                 } else {
                     console.log('Game');
                 }
@@ -103,9 +103,9 @@ class ModFiles extends Component {
                                 </thead>
                                 <tbody>
                                 {
-                                    this.state.projectFileData.map(function (item, i) {
+                                    this.state.modFileData.map(function (item, i) {
                                         return (
-                                            <ProjectFile
+                                            <ModFile
                                                 key={item.sha512 | i}
                                                 sha512={item.sha512}
                                                 createdAt={item.createdAt}
