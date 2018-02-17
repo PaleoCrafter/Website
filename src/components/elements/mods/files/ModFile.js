@@ -4,7 +4,7 @@ import globals from '~/utils/globals';
 import prettyBytes from '~/utils/pretty-bytes';
 import ReactTooltip from 'react-tooltip';
 
-class ProjectFile extends Component {
+class ModFile extends Component {
     constructor(props) {
         super(props);
     }
@@ -57,4 +57,4 @@ class ProjectFile extends Component {
     }
 }
 
-export default ProjectFile;
+export default ModFile;

@@ -15,7 +15,7 @@ marked.setOptions({
     }
 });
 
-class ProjectsCreate extends Component {
+class CreateMod extends Component {
 
     constructor() {
         super();
@@ -183,4 +183,4 @@ class ProjectsCreate extends Component {
     }
 }
 
-export default ProjectsCreate;
+export default CreateMod;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import globals from '~/utils/globals';
 
-class ProjectView extends Component {
+class ModView extends Component {
     constructor(props) {
         super(props);
     }
@@ -29,7 +29,7 @@ class ProjectView extends Component {
             <div className="row mod-view">
                 <div className="col-3">
                     <a href="#" className="thumbnail">
-                        <img className="mod-logo" src={globals.publicFolder() + this.props.logo}/>
+                        <img className="mod-logo" src={`${globals.publicFolder()}/projects/logo/${this.props.logo}`}/>
                     </a>
                 </div>
                 <div className="col-9">
@@ -62,7 +62,7 @@ class ProjectView extends Component {
                             <div id="modName">{this.props.name}</div>
                         </a>
 
-                        {ProjectView.getOwner(this.props.authors)}
+                        {ModView.getOwner(this.props.authors)}
 
                         <p id="modDescription">{this.props.shortDescription}</p>
                     </h3>
@@ -89,4 +89,4 @@ class ProjectView extends Component {
     }
 }
 
-export default ProjectView;
+export default ModView;
