@@ -1,5 +1,7 @@
 const userUtils = require('./userUtils');
 const dateFormat = require('dateformat');
+const marked = require('marked');
+const highlightjs = require('highlight.js');
 
 const env = process.env.BUILD_ENV || 'dev';
 
@@ -47,4 +49,15 @@ module.exports = {
     getDate(epoch) {
         return dateFormat(new Date(epoch), 'HH:mm:ss dd/mm/yyyy');
     },
+
+    parseMarkdown(data) {
+        marked.setOptions({
+            sanitize: true,
+            highlight(code) {
+                return highlightjs.highlightAuto(code).value;
+            },
+        });
+        return marked(data);
+    },
 };
+

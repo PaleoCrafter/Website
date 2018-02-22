@@ -3,30 +3,32 @@ import { render } from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 
-import Index from './components/pages/Index';
+import Index from './pages/Index';
 
-import Logout from './components/pages/user/Logout';
-import Login from './components/pages/user/Login';
-import MFA from './components/pages/user/MFA';
-import Register from './components/pages/user/Register';
+import Logout from './pages/user/Logout';
+import Login from './pages/user/Login';
+import MFA from './pages/user/MFA';
+import Register from './pages/user/Register';
 
-import E404 from './components/pages/E404';
+import E404 from './pages/E404';
 
-import Minecraft from './components/pages/minecraft/Minecraft';
-import Mods from './components/pages/minecraft/mods/Mods';
-import ModFiles from './components/pages/minecraft/mods/ModFiles';
-import ModUploadFile from './components/pages/minecraft/mods/ModUploadFile';
-import ModSettings from './components/pages/minecraft/mods/ModSettings';
+import Minecraft from './pages/minecraft/Minecraft';
+import Mods from './pages/minecraft/mods/Mods';
+import ModFiles from './pages/minecraft/mods/ModFiles';
+import ModUploadFile from './pages/minecraft/mods/ModUploadFile';
+import ModSettings from './pages/minecraft/mods/ModSettings';
 
-import ListMods from './components/pages/minecraft/ListMods';
-import CreateMod from './components/pages/minecraft/mods/CreateMod';
+import ListMods from './pages/minecraft/ListMods';
+import CreateMod from './pages/minecraft/mods/CreateMod';
 
-import Account from './components/pages/user/account/Account';
-import AccountSettings from './components/pages/user/account/AccountSettings';
-import AccountSecurity from './components/pages/user/account/AccountSecurity';
+import Account from './pages/user/account/Account';
+import AccountSettings from './pages/user/account/AccountSettings';
+import AccountSecurity from './pages/user/account/AccountSecurity';
 
 import DiluvNav from './components/DiluvNav';
 import DiluvFooter from './components/DiluvFooter';
+
+require('react-select/scss/default.scss');
 
 render(
     <BrowserRouter>

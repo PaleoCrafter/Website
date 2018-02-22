@@ -19,7 +19,7 @@ module.exports = {
      * Refreshes the current token if it is expired, and returns a boolean on the state of it.
      * @returns {boolean} If the token was refreshed or not.
      */
-    handleRefresh() {
+    async handleRefresh() {
         const storageSystem = this.getStorage();
         const refreshToken = storageSystem.getItem('refreshToken');
         const refreshExpires = storageSystem.getItem('refreshExpires');
@@ -41,20 +41,18 @@ module.exports = {
                     },
                 },
             )
-                .then(res => res.json())
+                .then(res => res.json()
+                    .then((json) => {
+                        if (res.ok) return json;
+
+                        throw json;
+                    }))
                 .then((res) => {
-                    if (res.statusCode === 200) {
-                        storageSystem.setItem('token', res.data.token);
-                        storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                        storageSystem.setItem('refreshToken', res.data.refreshToken);
-                        storageSystem.setItem('refreshExpires', res.data.refreshExpires);
-                        return true;
-                    }
-                    storageSystem.removeItem('token');
-                    storageSystem.removeItem('tokenExpires');
-                    storageSystem.removeItem('refreshToken');
-                    storageSystem.removeItem('refreshExpires');
-                    return false;
+                    storageSystem.setItem('token', res.data.token);
+                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                    storageSystem.setItem('refreshToken', res.data.refreshToken);
+                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                    return true;
                 })
                 .catch(() => {
                     storageSystem.removeItem('token');
@@ -90,9 +88,8 @@ module.exports = {
             const currentDate = new Date();
             if (tokenExpires >= currentDate.getTime()) {
                 return token;
-            } else if (async () => this.handleRefresh()) {
-                return this.getStorage()
-                    .getItem('token');
+            } else if (this.handleRefresh()) {
+                return storageSystem.getItem('token') ? storageSystem.getItem('token') : null;
             }
         }
         return null;

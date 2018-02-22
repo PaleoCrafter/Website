@@ -2,21 +2,27 @@ import userUtils from './userUtils';
 
 module.exports = {
     getFetchJSON(url) {
-        const header = {
+        const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
         };
         const authorizationToken = userUtils.getToken();
         if (authorizationToken !== null) {
-            header.Authorization = `Bearer ${authorizationToken}`;
+            headers.Authorization = `Bearer ${authorizationToken}`;
         }
+
         return fetch(
             url,
             {
                 method: 'GET',
-                headers: header,
+                headers,
             },
         )
-            .then(res => res.json());
+            .then(res => res.json()
+                .then((json) => {
+                    if (res.ok) return json;
+
+                    throw json;
+                }));
     },
 };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProjectView from '~/components/elements/mods/ModView';
+import ModView from '~/components/elements/minecraft/mods/ModView';
 import globals from '~/utils/globals';
 import ReactPaginate from 'react-paginate';
 import requestUtils from '~/utils/requestUtils';
@@ -22,29 +22,20 @@ class ListMods extends Component {
 
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects?page=' + page)
             .then(res => {
-                console.log(res);
-                if (res.statusCode === 200) {
-                    this.setState({ projects: res.data });
-                } else {
-                    console.log('Project error');
-                }
+                this.setState({ projects: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log(err);
             });
     }
 
     componentDidMount() {
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods')
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ projectType: res.data });
-                } else {
-                    //TODO Error
-                }
+                this.setState({ projectType: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log(err);
             });
 
         this.getPageData(1);
@@ -167,19 +158,19 @@ class ListMods extends Component {
                                 </div>
                                 {
                                     this.state.projects && this.state.projects.length > 0 ? this.state.projects.map(item =>
-                                        <ProjectView key={item.slug}
-                                                     name={item.name}
-                                                     authors={item.authors}
-                                                     description={item.description}
-                                                     logo={item.logo}
-                                                     totalDownloads={item.totalDownloads}
-                                                     createdAt={item.createdAt}
-                                                     updatedAt={item.updatedAt}
+                                        <ModView key={item.slug}
+                                                 name={item.name}
+                                                 authors={item.authors}
+                                                 description={item.description}
+                                                 logo={item.logo}
+                                                 totalDownloads={item.totalDownloads}
+                                                 createdAt={item.createdAt}
+                                                 updatedAt={item.updatedAt}
                                             // gameVersions={item.gameVersions}
-                                                     categories={item.categories}
-                                                     shortDescription={item.shortDescription}
-                                                     slug={item.slug}
-                                                     permission={item.permission}
+                                                 categories={item.categories}
+                                                 shortDescription={item.shortDescription}
+                                                 slug={item.slug}
+                                                 permission={item.permission}
                                         />
                                     ) : ''
                                 }

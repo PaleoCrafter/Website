@@ -39,15 +39,10 @@ class DiluvNav extends PureComponent {
         if (userUtils.isUserLoggedIn()) {
             requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
                 .then(res => {
-                    if (res.statusCode === 200) {
-                        this.setState({ user: res.data });
-                    } else {
-                        this.setState({ error: { message: res.data.message } });
-                    }
+                    this.setState({ user: res.data });
                 })
                 .catch(err => {
-                    this.setState({ error: { message: 'An unknown error occurred' } });
-                    console.error('The request /users/me to the api had an error. ' + err);
+                    console.log(err);
                 });
         }
     }
@@ -55,12 +50,15 @@ class DiluvNav extends PureComponent {
     renderLoggedIn() {
         return (
             <div className="nav-item dropdown ">
-                <a className="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img className="avatar avatar-small" src={this.state.user.avatar}/> {this.state.user.username}
+                <a className="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img className="avatar avatar-small"
+                         src={globals.publicFolder() + '/avatar/' + this.state.user.avatar}/> {this.state.user.username}
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a className="dropdown-item" href="/account"><i className="fa fa-cog"/> Account</a>
-                    <a className="dropdown-item" href="/logout"><i className="fa fa-sign-out-alt"/> Logout</a>
+                    <a className="dropdown-item" href="/logout"><i
+                        className="fa fa-sign-out-alt"/> Logout</a>
                 </div>
             </div>
         );

@@ -14,35 +14,28 @@ class AccountSecurity extends Component {
             userSettings: []
         };
 
+        this.submitChangePassword = this.submitChangePassword.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    componentDidMount() {
         requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ user: res.data });
-                    console.log(res.data);
-
-                } else {
-                    console.log(res.data);
-                }
+                this.setState({ user: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log(err);
             });
 
         requestUtils.getFetchJSON(globals.endPoint() + '/users/me/settings')
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ userSettings: res.data });
-                    console.log(res.data);
-                } else {
-                    console.log(res.data);
-                }
+                this.setState({ userSettings: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log(err);
             });
 
-        this.submitChangePassword = this.submitChangePassword.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+
     }
 
     handleInputChange(event) {

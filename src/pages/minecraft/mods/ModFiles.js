@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import globals from '~/utils/globals';
 import requestUtils from '~/utils/requestUtils';
 
-import ModFile from '~/components/elements/mods/files/ModFile';
+import ModFile from '~/components/elements/minecraft/mods/files/ModFile';
 
 class ModFiles extends Component {
 
@@ -19,26 +19,18 @@ class ModFiles extends Component {
 
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug)
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ projectData: res.data });
-                } else {
-                    console.log('Game');
-                }
+                this.setState({ projectData: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log('Game');
             });
 
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug + '/files')
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ modFileData: res.data });
-                } else {
-                    console.log('Game');
-                }
+                this.setState({ modFileData: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log('Project Files');
             });
     }
 

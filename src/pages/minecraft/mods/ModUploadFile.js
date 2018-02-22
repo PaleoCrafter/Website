@@ -3,7 +3,7 @@ import globals from '~/utils/globals';
 import requestUtils from '~/utils/requestUtils';
 import userUtils from '~/utils/userUtils';
 
-class ProjectUploadFile extends Component {
+class ModUploadFile extends Component {
 
     constructor() {
         super();
@@ -48,7 +48,7 @@ class ProjectUploadFile extends Component {
             })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
+                console.log(res);
             })
             .catch(err => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
@@ -61,16 +61,12 @@ class ProjectUploadFile extends Component {
 
         requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug)
             .then(res => {
-                if (res.statusCode === 200) {
-                    this.setState({ projectData: res.data });
-                } else {
-                    console.log('Game');
-                    console.log(res.status);
-                    console.log(res.data);
-                }
+                this.setState({ projectData: res.data });
             })
             .catch(err => {
-                //TODO
+                console.log('Game');
+                console.log(res.status);
+                console.log(res.data);
             });
     }
 
@@ -152,4 +148,4 @@ class ProjectUploadFile extends Component {
     }
 }
 
-export default ProjectUploadFile;
+export default ModUploadFile;
