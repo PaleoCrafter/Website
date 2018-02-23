@@ -53,7 +53,7 @@ class DiluvNav extends PureComponent {
                 <a className="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img className="avatar avatar-small"
-                         src={globals.publicFolder() + '/avatar/' + this.state.user.avatar}/> {this.state.user.username}
+                         src={this.state.user.avatar}/> {this.state.user.username}
                 </a>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a className="dropdown-item" href="/account"><i className="fa fa-cog"/> Account</a>
