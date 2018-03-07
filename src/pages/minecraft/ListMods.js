@@ -42,6 +42,7 @@ class ListMods extends Component {
     }
 
     handlePageClick(data) {
+        console.log(data.selected + 1);
         this.getPageData(data.selected + 1);
     };
 
@@ -52,148 +53,71 @@ class ListMods extends Component {
         document.title = 'Mods - Projects - Diluv';
         return (
             <div className="container">
-                <div className="row">
-                    {
-                        //TODO
-                        false ?
-                            <div className="alert alert-dismissible alert-warning">
-                                <button type="button" className="close"
-                                        data-dismiss="alert">&times;</button>
-                                <h4>Warning!</h4>
-                                <p>An error occured while getting a list of projects.</p>
-                            </div>
-                            : ''
-                    }
-                    <div className="col-md-4">
-                        <h1><i className="fa fa-cog"/> Mods</h1>
-                    </div>
-                    <div className="col-md-6"/>
-                    <div className="col-md-2">
+                <div className="columns ">
+                    <div className="column is-four-fifths">
+                        <h2 className="title is-2"><i className="fa fa-cog"/> Mods</h2>
+                        <nav className="pagination">
+                            <ReactPaginate
+                                previousLabel="&laquo;"
+                                nextLabel="&raquo;"
+                                pageCount={this.state.projects.totalPageCount ? this.state.projects.totalPageCount : 1}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick.bind(this)}
+                                pageLinkClassName={'pagination-link'}
+                                containerClassName={'pagination-list'}
+                                breakClassName={'pagination-ellipsis'}
+                                previousLinkClassName={'pagination-previous'}
+                                nextLinkClassName={'pagination-next'}
+                                disabledClassName={'is-disabled'}
+                                activeLinkClassName={'is-current'}
+                            />
+                        </nav>
+                        <br/>
                         {
-                            userUtils.isUserLoggedIn() ? (
-                                <a className="btn btn-info" role="button"
-                                   href={'/minecraft/mods/create'}>
-                                    Create Mod
-                                </a>
+                            this.state.projects && this.state.projects.length > 0 ? this.state.projects.map(item =>
+                                <ModView key={item.slug}
+                                         name={item.name}
+                                         authors={item.authors}
+                                         description={item.description}
+                                         logo={item.logo}
+                                         totalDownloads={item.totalDownloads}
+                                         createdAt={item.createdAt}
+                                         updatedAt={item.updatedAt}
+                                    // gameVersions={item.gameVersions}
+                                         categories={item.categories}
+                                         shortDescription={item.shortDescription}
+                                         slug={item.slug}
+                                         permission={item.permission}
+                                />
                             ) : ''
                         }
-
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-2"/>
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="panel push-down col-md-12">
-
-                                {/* page numbers nav, leaves 1 unit spare to align dropdowns */}
-                                <div className="row">
-                                    <div className="col-md-5">
-                                        <ReactPaginate
-                                            nextClassName={'page-item'}
-                                            nextLinkClassName={'page-link'}
-                                            previousLabel="&laquo;"
-
-                                            previousClassName={'page-item'}
-                                            previousLinkClassName={'page-link'}
-                                            nextLabel="&raquo;"
-
-                                            breakLabel={<a href="">...</a>}
-                                            breakClassName={'break-me'}
-                                            pageCount={this.state.projects.totalPageCount ? this.state.projects.totalPageCount : 1}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={5}
-                                            onPageChange={this.handlePageClick.bind(this)}
-                                            containerClassName={'pagination pagination-sm'}
-                                            pageClassName={'page-item'}
-                                            pageLinkClassName={'page-link'}
-                                            activeClassName={'active'}/>
-                                    </div>
-
-                                    <div className="col-md-3">
-                                        {/*<div className="dropdown">*/}
-                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                        {/*id="dropdownMenu1" data-toggle="dropdown">*/}
-                                        {/*Sort by:*/}
-                                        {/*<span className="caret"/>*/}
-                                        {/*</button>*/}
-                                        {/*<ul className="dropdown-menu">*/}
-                                        {/*{*/}
-                                        {/*["Newest", "Top Rated"].map(item =>*/}
-                                        {/*<li key={item}>*/}
-                                        {/*<a className="dropdown-item" href="#">{item}</a>*/}
-                                        {/*</li>*/}
-                                        {/*)*/}
-                                        {/*}*/}
-                                        {/*</ul>*/}
-                                        {/*</div>*/}
-                                    </div>
-
-                                    <div className="col-md-3">
-                                        {/*<div className="dropdown">*/}
-                                        {/*<button className="btn btn-default dropdown-toggle" type="button"*/}
-                                        {/*id="dropdownMenu2" data-toggle="dropdown">*/}
-                                        {/*Game version:*/}
-                                        {/*<span className="caret"/>*/}
-                                        {/*</button>*/}
-                                        {/*<ul className="dropdown-menu">*/}
-                                        {/*{*/}
-                                        {/*this.state.gameData.versions ? this.state.gameData.versions.map(item =>*/}
-                                        {/*<li key={item.version}>*/}
-                                        {/*<a className="dropdown-item" href="#">*/}
-                                        {/*{item.version}*/}
-                                        {/*</a>*/}
-                                        {/*</li>*/}
-                                        {/*) : ""*/}
-                                        {/*}*/}
-                                        {/*</ul>*/}
-                                        {/*</div>*/}
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <hr/>
-                                    </div>
-                                </div>
-                                {
-                                    this.state.projects && this.state.projects.length > 0 ? this.state.projects.map(item =>
-                                        <ModView key={item.slug}
-                                                 name={item.name}
-                                                 authors={item.authors}
-                                                 description={item.description}
-                                                 logo={item.logo}
-                                                 totalDownloads={item.totalDownloads}
-                                                 createdAt={item.createdAt}
-                                                 updatedAt={item.updatedAt}
-                                            // gameVersions={item.gameVersions}
-                                                 categories={item.categories}
-                                                 shortDescription={item.shortDescription}
-                                                 slug={item.slug}
-                                                 permission={item.permission}
-                                        />
-                                    ) : ''
-                                }
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <hr/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div className="col-md-2">
-                        <div className="list-group list-group-root">
-                            {
-                                // console.log(this.state.projectType.categories)
-                                this.state.projectType.categories && this.state.projectType.categories.length > 0 ? this.state.projectType.categories.map(item =>
-                                    <a key={item.name} className="list-group-item">
+                    {/*TODO Fix*/}
+                    <div className="column">
+                        {
+                            userUtils.isUserLoggedIn() ? (
+                                <p className="field ">
+                                    <a className="button is-large is-link" role="button"
+                                       href={'/minecraft/mods/create'}>
+                                        Create Mod
+                                    </a>
+                                </p>
+                            ) : ''
+                        }
+                        <br/>
+                        <h4 className="title is-4">Categories</h4>
+                        {
+                            // console.log(this.state.projectType.categories)
+                            this.state.projectType.categories && this.state.projectType.categories.length > 0 ? this.state.projectType.categories.map(item =>
+                                <p className="field ">
+                                    <a key={item.name} className="button">
                                         {item.name}
                                     </a>
-                                ) : ''
-                            }
-                        </div>
+                                </p>
+                            ) : ''
+                        }
                     </div>
                 </div>
             </div>

@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 class Index extends React.Component {
     render() {
         return (
-            <div>
+           <div className="container">
                 <Link to="/minecraft">
                     Minecraft
-                </Link>
+                </Link >
             </div>
         );
     }

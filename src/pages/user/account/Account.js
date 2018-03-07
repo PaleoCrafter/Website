@@ -1,30 +1,30 @@
-import React, {Component} from "react";
-import AccountNav from "~/components/elements/account/AccountNav";
+import React, { Component } from 'react';
+import AccountNav from '~/components/elements/account/AccountNav';
 
 class Account extends Component {
 
     constructor() {
         super();
-        this.state = {gameData: [], projects: [], projectType: [], error: []};
+        this.state = {
+            gameData: [],
+            projects: [],
+            projectType: [],
+            error: []
+        };
     }
 
     render() {
-        document.title = "Account - Diluv";
+        document.title = 'Account - Diluv';
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-md-4">
-                        <h1><i className="fa fa-cog"/> Account</h1>
+                <h2 className="title is-2"><i className="fa fa-cog"/> Account</h2>
+                <div className="columns">
+                    <div className="column is-one-fifth">
+                        <AccountNav url="profile"/>
                     </div>
-                    <div className="col-md-6"/>
-
-                </div>
-
-                <div className="row">
-                    <AccountNav/>
                 </div>
             </div>
-        )
+        );
     }
 }
 

@@ -34,8 +34,6 @@ class AccountSecurity extends Component {
             .catch(err => {
                 console.log(err);
             });
-
-
     }
 
     handleInputChange(event) {
@@ -171,51 +169,62 @@ class AccountSecurity extends Component {
         document.title = 'Account Security - Diluv';
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <h1><i className="fa fa-cog"/> Account Security</h1>
+                <h2 className="title is-2"><i className="fa fa-cog"/> Account Security</h2>
+                <div className="columns">
+                    <div className="column is-one-fifth">
+                        <AccountNav url="security"/>
                     </div>
-                </div>
+                    <div className="column">
+                        <div className="column is-two-fifths">
 
-                <div className="row">
-                    <AccountNav/>
-                    <div className="col-md-8">
-                        <div className="container">
-                            <h4><b>Multi-Factor</b></h4>
-                            <div>
-                                <strong> Status: </strong> {this.state.userSettings.mfaEnabled ? 'Enabled' : 'Disabled'}
-                            </div>
+                            <h4 className="title is-4">Multi-Factor</h4>
+                            <strong> Status: </strong> {this.state.userSettings.mfaEnabled ? 'Enabled' : 'Disabled'}
                             {
                                 this.state.userSettings.mfaEnabled ? this.renderMfaEnabled() : this.renderMfaDisabled()
                             }
                         </div>
-                        <div className="col-md-6">
-                            <h4><b>Change Password</b></h4>
-                            <form method="POST" className="form-signin" autoComplete="off">
-                                Old password: <input name="oldPassword"
-                                                     onChange={this.handleInputChange}
-                                                     type="password"
-                                                     id="inputOldPassword"
-                                                     className="form-control"
-                                                     required autoFocus/>
-                                New password: <input name="newPassword"
-                                                     onChange={this.handleInputChange}
-                                                     type="password"
-                                                     id="inputNewPassword"
-                                                     className="form-control"
-                                                     required/>
-                                Confirm new password: <input name="newPasswordConfirm"
-                                                             onChange={this.handleInputChange}
-                                                             type="password"
-                                                             id="inputNewPasswordConfirm"
-                                                             className="form-control"
-                                                             required/>
+                        <br/>
+                        <div className="column is-two-fifths">
 
-                                <button className="btn btn-primary btn-sm"
-                                        onClick={this.submitChangePassword}>
-                                    Update Password
-                                </button>
-                            </form>
+                            <h4 className="title is-4">Change Password</h4>
+                            <div className="field">
+                                <label className="label">Old Password</label>
+                                <div className="control">
+                                    <input name="oldPassword"
+                                           onChange={this.handleInputChange}
+                                           type="password"
+                                           id="inputOldPassword"
+                                           className="input"
+                                           required autoFocus/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">New Password</label>
+                                <div className="control">
+                                    <input name="newPassword"
+                                           onChange={this.handleInputChange}
+                                           type="password"
+                                           id="inputNewPassword"
+                                           className="input"
+                                           required/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">Confirm New Password</label>
+                                <div className="control">
+                                    <input name="newPasswordConfirm"
+                                           onChange={this.handleInputChange}
+                                           type="password"
+                                           id="inputNewPasswordConfirm"
+                                           className="input"
+                                           required/>
+
+                                </div>
+                            </div>
+                            <button className="button is-link"
+                                    onClick={this.submitChangePassword}>
+                                Update Password
+                            </button>
                         </div>
                     </div>
                 </div>

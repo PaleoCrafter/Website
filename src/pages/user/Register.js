@@ -38,10 +38,33 @@ class Register extends Component {
 
     onChange(value) {
         const formData = new FormData();
-        formData.append('email', this.state.email);
-        formData.append('username', this.state.username);
-        formData.append('password', this.state.password);
-        formData.append('passwordConfirm', this.state.passwordConfirm);
+
+        if (!this.refs.email.value) {
+            this.setState({ errors: 'Email is needed.' });
+            console.log('Email is missing');
+            return;
+        }
+
+        if (!this.refs.username.value) {
+            this.setState({ errors: 'Email is needed.' });
+            console.log('Email is missing');
+            return;
+        }
+        if (!this.refs.password.value) {
+            this.setState({ errors: 'Password is needed.' });
+            console.log('Password is missing');
+            return;
+        }
+        if (!this.refs.passwordConfirm.value) {
+            this.setState({ errors: 'Password is needed.' });
+            console.log('Password is missing');
+            return;
+        }
+
+        formData.append('email', this.refs.email.value);
+        formData.append('username', this.refs.username.value);
+        formData.append('password', this.refs.password.value);
+        formData.append('passwordConfirm', this.refs.passwordConfirm.value);
         formData.append('g-recaptcha-response', value);
 
         fetch(globals.endPoint() + '/auth/register',
@@ -72,8 +95,6 @@ class Register extends Component {
 
     render() {
         document.title = 'Register - Diluv';
-        const isError = this.state.data.errorMessage;
-        //TODO Handle Error
 
         if (userUtils.isUserLoggedIn()) {
             return <Redirect to='/'/>;
@@ -82,53 +103,47 @@ class Register extends Component {
         return (
             <div>
                 <div className="card card-container">
-                    <img id="profile-img" className="profile-img-card" src="/favicon/favicon.ico"/>
-                    <p id="profile-name" className="profile-name-card"/>
-                    {
-                        isError ? (
-                            <div className="alert alert-danger">
-                                {/*TODO Handle Error*/}
-                                <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
-                                {/*New line per error*/}
-                                <p>{this.state.data.errorMessage}</p>
-                            </div>
-                        ) : ''
-                    }
-                    <form method="POST" className="form-signin">
-                        <ReCAPTCHA
-                            onChange={this.onChange}
-                            sitekey="6LfbUCIUAAAAAM1Vgc3qsz5xomYnTrdvMnXVED8v"
-                            size="invisible"
-                            ref={(component) => {
-                                captcha = component;
-                            }}
-                        />
-                        <input name="email" onChange={this.handleInputChange} type="email"
-                               id="inputEmail"
-                               className="form-control"
-                               placeholder="Email address"
-                               required autoFocus/>
-                        <input name="username" onChange={this.handleInputChange} type="text"
-                               id="inputUsername"
-                               className="form-control"
-                               placeholder="Username"
-                               required/>
-                        <input name="password" onChange={this.handleInputChange} type="password"
-                               id="inputPassword"
-                               className="form-control"
-                               placeholder="Password"
-                               required/>
-                        <input name="passwordConfirm" onChange={this.handleInputChange}
-                               type="password"
-                               id="inputPasswordConfirm"
-                               className="form-control"
-                               placeholder="Retype Password"
-                               required/>
-                        <button className="btn btn-lg btn-primary btn-block btn-signin"
-                                onClick={this.handleSubmit}>
-                            Register
-                        </button>
-                    </form>
+                    <figure className="avatar">
+                        <img id="profile-img" className="profile-img-card" src="/favicon/favicon.ico"/>
+                    </figure>
+                    <ReCAPTCHA
+                        onChange={this.onChange}
+                        sitekey="6LfbUCIUAAAAAM1Vgc3qsz5xomYnTrdvMnXVED8v"
+                        size="invisible"
+                        ref={(component) => {
+                            captcha = component;
+                        }}
+                    />
+                    <div className="field">
+                        <div className="control">
+                            <input ref="email" type="email" className="input"
+                                   placeholder="Email address" required autoFocus/>
+                        </div>
+                    </div>
+                    <div className="field">
+                        <div className="control">
+                            <input ref="username" type="text" className="input" placeholder="Username" required/>
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <div className="control">
+                            <input ref="password" type="password" className="input" placeholder="Password" required/>
+                        </div>
+                    </div>
+                    <div className="field">
+                        <div className="control">
+                            <input ref="passwordConfirm" type="password" className="input" placeholder="Retype Password" required/>
+                        </div>
+                    </div>
+
+                    <div className="field">
+                        <div className="control">
+                            <button onClick={this.handleSubmit} className="button is-link">
+                                Register
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

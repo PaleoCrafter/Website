@@ -8,11 +8,17 @@ import Dropzone from 'react-dropzone';
 import Textarea from 'react-textarea-autosize';
 import userUtils from '~/utils/userUtils';
 
+import ReactMarkdown from 'react-markdown';
+import renderers from '~/components/markdown-renderer';
+import ModNav from '~/components/elements/minecraft/mods/ModNav';
+
 class ModSettings extends Component {
 
     constructor() {
         super();
         this.state = {
+            tab: 1,
+
             slug: '',
             permission: 0,
             logoFile: [],
@@ -47,11 +53,10 @@ class ModSettings extends Component {
                     defaultProjectName: res.data.name,
                     defaultDescription: res.data.description,
                     defaultShortDescription: res.data.shortDescription,
-                    defaultLogoPreview: `${globals.publicFolder()}/projects/logo/${res.data.logo}`,
+                    defaultLogoPreview: `${globals.publicFolder()}/projects/${res.data.slug}/logo/${res.data.logo}`,
 
                     description: res.data.description,
-                    markdown: globals.parseMarkdown(res.data.description),
-                    logoPreview: `${globals.publicFolder()}/projects/logo/${res.data.logo}`,
+                    logoPreview: `${globals.publicFolder()}/projects/${res.data.slug}/logo/${res.data.logo}`,
                 });
 
 
@@ -67,7 +72,6 @@ class ModSettings extends Component {
                     categories: categories
                 });
 
-                console.log(this.state);
 
             })
             .catch(err => {
@@ -115,29 +119,34 @@ class ModSettings extends Component {
 
         const url = new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.state.slug}`);
 
-        let params = {};
+        let params = new Map();
         if (this.state.defaultProjectName !== this.refs.projectName.value) {
-            params['projectName'] = this.refs.projectName.value;
+            params.set('projectName', this.refs.projectName.value);
         }
 
         if (this.state.defaultShortDescription !== this.refs.shortDescription.value) {
-            params['shortDescription'] = this.refs.shortDescription.value;
+            params.set('shortDescription', this.refs.shortDescription.value);
         }
 
         if (this.state.defaultDescription !== this.state.description) {
-            params['shortDescription'] = this.state.description;
+            params.set('description', this.state.description);
         }
 
         if (this.state.defaultLogoPreview !== this.state.logoPreview) {
-            params['logo'] = this.state.imageFiles;
+            params.set('logo', this.state.logoFile);
         }
 
         if (this.state.defaultCategories !== this.state.categories) {
-            params['categories'] = this.state.categories.split(',');
+            params.set('categories', this.state.categories.split(','));
         }
 
-        Object.keys(params)
-            .forEach(key => url.searchParams.append(key, params[key]));
+        console.log(params.size);
+        if (params.size === 0) {
+            console.log('No data has been changed');
+            return;
+        }
+
+        params.forEach((value, key) => url.searchParams.append(key, value));
 
         fetch(url,
             {
@@ -150,12 +159,10 @@ class ModSettings extends Component {
             })
             .then(res => res.json())
             .then((res) => {
-                if (res.statusCode === 200) {
-                    this.setState({ redirect: res.data.slug });
-                    console.log(this.state.redirect);
-
-                }
-                console.log(res);
+                this.setState({ redirect: res.data.slug });
+            })
+            .catch(err => {
+                console.log(err);
             });
         //TODO CATCH AND FIX
     }
@@ -165,7 +172,6 @@ class ModSettings extends Component {
      * @param imageFiles
      */
     onDrop(imageFiles) {
-        console.log(imageFiles);
         if (this.state.logoFile) {
             window.URL.revokeObjectURL(this.state.logoFile);
         }
@@ -177,17 +183,14 @@ class ModSettings extends Component {
 
     onDescriptionChange(change) {
         this.setState({ description: change.target.value });
-        let description = change.target.value;
-
-        if (description === '') {
-            description = ' No description to preview';
-        }
-        this.setState({ markdown: globals.parseMarkdown(description) });
     }
 
     onCategoryChange(categories) {
-        console.log('You\'ve selected:', categories);
         this.setState({ categories });
+    }
+
+    onChangeTab(tab) {
+        this.setState({ tab: tab });
     }
 
     render() {
@@ -196,73 +199,63 @@ class ModSettings extends Component {
 
         document.title = this.state.defaultProjectName + ' - Settings - Diluv';
 
+        if (this.state.redirect) {
+            return (<Redirect to={'/minecraft/mods/' + this.state.redirect + '/'}/>);
+        }
         if (this.state.permission && !globals.hasProjectPermission(this.state.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) {
-            return (<Redirect to={'/minecraft/' + projectSlug}/>);
+            return (<Redirect to={'/minecraft/mods/' + projectSlug}/>);
         }
 
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-10">
-                        <h1><i className="fa fa-cog"/> {this.state.defaultProjectName} Settings</h1>
-                    </div>
-                    <div className="col-md-2">
-                        <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <a className="nav-link active"
-                                   href={'/minecraft/mods/' + projectSlug}>Overview</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link"
-                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link"
-                                   href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-10">
-                        <div className="row">
-                            <div className="col-md-2">
-                                <Dropzone
-                                    onDrop={this.onDrop}
-                                    className='dropzone'
-                                    activeClassName='active-dropzone'
-                                    accept="image/jpeg, image/png"
-                                    multiple={false}>
+            <section className="section">
+                <div className="container">
+                    <div className="columns">
+                        <div className="column is-four-fifths">
+                            <h2 className="title is-2"><i
+                                className="fa fa-cog"/> {this.state.defaultProjectName} Settings
+                            </h2>
+                            <div className="columns">
+                                <div className="column is-one-fifth">
+                                    <Dropzone
+                                        onDrop={this.onDrop}
+                                        className='dropzone'
+                                        activeClassName='active-dropzone'
+                                        accept="image/jpeg, image/png"
+                                        multiple={false}>
 
-                                    {this.state.logoPreview ? <div>
-                                        <div><img width="160" height="160"
-                                                  src={this.state.logoPreview}/></div>
-                                    </div> : <div>Drag and drop or click to select a logo to upload
-                                        (Optional).</div>}
-                                </Dropzone>
+                                        {this.state.logoPreview ?
+                                            <p className="image is-150x150">
+                                                <img className="mod-logo" width="160" height="160"
+                                                     src={this.state.logoPreview}/>
+                                            </p>
+                                            : <div>Drag and drop or click to select a logo to upload
+                                                (Optional).</div>}
+                                    </Dropzone>
 
 
-                            </div>
-                            <div className="col-md-6">
-                                <div className="col-md-auto">
-                                    Project Name:
-                                    <input key={this.state.slug} ref="projectName"
-                                           type="text" className="form-control input-md"
+                                </div>
+                                <div className="column is-two-fifths">
+                                    <strong>Project Name:</strong>
+                                    <br/>
+                                    <input key={this.state.slug}
+                                           ref="projectName"
+                                           type="text"
+                                           className="input"
                                            defaultValue={this.state.defaultProjectName}
                                            required={true}/>
-                                </div>
-                                <div className="col-md-auto">
-                                    Short Description:
-                                    <textarea key={this.state.slug}
-                                              ref="shortDescription" className="form-control"
+                                    <br/>
+                                    <br/>
+                                    <strong>Short Description:</strong>
+                                    <br/>
+                                    <textarea key={`shortdescription-${this.state.slug}`}
+                                              ref="shortDescription"
+                                              className="textarea"
                                               defaultValue={this.state.defaultShortDescription}
                                               required={true}/>
                                 </div>
                             </div>
-                        </div>
-                        <br/>
-                        <div className="row">
-                            <div className="col-md-5">
+                            <br/>
+                            <div className="column is-two-fifths">
                                 <h5>Categories:</h5>
                                 <Select
                                     closeOnSelect={true}
@@ -274,51 +267,47 @@ class ModSettings extends Component {
                                     value={this.state.categories}
                                 />
                             </div>
-                        </div>
-                        <br/>
-                        <div className="row">
-                            <div className="col-md-12">
-                                Description:
-                                <ul className="nav nav-tabs" role="tablist">
-                                    <li className="nav-item">
-                                        <a className="nav-link active" data-toggle="tab"
-                                           href="#write"
-                                           role="tab">Write</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" data-toggle="tab" href="#preview"
-                                           role="tab">Preview</a>
-                                    </li>
-                                </ul>
-
-                                <div className="tab-content">
-                                    <div className="tab-pane active" id="write" role="tabpanel">
-                                    <Textarea key={this.state.slug}
-                                              className="form-control"
-                                              placeholder="Enter some markdown..."
-                                              value={this.state.value}
-                                              onChange={this.onDescriptionChange}
-                                              defaultValue={this.state.defaultDescription}
-                                              required={true}/>
-                                    </div>
-                                    <div className="tab-pane" id="preview" role="tabpanel">
-                                        <div className="form-control"
-                                             dangerouslySetInnerHTML={{ __html: this.state.markdown }}/>
-                                    </div>
+                            <br/>
+                            <div className="column is-four-fifth">
+                                <h5>Description:</h5>
+                                <div className="tabs">
+                                    <ul>
+                                        <li className={this.state.tab === 1 ? 'is-active' : ''}
+                                            onClick={() => this.onChangeTab(1)}>
+                                            <a>Write</a>
+                                        </li>
+                                        <li className={this.state.tab === 2 ? 'is-active' : ''}
+                                            onClick={() => this.onChangeTab(2)}>
+                                            <a>Preview</a>
+                                        </li>
+                                    </ul>
                                 </div>
+                                {
+                                    this.state.tab === 1 ? (
+                                            <Textarea key={`dist-${this.state.slug}`}
+                                                      className="textarea"
+                                                      placeholder="Enter some markdown..."
+                                                      value={this.state.description}
+                                                      onChange={this.onDescriptionChange}
+                                                      required={true}/>
+                                        ) :
+                                        (
+                                            <ReactMarkdown renderers={renderers}
+                                                           source={this.state.description ? this.state.description : 'No description to preview'}/>
+                                        )
+                                }
                             </div>
+                            <br/>
+                            <a className="button" onClick={this.onSubmit}>
+                                Edit Mod
+                            </a>
                         </div>
-                        <br/>
-                        <div className="row">
-                            <div className="col-md-2">
-                                <a className="btn btn-info" role="button" onClick={this.onSubmit}>
-                                    Edit Project
-                                </a>
-                            </div>
+                        <div className="column">
+                            <ModNav slug={projectSlug} url="settings"/>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }

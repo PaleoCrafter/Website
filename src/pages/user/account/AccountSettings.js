@@ -21,7 +21,7 @@ class AccountSettings extends Component {
 
         requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
             .then(res => {
-                    this.setState({ user: res.data });
+                this.setState({ user: res.data });
             })
             .catch(err => {
                 console.error(err);
@@ -29,7 +29,7 @@ class AccountSettings extends Component {
 
         requestUtils.getFetchJSON(globals.endPoint() + '/users/me/settings')
             .then(res => {
-                    this.setState({ userSettings: res.data });
+                this.setState({ userSettings: res.data });
             })
             .catch(err => {
                 console.error(err);
@@ -79,61 +79,80 @@ class AccountSettings extends Component {
         document.title = 'Account Settings - Diluv';
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <h1><i className="fa fa-cog"/> Account Settings</h1>
+                <h2 className="title is-2"><i className="fa fa-cog"/> Account Settings</h2>
+                <div className="columns">
+                    <div className="column is-one-fifth">
+                        <AccountNav url="settings"/>
                     </div>
-                </div>
+                    <div className="column">
+                        <div className="column is-two-fifths">
+                            <h4 className="title is-4">Change Email</h4>
+                            <div className="field">
+                                <label className="label">Email</label>
+                                <div className="control">
+                                    <input name="email"
+                                           onChange={this.handleInputChange}
+                                           type="email"
+                                           value={this.state.userSettings.email || ''}
+                                           id="inputEmail"
+                                           className="input"
+                                           placeholder="Email address"
+                                           required autoFocus/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
 
-                <div className="row">
-                    <AccountNav/>
-                    <div className="col-md-8">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <h4><b>Change Email</b></h4>
-                                <form method="POST" className="form-signin" autoComplete="off">
-                                    Email: <input name="email" onChange={this.handleInputChange}
-                                                  type="email"
-                                                  value={this.state.userSettings.email || ''}
-                                                  id="inputEmail"
-                                                  className="form-control"
-                                                  placeholder="Email address"
-                                                  required autoFocus/>
-                                    <button className="btn btn-lg btn-primary btn-block btn-signin"
+                                    <button className="button is-link"
                                             onClick={this.submitChangeEmail}>
                                         Update Email
                                     </button>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <h4><b>Change Profile</b></h4>
-                                <form method="POST" className="form-signin" autoComplete="off">
+                        <br/>
+                        <div className="column is-two-fifths">
+                            <h4 className="title is-4"><b>Change Profile</b></h4>
+                            <div className="field">
+                                <label className="label">First name</label>
+                                <div className="control">
                                     <input name="firstName" onChange={this.handleInputChange}
                                            type="text"
                                            value={this.state.userSettings.firstName || ''}
                                            id="inputFirstName"
-                                           className="form-control"
+                                           className="input"
                                            placeholder="First Name"/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">Last name</label>
+                                <div className="control">
                                     <input name="lastName" onChange={this.handleInputChange}
                                            type="text"
                                            value={this.state.userSettings.lastName || ''}
                                            id="inputLastName"
-                                           className="form-control"
+                                           className="input"
                                            placeholder="Last Name"/>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">Location</label>
+                                <div className="control">
                                     <input name="location" onChange={this.handleInputChange}
                                            type="text"
                                            value={this.state.userSettings.location || ''}
                                            id="inputLocation"
-                                           className="form-control"
+                                           className="input"
                                            placeholder="Location"/>
-
-                                    <button className="btn btn-lg btn-primary btn-block btn-signin"
+                                </div>
+                            </div>
+                            <div className="field">
+                                <div className="control">
+                                    <button className="button is-link"
                                             onClick={this.submitChangeProfile}>
                                         Save
                                     </button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>

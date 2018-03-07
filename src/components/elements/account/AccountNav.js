@@ -1,24 +1,37 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 
 class AccountNav extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
-        document.title = "Account Settings - Diluv";
+        console.log(this.props.url);
+        document.title = 'Account Settings - Diluv';
         return (
-            <div className="col-md-2">
-                <div className="list-group list-group-root">
-                    <a className="list-group-item" href="/account">
-                        Profile
-                    </a>
-                    <a className="list-group-item" href="/account/security">
-                        Security
-                    </a>
-                    <a className="list-group-item" href="/account/settings">
-                        Settings
-                    </a>
-                </div>
-            </div>
-        )
+            <aside className="menu">
+                <ul className="menu-list">
+                    <li>
+                        <a className={this.props.url === 'profile' ? 'is-active' : ''}
+                           href="/account">
+                            Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a className={this.props.url === 'security' ? 'is-active' : ''}
+                           href="/account/security">
+                            Security
+                        </a>
+                    </li>
+                    <li>
+                        <a className={this.props.url === 'settings' ? 'is-active' : ''}
+                           href="/account/settings">
+                            Settings
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        );
     }
 }
 

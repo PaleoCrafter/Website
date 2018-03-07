@@ -3,6 +3,7 @@ import globals from '~/utils/globals';
 import requestUtils from '~/utils/requestUtils';
 
 import ModFile from '~/components/elements/minecraft/mods/files/ModFile';
+import ModNav from '~/components/elements/minecraft/mods/ModNav';
 
 class ModFiles extends Component {
 
@@ -38,50 +39,30 @@ class ModFiles extends Component {
         const projectSlug = this.props.match.params.slug;
         document.title = this.state.projectData.name + ' - Files - Diluv';
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-8">
-                        <h2>{this.state.projectData.name}</h2>
-                    </div>
-                    <div className="col-md-2">
-                        <ul className="nav">
-                            <li>
-                                {
-                                    (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
-                                        <a className="btn btn-info" role="button"
-                                           href={'/minecraft/mods/' + projectSlug + '/upload'}>
-                                            Upload File
-                                        </a>
-                                    ) : ''
-                                }
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col-md-2">
-                        <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <a className="nav-link"
-                                   href={'/minecraft/mods/' + projectSlug}>Overview</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link active"
-                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
-                            </li>
-                            {
-                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) ? (
-                                    <li className="nav-item">
-                                        <a className="nav-link"
-                                           href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
-                                    </li>) : ''
-                            }
-                        </ul>
-                    </div>
-                </div>
-                <br/>
-                <div className="row">
-                    <div className="col-md-10">
-                        <div className="table-responsive">
-                            <table className="table">
+            <section className="section">
+                <div className="container">
+                    <div className="columns">
+                        <div className="column is-four-fifths">
+                            <div className="columns">
+                                <div className="column is-four-fifths">
+                                    <h2 className="title is-2">{this.state.projectData.name}</h2>
+                                </div>
+                                <div className="column">
+                                    <ul className="nav">
+                                        <li>
+                                            {
+                                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
+                                                    <a className="button is-link" role="button"
+                                                       href={'/minecraft/mods/' + projectSlug + '/upload'}>
+                                                        Upload File
+                                                    </a>
+                                                ) : ''
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <table className="table  is-fullwidth">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
@@ -113,9 +94,12 @@ class ModFiles extends Component {
                                 </tbody>
                             </table>
                         </div>
+                        <div className="column">
+                            <ModNav slug={projectSlug} url="files"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }

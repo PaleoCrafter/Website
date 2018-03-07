@@ -8,13 +8,15 @@ import requestUtils from '~/utils/requestUtils';
 
 import userUtils from '~/utils/userUtils';
 import { Redirect } from 'react-router';
-
+import ReactMarkdown from 'react-markdown';
+import renderers from '~/components/markdown-renderer';
 
 class CreateMod extends Component {
 
     constructor() {
         super();
         this.state = {
+            tab: 1,
             error: [],
             description: '',
             markdown: 'No description to preview',
@@ -26,7 +28,7 @@ class CreateMod extends Component {
 
         this.onDrop = this.onDrop.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.onCategoryChange = this.onCategoryChange.bind(this);
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
     }
 
@@ -57,19 +59,17 @@ class CreateMod extends Component {
         });
     }
 
-    handleChange(categories) {
+    onCategoryChange(categories) {
         console.log('You\'ve selected:', categories);
         this.setState({ categories });
     }
 
     onDescriptionChange(change) {
         this.setState({ description: change.target.value });
-        let description = change.target.value;
+    }
 
-        if (description === '') {
-            description = ' No description to preview';
-        }
-        this.setState({ markdown: globals.parseMarkdown(description) });
+    onChangeTab(tab) {
+        this.setState({ tab: tab });
     }
 
     onSubmit() {
@@ -89,12 +89,19 @@ class CreateMod extends Component {
 
             return;
         }
+        if (!this.state.categories) {
+            this.setState({ errors: 'Categories is needed.' });
+            console.log('Categories is missing');
+
+            return;
+        }
 
         const formData = new FormData();
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', this.state.description);
         formData.append('logo', this.state.imageFiles ? this.state.imageFiles : '');
+        formData.append('categories', this.state.categories);
 
 
         fetch(globals.endPoint() + '/games/minecraft/mods/projects',
@@ -108,12 +115,8 @@ class CreateMod extends Component {
             })
             .then(res => res.json())
             .then((res) => {
-                if (res.statusCode === 200) {
-                    this.setState({ redirect: res.data.slug });
-                    console.log(this.state.redirect);
-
-                }
-                console.log(res);
+                this.setState({ redirect: res.data.slug });
+                console.log(this.state.redirect);
             });
         //TODO CATCH AND FIX
     }
@@ -129,14 +132,9 @@ class CreateMod extends Component {
         document.title = 'Create Mod - Diluv';
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col-md-4">
-                        <h1><i className="fa fa-cog"/> Create Mod</h1>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-2">
+                <h2 className="title is-2"><i className="fa fa-cog"/> Create Mods</h2>
+                <div className="columns">
+                    <div className="column is-one-fifth">
                         <Dropzone
                             onDrop={this.onDrop}
                             className='dropzone'
@@ -144,83 +142,78 @@ class CreateMod extends Component {
                             accept="image/jpeg, image/png"
                             multiple={false}>
 
-                            {this.state.imageFiles ?
-                                <img className="cm-logo" width="100%" height="100%"
-                                     src={this.state.imageFiles.preview}/>
+                            {this.state.imageFiles ? (
+                                    <p className="image is-150x150">
+                                        <img className="mod-logo" src={this.state.imageFiles.preview}/>
+                                    </p>
+                                )
                                 : <div>Drag and drop or click to select a logo to upload
                                     (Optional).</div>}
                         </Dropzone>
-
-
                     </div>
-                    <div className="col-md-6">
-                        <div className="col-md-auto">
-                            <h5>Project Name:</h5>
-                            <input ref="projectName" type="text" placeholder="Project Name"
-                                   className="form-control input-md"
-                                   required={true}/>
-                        </div>
+                    <div className="column is-two-fifths">
+                        <strong>Project Name:</strong>
                         <br/>
-                        <div className="col-md-auto">
-                            <h5>Short Description:</h5>
-                            <textarea ref="shortDescription" placeholder="Short Description"
-                                      className="form-control"
-                                      required={true}/>
-                        </div>
+                        <input ref="projectName" type="text" placeholder="Project Name"
+                               className="input"
+                               required={true}/>
+                        <br/>
+                        <br/>
+                        <strong>Short Description:</strong>
+                        <br/>
+                        <textarea ref="shortDescription" placeholder="Short Description"
+                                  className="textarea"
+                                  required={true}/>
                     </div>
                 </div>
+
                 <br/>
-                <div className="row">
-                    <div className="col-md-5">
-                        <h5>Categories:</h5>
-                        <Select
-                            closeOnSelect={true}
-                            multi
-                            onChange={this.handleChange}
-                            options={this.state.options}
-                            placeholder="Select Categories"
-                            simpleValue
-                            value={this.state.categories}
-                        />
-                    </div>
+                <div className="column is-two-fifths">
+                    <h5>Categories:</h5>
+                    <Select
+                        closeOnSelect={true}
+                        multi
+                        onChange={this.onCategoryChange}
+                        options={this.state.options}
+                        placeholder="Select Categories"
+                        simpleValue
+                        value={this.state.categories}
+                    />
                 </div>
                 <br/>
-                <div className="row">
-                    <div className="col-md-10">
-                        <h5>Description:</h5>
-                        <ul className="nav nav-tabs" role="tablist">
-                            <li className="nav-item">
-                                <a className="nav-link active" data-toggle="tab" href="#write"
-                                   role="tab">Write</a>
+
+
+                <div className="column is-two-fifths">
+                    <h5>Description:</h5>
+                    <div className="tabs">
+                        <ul>
+                            <li className="is-active" onClick={() => this.onChangeTab(1)}>
+                                <a>Write</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#preview"
-                                   role="tab">Preview</a>
+                            <li onClick={() => this.onChangeTab(2)}>
+                                <a>Preview</a>
                             </li>
                         </ul>
-
-                        <div className="tab-content">
-                            <div className="tab-pane active" id="write" role="tabpanel">
-                                    <Textarea className="form-control"
+                    </div>
+                    <div className="container">
+                        {
+                            this.state.tab === 1 ? (
+                                    <Textarea className="textarea"
                                               placeholder="Enter some markdown..."
-                                              value={this.state.value}
+                                              value={this.state.description}
                                               onChange={this.onDescriptionChange}
                                               required={true}/>
-                            </div>
-                            <div className="tab-pane" id="preview" role="tabpanel">
-                                <div className="form-control"
-                                     dangerouslySetInnerHTML={{ __html: this.state.markdown }}/>
-                            </div>
-                        </div>
+                                ) :
+                                (
+                                    <ReactMarkdown renderers={renderers}
+                                                   source={this.state.description ? this.state.description : 'No description to preview'}/>
+                                )
+                        }
                     </div>
-                </div>
-                <br/>
-                <div className="row">
-                    <div className="col-md-2">
-                        <a className="btn btn-info" role="button" onClick={this.onSubmit}>
-                            Create Project
-                        </a>
-                    </div>
+                    <br/>
+                    <a className="button" onClick={this.onSubmit}>
+                        Create Project
+                    </a>
                 </div>
             </div>
         );

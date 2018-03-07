@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "staging": "webpack --config config/webpack.staging.js",
-    "build": "webpack --config config/webpack.prod.js",
+    "staging": "webpack -p --config config/webpack.staging.js",
+    "build": "webpack -p --config config/webpack.prod.js",
     "start": "webpack-dev-server --config config/webpack.dev.js --progress --colors"
   },
   "repository": "https://github.com/Diluv/Website",
@@ -20,6 +20,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
+    "bulma": "^0.6.2",
     "capitalize": "^1.0.0",
     "clean-webpack-plugin": "^0.1.17",
     "compression-webpack-plugin": "^1.1.3",
@@ -27,19 +28,20 @@
     "highlight.js": "^9.12.0",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.2",
-    "marked": "^0.3.9",
     "react": "^16.1.1",
     "react-async-script": "^0.9.1",
     "react-dom": "^16.1.1",
     "react-dropzone": "^4.2.3",
     "react-google-recaptcha": "^0.9.7",
-    "react-paginate": "^5.0.0",
+    "react-markdown": "^3.2.1",
+    "react-paginate": "git+https://github.com/lclc98/react-paginate.git#activedisabledlink",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-select": "^1.2.1",
     "react-textarea-autosize": "^5.2.1",
     "react-tooltip": "^3.4.0",
-    "uglifyjs-webpack-plugin": "^1.1.1"
+    "uglifyjs-webpack-plugin": "^1.1.1",
+    "webpack": "^3.11.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -47,13 +49,12 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.9",
-    "eslint": "^4.12.0",
+    "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.2",
-    "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.0"
   }
 }

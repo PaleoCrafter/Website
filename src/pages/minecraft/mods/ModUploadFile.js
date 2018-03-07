@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import globals from '~/utils/globals';
 import requestUtils from '~/utils/requestUtils';
 import userUtils from '~/utils/userUtils';
+import ModNav from '~/components/elements/minecraft/mods/ModNav';
 
 class ModUploadFile extends Component {
 
@@ -70,21 +71,26 @@ class ModUploadFile extends Component {
             });
     }
 
-    renderEditForm() {
-        return (
-            <div>
-                Display Name: <input ref="projectName" type="text" className="form-control input-md"
-                                     required={true}/>
-            </div>
-        );
-    }
-
     renderFileUpload() {
         return (
             <div className="container">
                 <div className="row">
-                    File: <input type="file" name="file" accept=".jar,.zip"
-                                 onChange={this.uploadFile}/>
+                    File:
+
+                    <div className="file">
+                        <label className="file-label">
+                            <input className="file-input" type="file" name="resume"
+                                   accept=".jar,.zip"/>
+                            <span className="file-cta">
+                          <span className="file-icon">
+                            <i className="fas fa-upload"/>
+                          </span>
+                          <span className="file-label">
+                            Choose a file…
+                          </span>
+                        </span>
+                        </label>
+                    </div>
 
                 </div>
                 <div className="row">
@@ -92,58 +98,31 @@ class ModUploadFile extends Component {
                         Upload File
                     </a>
                 </div>
-
-                {
-                    this.state.edit ? this.renderEditForm() : ''
-                }
             </div>
         );
     }
 
     render() {
-        console.log(this.state.projectData);
         const projectSlug = this.props.match.params.slug;
         document.title = this.state.projectData.name + ' - Files - Diluv';
 
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-10">
-                        <h2>Upload File</h2>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col-md-10">
-                        <div className="col-12">
+            <section className="section">
+                <div className="container">
+                    <div className="columns">
+                        <div className="column is-four-fifths">
+                            <h2 className="title is-2">Upload File</h2>
                             {
-                                /*TODO Database call for accept*/
                                 // this.state.fileUploading ? (this.renderUploadProgress()) :
                                 (this.renderFileUpload())
                             }
                         </div>
-                    </div>
-                    <div className="col-md-2">
-                        <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <a className="nav-link active"
-                                   href={'/minecraft/mods/' + projectSlug}>Overview</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link"
-                                   href={'/minecraft/mods/' + projectSlug + '/files'}>Files</a>
-                            </li>
-                            {
-                                (this.state.projectData.permission && globals.hasProjectPermission(this.state.projectData.permission, globals.PROJECT_PERMISSION.UPLOAD_FILE)) ? (
-                                    <li className="nav-item">
-                                        <a className="nav-link"
-                                           href={'/minecraft/mods/' + projectSlug + '/settings'}>Settings</a>
-                                    </li>) : ''
-                            }
-                        </ul>
+                        <div className="column">
+                            <ModNav slug={projectSlug} url="upload"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }
