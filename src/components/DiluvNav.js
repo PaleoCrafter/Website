@@ -3,6 +3,8 @@ import globals from '~/utils/globals';
 import requestUtils from '~/utils/requestUtils';
 import userUtils from '~/utils/userUtils';
 
+const env = process.env.BUILD_ENV || 'dev';
+
 class DiluvNav extends PureComponent {
     constructor(props) {
         super(props);
@@ -53,7 +55,7 @@ class DiluvNav extends PureComponent {
                 <div className="navbar-item has-dropdown is-hoverable is-right">
                     <a className="navbar-link">
                         <img className="avatar avatar-small"
-                             src={globals.publicFolder() + '/avatar/' + this.state.user.avatar}/> {this.state.user.username}
+                             src={globals.cdnURL() + '/avatar/' + this.state.user.avatar}/> {this.state.user.username}
                     </a>
 
                     <div className="navbar-dropdown is-right">
@@ -101,16 +103,18 @@ class DiluvNav extends PureComponent {
                         </span>
                     </a>
                 </p>
-                <p className="control">
-                    <a className="bd-tw-button button" href="/register">
+                {
+                    env !== 'staging' ? <p className="control">
+                        <a className="bd-tw-button button" href="/register">
                          <span>
                             Register
                         </span>
-                        <span className="icon">
+                            <span className="icon">
                             <i className="fa fa-bell"></i>
                         </span>
-                    </a>
-                </p>
+                        </a>
+                    </p> : ''
+                }
             </div>
         );
     }
@@ -121,7 +125,8 @@ class DiluvNav extends PureComponent {
                 <div className="navbar-brand">
                     <a className="navbar-item" href="/">
                         <figure className="image is-64x64">
-                            <img className="image is-64x64" src={globals.publicFolder() + "/public/favicon/favicon.ico"}/>
+                            <img className="image is-64x64"
+                                 src={globals.publicURL() + '/favicon/favicon.ico'}/>
                         </figure>
                     </a>
                 </div>

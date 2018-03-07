@@ -30,7 +30,7 @@ class ModView extends Component {
                 <div className="media-left">
                     <figure className="image is-128x128">
                         <img className="mod-logo"
-                             src={`${globals.publicFolder()}/projects/${this.props.slug}/logo/${this.props.logo}`}/>
+                             src={`${globals.cdnURL()}/projects/${this.props.slug}/logo/${this.props.logo}`}/>
                     </figure>
                 </div>
                 <div className="media-content">

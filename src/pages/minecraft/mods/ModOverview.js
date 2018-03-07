@@ -38,7 +38,7 @@ class ModOverview extends Component {
                                 <figure className="media-left">
                                     <p className="image is-150x150">
                                         <img className="mod-logo"
-                                             src={`${globals.publicFolder()}/projects/${this.state.projectData.slug}/logo/${this.state.projectData.logo}`}/>
+                                             src={`${globals.cdnURL()}/projects/${this.state.projectData.slug}/logo/${this.state.projectData.logo}`}/>
                                     </p>
                                 </figure>
                                 <div className="media-content">

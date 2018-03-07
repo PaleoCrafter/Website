@@ -29,9 +29,15 @@
   </head>
 
   <body>
-  <section id="react-app" class="section">
+    <section id="react-app" class="section"/>
   </body>
-  <script src="https://use.fontawesome.com/releases/v5.0.2/js/all.js" type="text/javascript"></script>
 
-  <script src="<%= webpackConfig.output.publicPath %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>" type="text/javascript"></script>
+  <!--Font Awesome-->
+  <script src="https://use.fontawesome.com/releases/v5.0.2/js/all.js" type="text/javascript"></script>
+  <script>!window.FontAwesome || document.write('<script src="<%= htmlWebpackPlugin.options.cdnPath %>js/font-awesome/fontawesome-all.min.js">\x3C/script>')</script>
+  <script>!window.FontAwesome || document.write('<script src="<%= webpackConfig.output.publicPath %>js/font-awesome/fontawesome-all.min.js">\x3C/script>')</script>
+
+  <!-- Main-bundle -->
+  <script src="<%= htmlWebpackPlugin.options.cdnPath %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>"></script>
+  <script>!Object.keys(window.__REACT_DEVTOOLS_GLOBAL_HOOK__._renderers).length || document.write('<script src="<%= webpackConfig.output.publicPath %><%= webpackConfig.output.filename %><%= htmlWebpackPlugin.options.gz %>">\x3C/script>')</script>
 </html>

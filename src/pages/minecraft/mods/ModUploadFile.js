@@ -38,7 +38,7 @@ class ModUploadFile extends Component {
         formData.append('releaseType', 'release');
         formData.append('file', this.state.file, this.state.file.name);
 
-        fetch(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug + '/files',
+        fetch(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`,
             {
                 method: 'POST',
                 headers: {
@@ -53,14 +53,14 @@ class ModUploadFile extends Component {
             })
             .catch(err => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
-                console.error('The request /games/minecraft/mods/projects/' + projectSlug + '/files to the api had an error. ' + err);
+                console.error(`The request /games/minecraft/mods/projects/${projectSlug}/files to the api had an error. ${err}`);
             });
     }
 
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug)
+        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
             .then(res => {
                 this.setState({ projectData: res.data });
             })

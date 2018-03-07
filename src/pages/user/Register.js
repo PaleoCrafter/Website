@@ -104,7 +104,7 @@ class Register extends Component {
             <div>
                 <div className="card card-container">
                     <figure className="avatar">
-                        <img id="profile-img" className="profile-img-card" src={globals.publicFolder() + "/public/favicon/favicon.ico"}/>
+                        <img id="profile-img" className="profile-img-card" src={`${globals.publicURL()}/favicon/favicon.ico`}/>
                     </figure>
                     <ReCAPTCHA
                         onChange={this.onChange}

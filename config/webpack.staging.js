@@ -14,7 +14,6 @@ module.exports = {
         path: path.join(__dirname, '../dist'),
         filename: `js/main-bundle-dev-${version}.js`,
         publicPath: '//dev.diluv.io/public/',
-
     },
     plugins: [
         new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
@@ -22,7 +21,7 @@ module.exports = {
             inject: false,
             title: 'Diluv',
             template: 'index.html',
-            bundleUrl: '//dev.diluv.io/public/',
+            cdnPath: '//download.nodecdn.net/containers/diluv/dev/public/',
             gz: '.gz',
         }),
         new UglifyJSPlugin({}),

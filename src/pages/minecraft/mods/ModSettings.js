@@ -53,10 +53,10 @@ class ModSettings extends Component {
                     defaultProjectName: res.data.name,
                     defaultDescription: res.data.description,
                     defaultShortDescription: res.data.shortDescription,
-                    defaultLogoPreview: `${globals.publicFolder()}/projects/${res.data.slug}/logo/${res.data.logo}`,
+                    defaultLogoPreview: `${globals.cdnURL()}/projects/${res.data.slug}/logo/${res.data.logo}`,
 
                     description: res.data.description,
-                    logoPreview: `${globals.publicFolder()}/projects/${res.data.slug}/logo/${res.data.logo}`,
+                    logoPreview: `${globals.cdnURL()}/projects/${res.data.slug}/logo/${res.data.logo}`,
                 });
 
 
