@@ -73,7 +73,7 @@ class MFA extends Component {
             <div>
                 <div className="card card-container">
                     <img id="profile-img" className="profile-img-card"
-                         src="/favicon/favicon.ico"/>
+                         src={globals.publicFolder() + "/public/favicon/favicon.ico"}/>
                     <p id="profile-name" className="profile-name-card"/>
                     {
                         isError ? (

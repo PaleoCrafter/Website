@@ -121,7 +121,7 @@ class DiluvNav extends PureComponent {
                 <div className="navbar-brand">
                     <a className="navbar-item" href="/">
                         <figure className="image is-64x64">
-                            <img className="image is-64x64" src="/favicon/favicon.ico"/>
+                            <img className="image is-64x64" src={globals.publicFolder() + "/public/favicon/favicon.ico"}/>
                         </figure>
                     </a>
                 </div>

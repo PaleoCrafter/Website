@@ -85,7 +85,7 @@ class Login extends Component {
             <div className="container">
                 <div className="card card-container">
                     <figure className="avatar">
-                        <img id="profile-img" className="profile-img-card" src="/favicon/favicon.ico"/>
+                        <img id="profile-img" className="profile-img-card" src={globals.publicFolder() + "/public/favicon/favicon.ico"}/>
                     </figure>
                     <div className="field">
                         <div className="control">
