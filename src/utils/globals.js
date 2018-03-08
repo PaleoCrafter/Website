@@ -6,11 +6,11 @@ const env = process.env.BUILD_ENV || 'dev';
 module.exports = {
     cdnURL() {
         if (env === 'dev') {
-            return 'http://localhost:1234/';
+            return 'http://localhost:1234';
         } else if (env === 'staging') {
-            return 'https://dev.diluv.io/';
+            return 'https://dev.diluv.io';
         }
-        return 'https://download.nodecdn.net/containers/diluv/';
+        return 'https://download.nodecdn.net/containers/diluv';
     },
     publicURL() {
         const url = this.cdnURL();
