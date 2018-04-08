@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import globals from '~/utils/globals';
-import userUtils from '~/utils/userUtils';
-
-const http = require('http');
+import globals from '../../utils/globals';
+import userUtils from '../../utils/userUtils';
 
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
+        this.state = {
+            data: [],
+            loggedIn: false,
+        };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
+    componentDidMount() {
+        userUtils.isUserLoggedIn()
+            .then(() => {
+                this.setState({ loggedIn: true });
+            })
+            .catch(() => {
+                this.setState({ loggedIn: false });
+            });
+    }
 
+    handleSubmit(event) {
         if (!this.refs.email.value) {
             this.setState({ errors: 'Email is needed.' });
             console.log('Email is missing');
@@ -31,24 +41,26 @@ class Login extends Component {
         formData.append('usernameEmail', this.refs.email.value);
         formData.append('password', this.refs.password.value);
 
-        fetch(globals.endPoint() + '/auth/login',
+        fetch(
+            `${globals.endPoint()}/auth/login`,
             {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${userUtils.getToken()}`,
                 },
                 body: formData,
-            })
+            },
+        )
             .then(res => res.json()
                 .then((json) => {
                     if (res.ok) return json;
 
                     throw json;
                 }))
-            .then(res => {
+            .then((res) => {
                 if (res.data.mfa) {
-                    let storageSystem = window.sessionStorage;
+                    const storageSystem = window.sessionStorage;
                     storageSystem.setItem('mfa', true);
                     storageSystem.setItem('mfaToken', res.data.token);
                     storageSystem.setItem('mfaTokenExpires', res.data.tokenExpires);
@@ -67,17 +79,17 @@ class Login extends Component {
                 }
                 window.location.reload();
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
-                console.error('The request /auth/login to the api had an error. ' + err);
+                console.error(`The request /auth/login to the api had an error. ${err}`);
             });
 
         event.preventDefault();
     }
 
     render() {
-        if (userUtils.isUserLoggedIn()) {
-            return (<Redirect to={'/'}/>);
+        if (this.state.loggedIn) {
+            return (<Redirect to="/"/>);
         }
 
         document.title = 'Login - Diluv';
@@ -85,18 +97,32 @@ class Login extends Component {
             <div className="container">
                 <div className="card card-container">
                     <figure className="avatar">
-                        <img id="profile-img" className="profile-img-card" src={`${globals.publicURL()}/favicon/favicon.ico`}/>
+                        <img
+                            id="profile-img"
+                            className="profile-img-card"
+                            src={`${globals.publicURL()}/favicon/favicon.ico`}
+                        />
                     </figure>
                     <div className="field">
                         <div className="control">
-                            <input id="username" ref="email" className="input" type="text"
-                                   placeholder="Username/Email"/>
+                            <input
+                                id="username"
+                                ref="email"
+                                className="input"
+                                type="text"
+                                placeholder="Username/Email"
+                            />
                         </div>
                     </div>
                     <div className="field">
                         <div className="control">
-                            <input id="password" ref="password" className="input" type="password"
-                                   placeholder="Password"/>
+                            <input
+                                id="password"
+                                ref="password"
+                                className="input"
+                                type="password"
+                                placeholder="Password"
+                            />
                         </div>
                     </div>
 

@@ -27,6 +27,7 @@ import AccountSecurity from './pages/user/account/AccountSecurity';
 
 import DiluvNav from './components/DiluvNav';
 import DiluvFooter from './components/DiluvFooter';
+import ModTeam from './pages/minecraft/mods/ModTeam';
 
 require('react-select/scss/default.scss');
 require('../public/css/main.scss');
@@ -36,30 +37,31 @@ render(
         <section className="section">
             <Route render={(props) => <DiluvNav location={props.location}/>}/>
 
-                <Switch>
-                    <Route exact path="/" component={Index}/>
+            <Switch>
+                <Route exact path="/" component={Index}/>
 
-                    <Route exact path="/minecraft/" component={Minecraft}/>
+                <Route exact path="/minecraft/" component={Minecraft}/>
 
-                    <Route exact path="/minecraft/mods" component={ListMods}/>
-                    <Route exact path="/minecraft/mods/create/" component={CreateMod}/>
+                <Route exact path="/minecraft/mods" component={ListMods}/>
+                <Route exact path="/minecraft/mods/create/" component={CreateMod}/>
 
-                    <Route exact path="/minecraft/mods/:slug/settings" component={ModSettings}/>
-                    <Route exact path="/minecraft/mods/:slug/upload" component={ModUploadFile}/>
-                    <Route exact path="/minecraft/mods/:slug/files" component={ModFiles}/>
-                    <Route exact path="/minecraft/mods/:slug/" component={Mods}/>
+                <Route exact path="/minecraft/mods/:slug/settings" component={ModSettings}/>
+                <Route exact path="/minecraft/mods/:slug/upload" component={ModUploadFile}/>
+                <Route exact path="/minecraft/mods/:slug/files" component={ModFiles}/>
+                <Route exact path="/minecraft/mods/:slug/team" component={ModTeam}/>
+                <Route exact path="/minecraft/mods/:slug/" component={Mods}/>
 
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/logout" component={Logout}/>
-                    <Route exact path="/mfa" component={MFA}/>
-                    <Route exact path="/register" component={Register}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/logout" component={Logout}/>
+                <Route exact path="/mfa" component={MFA}/>
+                <Route exact path="/register" component={Register}/>
 
-                    <Route exact path="/account/settings" component={AccountSettings}/>
-                    <Route exact path="/account/security" component={AccountSecurity}/>
-                    <Route exact path="/account" component={Account}/>
+                <Route exact path="/account/settings" component={AccountSettings}/>
+                <Route exact path="/account/security" component={AccountSecurity}/>
+                <Route exact path="/account" component={Account}/>
 
-                    <Route component={E404}/>
-                </Switch>
+                <Route component={E404}/>
+            </Switch>
             {/*<DiluvFooter/>*/}
         </section>
     </BrowserRouter>

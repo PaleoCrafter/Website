@@ -4,25 +4,37 @@ module.exports = {
     getFetchJSON(url) {
         const headers = {
             Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded',
         };
-        const authorizationToken = userUtils.getToken();
-        if (authorizationToken !== null) {
-            headers.Authorization = `Bearer ${authorizationToken}`;
-        }
 
-        return fetch(
-            url,
-            {
-                method: 'GET',
-                headers,
-            },
-        )
-            .then(res => res.json()
-                .then((json) => {
-                    if (res.ok) return json;
+        return userUtils.getToken()
+            .then((token) => {
+                headers.Authorization = `Bearer ${token}`;
+                return fetch(
+                    url,
+                    {
+                        method: 'GET',
+                        headers,
+                    },
+                )
+                    .then(res => res.json()
+                        .then((json) => {
+                            if (res.ok) return json;
 
-                    throw json;
-                }));
+                            throw json;
+                        }));
+            })
+            .catch(() => fetch(
+                url,
+                {
+                    method: 'GET',
+                    headers,
+                },
+            )
+                .then(res => res.json()
+                    .then((json) => {
+                        if (res.ok) return json;
+
+                        throw json;
+                    })));
     },
 };

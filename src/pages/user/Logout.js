@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import userUtils from '~/utils/userUtils';
+import userUtils from '../../utils/userUtils';
 
 class Logout extends Component {
     render() {
         if (userUtils.getStorage() !== null) {
-            userUtils.getStorage().clear();
+            userUtils.getStorage()
+                .clear();
         }
         return (
-            <Redirect to={'/'}/>
+            <Redirect to="/"/>
         );
     }
 }

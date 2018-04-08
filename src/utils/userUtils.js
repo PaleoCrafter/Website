@@ -19,54 +19,56 @@ module.exports = {
      * Refreshes the current token if it is expired, and returns a boolean on the state of it.
      * @returns {boolean} If the token was refreshed or not.
      */
-    async handleRefresh() {
-        const storageSystem = this.getStorage();
-        const refreshToken = storageSystem.getItem('refreshToken');
-        const refreshExpires = storageSystem.getItem('refreshExpires');
+    handleRefresh() {
+        return new Promise((resolve, reject) => {
+            const storageSystem = this.getStorage();
+            const refreshToken = storageSystem.getItem('refreshToken');
+            const refreshExpires = storageSystem.getItem('refreshExpires');
 
-        if (refreshExpires === null) {
-            return false;
-        }
+            if (refreshExpires === null) {
+                return reject();
+            }
 
-        const currentDate = new Date();
-        if (refreshExpires >= currentDate.getTime()) {
-            return fetch(
-                `${globals.endPoint()}/auth/refreshToken`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        Authorization: `Bearer ${refreshToken}`,
+            const currentDate = new Date();
+            if (refreshExpires >= currentDate.getTime()) {
+                return fetch(
+                    `${globals.endPoint()}/auth/refreshToken`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            Authorization: `Bearer ${refreshToken}`,
+                        },
                     },
-                },
-            )
-                .then(res => res.json()
-                    .then((json) => {
-                        if (res.ok) return json;
+                )
+                    .then(res => res.json()
+                        .then((json) => {
+                            if (res.ok) return json;
 
-                        throw json;
-                    }))
-                .then((res) => {
-                    storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
-                    storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
-                    return true;
-                })
-                .catch(() => {
-                    storageSystem.removeItem('token');
-                    storageSystem.removeItem('tokenExpires');
-                    storageSystem.removeItem('refreshToken');
-                    storageSystem.removeItem('refreshExpires');
-                    return false;
-                });
-        }
-        storageSystem.removeItem('token');
-        storageSystem.removeItem('tokenExpires');
-        storageSystem.removeItem('refreshToken');
-        storageSystem.removeItem('refreshExpires');
-        return false;
+                            throw json;
+                        }))
+                    .then((res) => {
+                        storageSystem.setItem('token', res.data.token);
+                        storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                        storageSystem.setItem('refreshToken', res.data.refreshToken);
+                        storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                        return resolve(res.data.token);
+                    })
+                    .catch(() => {
+                        storageSystem.removeItem('token');
+                        storageSystem.removeItem('tokenExpires');
+                        storageSystem.removeItem('refreshToken');
+                        storageSystem.removeItem('refreshExpires');
+                        return reject();
+                    });
+            }
+            storageSystem.removeItem('token');
+            storageSystem.removeItem('tokenExpires');
+            storageSystem.removeItem('refreshToken');
+            storageSystem.removeItem('refreshExpires');
+            return reject();
+        });
     },
 
     /**
@@ -75,24 +77,29 @@ module.exports = {
      * @returns {string | null}
      */
     getToken() {
-        const storageSystem = this.getStorage();
+        return new Promise((resolve, reject) => {
+            const storageSystem = this.getStorage();
 
-        if (storageSystem === null) {
-            return null;
-        }
-
-        const token = storageSystem.getItem('token');
-        const tokenExpires = storageSystem.getItem('tokenExpires');
-
-        if (tokenExpires) {
-            const currentDate = new Date();
-            if (tokenExpires >= currentDate.getTime()) {
-                return token;
-            } else if (this.handleRefresh()) {
-                return storageSystem.getItem('token') ? storageSystem.getItem('token') : null;
+            if (storageSystem === null) {
+                return reject();
             }
-        }
-        return null;
+
+            const token = storageSystem.getItem('token');
+            const tokenExpires = storageSystem.getItem('tokenExpires');
+
+            if (tokenExpires) {
+                const currentDate = new Date();
+                if (tokenExpires >= currentDate.getTime()) {
+                    return resolve(token);
+                }
+                this.handleRefresh()
+                    .then((t) => {
+                        resolve(t);
+                    })
+                    .catch(reject());
+            }
+            return reject();
+        });
     },
 
     /**
@@ -100,6 +107,6 @@ module.exports = {
      * @returns {boolean} Returns true if the user is logged in, if not will return false
      */
     isUserLoggedIn() {
-        return this.getToken() !== null;
+        return this.getToken();
     },
 };

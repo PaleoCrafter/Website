@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import AccountNav from '~/components/elements/account/AccountNav';
+import AccountNav from '../../../components/elements/account/AccountNav';
 
 class Account extends Component {
-
     constructor() {
         super();
         this.state = {
             gameData: [],
             projects: [],
             projectType: [],
-            error: []
+            error: [],
         };
     }
 

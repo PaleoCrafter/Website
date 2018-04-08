@@ -1,4 +1,3 @@
-const userUtils = require('./userUtils');
 const dateFormat = require('dateformat');
 
 const env = process.env.BUILD_ENV || 'dev';
@@ -32,27 +31,8 @@ module.exports = {
         return 'http://api.diluv.com/v1';
     },
 
-    hasProjectPermission(permission, type) {
-        return permission != null && ((1 << type) & permission) > 0;
-    },
-
-    hasUserPermission(permission, type) {
-        if (!userUtils.isUserLoggedIn()) {
-            return false;
-        }
-        return permission != null && ((1 << type) & permission) > 0;
-    },
-
-    PROJECT_PERMISSION: {
-        EDIT_DESCRIPTION: 1,
-        EDIT_SETTINGS: 2,
-        ADD_USER: 4,
-
-        UPLOAD_FILE: 30,
-    },
-
     getDate(epoch) {
-        return dateFormat(new Date(epoch), 'HH:mm:ss dd/mm/yyyy');
+        return dateFormat(new Date(epoch * 1000), 'HH:mm:ss dd/mm/yyyy');
     },
 };
 

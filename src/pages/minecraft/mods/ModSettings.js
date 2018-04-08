@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import globals from '~/utils/globals';
-import requestUtils from '~/utils/requestUtils';
+
 
 import Select from 'react-select';
 import Dropzone from 'react-dropzone';
 import Textarea from 'react-textarea-autosize';
-import userUtils from '~/utils/userUtils';
 
 import ReactMarkdown from 'react-markdown';
-import renderers from '~/components/markdown-renderer';
-import ModNav from '~/components/elements/minecraft/mods/ModNav';
+import renderers from '../../../components/markdown-renderer';
+import ModNav from '../../../components/elements/minecraft/mods/ModNav';
+
+import globals from '../../../utils/globals';
+import userUtils from '../../../utils/userUtils';
+import requestUtils from '../../../utils/requestUtils';
+import projectPermissions from '../../../utils/projectPermissions';
 
 class ModSettings extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -43,9 +45,8 @@ class ModSettings extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(globals.endPoint() + '/games/minecraft/mods/projects/' + projectSlug)
-            .then(res => {
-
+        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+            .then((res) => {
                 this.setState({
                     slug: res.data.slug,
                     permission: res.data.permission,
@@ -61,7 +62,7 @@ class ModSettings extends Component {
 
 
                 let categories = '';
-                res.data.categories.map(function (item) {
+                res.data.categories.map((item) => {
                     if (categories) {
                         categories += ',';
                     }
@@ -69,27 +70,25 @@ class ModSettings extends Component {
                 });
                 this.setState({
                     defaultCategories: categories,
-                    categories: categories
+                    categories,
                 });
-
-
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
 
         requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/categories/`)
-            .then(res => {
-                let o = [];
-                res.data.map(function (item) {
+            .then((res) => {
+                const o = [];
+                res.data.map((item) => {
                     o.push({
                         label: item.name,
-                        value: item.slug
+                        value: item.slug,
                     });
                 });
                 this.setState({ selectableCategories: o });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
     }
@@ -119,7 +118,7 @@ class ModSettings extends Component {
 
         const url = new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.state.slug}`);
 
-        let params = new Map();
+        const params = new Map();
         if (this.state.defaultProjectName !== this.refs.projectName.value) {
             params.set('projectName', this.refs.projectName.value);
         }
@@ -148,23 +147,25 @@ class ModSettings extends Component {
 
         params.forEach((value, key) => url.searchParams.append(key, value));
 
-        fetch(url,
+        fetch(
+            url,
             {
                 method: 'PUT',
                 headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${userUtils.getToken()}`,
                     'Content-type': 'application/x-www-form-urlencoded',
                 },
-            })
+            },
+        )
             .then(res => res.json())
             .then((res) => {
                 this.setState({ redirect: res.data.slug });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
-        //TODO CATCH AND FIX
+        // TODO CATCH AND FIX
     }
 
     /**
@@ -177,7 +178,7 @@ class ModSettings extends Component {
         }
         this.setState({
             logoFile: imageFiles[0],
-            logoPreview: imageFiles[0].preview
+            logoPreview: imageFiles[0].preview,
         });
     }
 
@@ -190,121 +191,141 @@ class ModSettings extends Component {
     }
 
     onChangeTab(tab) {
-        this.setState({ tab: tab });
+        this.setState({ tab });
     }
 
     render() {
-        //TODO Check permission and redirect away if none
+        // TODO Check permission and redirect away if none
         const projectSlug = this.props.match.params.slug;
 
-        document.title = this.state.defaultProjectName + ' - Settings - Diluv';
+        document.title = `${this.state.defaultProjectName} - Settings - Diluv`;
 
         if (this.state.redirect) {
-            return (<Redirect to={'/minecraft/mods/' + this.state.redirect + '/'}/>);
+            return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`}/>);
         }
-        if (this.state.permission && !globals.hasProjectPermission(this.state.permission, globals.PROJECT_PERMISSION.EDIT_SETTINGS)) {
-            return (<Redirect to={'/minecraft/mods/' + projectSlug}/>);
+        if (this.state.permission && !projectPermissions.containsProjectPermission(
+            this.state.permission,
+            projectPermissions.PERMISSION.SETTINGS,
+        )) {
+            return (<Redirect to={`/minecraft/mods/${projectSlug}`}/>);
         }
 
         return (
             <section className="section">
-                <div className="container">
-                    <div className="columns">
-                        <div className="column is-four-fifths">
-                            <h2 className="title is-2"><i
-                                className="fa fa-cog"/> {this.state.defaultProjectName} Settings
-                            </h2>
-                            <div className="columns">
-                                <div className="column is-one-fifth">
-                                    <Dropzone
-                                        onDrop={this.onDrop}
-                                        className='dropzone'
-                                        activeClassName='active-dropzone'
-                                        accept="image/jpeg, image/png"
-                                        multiple={false}>
+                <div className="columns">
+                    <div className="column is-four-fifths">
+                        <h2 className="title is-2"><i
+                            className="fa fa-cog"
+                        /> {this.state.defaultProjectName} Settings
+                        </h2>
+                        <div className="columns">
+                            <div className="column is-one-fifth">
+                                <Dropzone
+                                    onDrop={this.onDrop}
+                                    className="dropzone"
+                                    activeClassName="active-dropzone"
+                                    accept="image/jpeg, image/png"
+                                    multiple={false}
+                                >
 
-                                        {this.state.logoPreview ?
-                                            <p className="image is-150x150">
-                                                <img className="mod-logo" width="160" height="160"
-                                                     src={this.state.logoPreview}/>
-                                            </p>
-                                            : <div>Drag and drop or click to select a logo to upload
-                                                (Optional).</div>}
-                                    </Dropzone>
+                                    {this.state.logoPreview ?
+                                        <p className="image is-150x150">
+                                            <img
+                                                className="mod-logo"
+                                                width="160"
+                                                height="160"
+                                                src={this.state.logoPreview}
+                                            />
+                                        </p>
+                                        : <div>Drag and drop or click to select a logo to upload
+                                            (Optional).
+                                        </div>}
+                                </Dropzone>
 
 
-                                </div>
-                                <div className="column is-two-fifths">
-                                    <strong>Project Name:</strong>
-                                    <br/>
-                                    <input key={this.state.slug}
-                                           ref="projectName"
-                                           type="text"
-                                           className="input"
-                                           defaultValue={this.state.defaultProjectName}
-                                           required={true}/>
-                                    <br/>
-                                    <br/>
-                                    <strong>Short Description:</strong>
-                                    <br/>
-                                    <textarea key={`shortdescription-${this.state.slug}`}
-                                              ref="shortDescription"
-                                              className="textarea"
-                                              defaultValue={this.state.defaultShortDescription}
-                                              required={true}/>
-                                </div>
                             </div>
-                            <br/>
                             <div className="column is-two-fifths">
-                                <h5>Categories:</h5>
-                                <Select
-                                    closeOnSelect={true}
-                                    multi
-                                    onChange={this.onCategoryChange}
-                                    options={this.state.selectableCategories}
-                                    placeholder="Select Categories"
-                                    simpleValue
-                                    value={this.state.categories}
+                                <strong>Project Name:</strong>
+                                <br/>
+                                <input
+                                    key={this.state.slug}
+                                    ref="projectName"
+                                    type="text"
+                                    className="input"
+                                    defaultValue={this.state.defaultProjectName}
+                                    required
+                                />
+                                <br/>
+                                <br/>
+                                <strong>Short Description:</strong>
+                                <br/>
+                                <textarea
+                                    key={`shortdescription-${this.state.slug}`}
+                                    ref="shortDescription"
+                                    className="textarea"
+                                    defaultValue={this.state.defaultShortDescription}
+                                    required
                                 />
                             </div>
-                            <br/>
-                            <div className="column is-four-fifth">
-                                <h5>Description:</h5>
-                                <div className="tabs">
-                                    <ul>
-                                        <li className={this.state.tab === 1 ? 'is-active' : ''}
-                                            onClick={() => this.onChangeTab(1)}>
-                                            <a>Write</a>
-                                        </li>
-                                        <li className={this.state.tab === 2 ? 'is-active' : ''}
-                                            onClick={() => this.onChangeTab(2)}>
-                                            <a>Preview</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                {
-                                    this.state.tab === 1 ? (
-                                            <Textarea key={`dist-${this.state.slug}`}
-                                                      className="textarea"
-                                                      placeholder="Enter some markdown..."
-                                                      value={this.state.description}
-                                                      onChange={this.onDescriptionChange}
-                                                      required={true}/>
-                                        ) :
-                                        (
-                                            <ReactMarkdown renderers={renderers}
-                                                           source={this.state.description ? this.state.description : 'No description to preview'}/>
-                                        )
-                                }
+                        </div>
+                        <br/>
+                        <div className="column is-two-fifths">
+                            <h5>Categories:</h5>
+                            <Select
+                                closeOnSelect
+                                multi
+                                onChange={this.onCategoryChange}
+                                options={this.state.selectableCategories}
+                                placeholder="Select Categories"
+                                simpleValue
+                                value={this.state.categories}
+                            />
+                        </div>
+                        <br/>
+                        <div className="column is-four-fifth">
+                            <h5>Description:</h5>
+                            <div className="tabs">
+                                <ul>
+                                    <li
+                                        className={this.state.tab === 1 ? 'is-active' : ''}
+                                        onClick={() => this.onChangeTab(1)}
+                                    >
+                                        <a>Write</a>
+                                    </li>
+                                    <li
+                                        className={this.state.tab === 2 ? 'is-active' : ''}
+                                        onClick={() => this.onChangeTab(2)}
+                                    >
+                                        <a>Preview</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <br/>
-                            <a className="button" onClick={this.onSubmit}>
-                                Edit Mod
-                            </a>
+                            {
+                                this.state.tab === 1 ? (
+                                        <Textarea
+                                            key={`dist-${this.state.slug}`}
+                                            className="textarea"
+                                            placeholder="Enter some markdown..."
+                                            value={this.state.description}
+                                            onChange={this.onDescriptionChange}
+                                            required
+                                        />
+                                    ) :
+                                    (
+                                        <ReactMarkdown
+                                            renderers={renderers}
+                                            source={this.state.description ? this.state.description : 'No description to preview'}
+                                        />
+                                    )
+                            }
                         </div>
-                        <div className="column">
-                            <ModNav slug={projectSlug} url="settings"/>
-                        </div>
+                        <br/>
+                        <a className="button" onClick={this.onSubmit}>
+                            Edit Mod
+                        </a>
+                    </div>
+                    <div className="column">
+                        <ModNav slug={projectSlug} url="settings"/>
                     </div>
                 </div>
             </section>

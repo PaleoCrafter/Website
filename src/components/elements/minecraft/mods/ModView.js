@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import globals from '~/utils/globals';
+import globals from '../../../../utils/globals';
 
 class ModView extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class ModView extends Component {
 
             if (author.role === 'Owner') {
                 return (
-                    <a href={'/minecraft/user/' + author.username}>
+                    <a href={`/minecraft/user/${author.username}`}>
                         <p id="modAuthor">by {author.username}</p>
                     </a>);
             }
@@ -29,13 +29,15 @@ class ModView extends Component {
             <article className="media">
                 <div className="media-left">
                     <figure className="image is-128x128">
-                        <img className="mod-logo"
-                             src={`${globals.cdnURL()}/projects/${this.props.slug}/logo/${this.props.logo}`}/>
+                        <img
+                            className="mod-logo"
+                            src={`${globals.cdnURL()}/projects/${this.props.slug}/logo/${this.props.logo}`}
+                        />
                     </figure>
                 </div>
                 <div className="media-content">
                     <div className="content">
-                        <a href={'/minecraft/mods/' + this.props.slug}>
+                        <a href={`/minecraft/mods/${this.props.slug}`}>
                             <h3 className="title is-3">{this.props.name}</h3>
                         </a>
 
@@ -49,15 +51,17 @@ class ModView extends Component {
                         <div className="content">
                             <div id="modData">
                                 <i className="fa fa-download"/> Downloads: {this.props.totalDownloads} | <i
-                                className="fa fa-clock"/> Updated: {globals.getDate(this.props.updatedAt)}
+                                className="fa fa-clock"
+                            /> Updated: {globals.getDate(this.props.updatedAt)}
                             </div>
 
                             <div id="modCategories">Categories: {
-                                this.props.categories.map(function (item) {
-                                    return <span style={{ marginRight: 2 + 'px' }}
-                                                 key={item.name}
-                                                 className="badge badge-primary">{item.name}</span>;
-                                })
+                                this.props.categories.map(item => (<span
+                                    style={{ marginRight: `${2}px` }}
+                                    key={item.name}
+                                    className="tag is-rounded is-dark"
+                                >{item.name}
+                                                                   </span>))
                             }
                             </div>
                         </div>
@@ -65,18 +69,18 @@ class ModView extends Component {
                 </div>
                 <div className="media-right">
                     <p className="field">
-                        <a href={'/minecraft/mods/' + this.props.slug + '/files'}>
-                                <span className="icon">
-                                    <i className="fa fa-file"/>
-                                </span>
+                        <a href={`/minecraft/mods/${this.props.slug}/files`}>
+              <span className="icon">
+                <i className="fa fa-file"/>
+              </span>
                         </a>
                     </p>
-                    {/*TODO Favourite*/}
+                    {/* TODO Favourite */}
                     <p className="field">
                         <a>
-                            <span className="icon has-text-warning">
-                                <i className="fas fa-star"></i>
-                            </span>
+              <span className="icon has-text-warning">
+                <i className="fas fa-star"/>
+              </span>
                         </a>
                     </p>
                 </div>

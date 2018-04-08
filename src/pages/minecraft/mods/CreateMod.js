@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+
 import Select from 'react-select';
 import Dropzone from 'react-dropzone';
+import ReactMarkdown from 'react-markdown';
 import Textarea from 'react-textarea-autosize';
 
-import globals from '~/utils/globals';
-import requestUtils from '~/utils/requestUtils';
-
-import userUtils from '~/utils/userUtils';
-import { Redirect } from 'react-router';
-import ReactMarkdown from 'react-markdown';
-import renderers from '~/components/markdown-renderer';
+import globals from '../../../utils/globals';
+import userUtils from '../../../utils/userUtils';
+import requestUtils from '../../../utils/requestUtils';
+import renderers from '../../../components/markdown-renderer';
 
 class CreateMod extends Component {
-
     constructor() {
         super();
         this.state = {
             tab: 1,
             error: [],
             description: '',
-            markdown: 'No description to preview',
             imageFiles: null,
             categories: [],
-            options: []
+            options: [],
+            loggedIn: false,
         };
 
 
@@ -34,18 +33,26 @@ class CreateMod extends Component {
 
     componentDidMount() {
         requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/categories/`)
-            .then(res => {
-                let o = [];
-                res.data.map(function (item) {
+            .then((res) => {
+                const o = [];
+                res.data.map((item) => {
                     o.push({
                         label: item.name,
-                        value: item.slug
+                        value: item.slug,
                     });
                 });
                 this.setState({ options: o });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
+            });
+
+        userUtils.isUserLoggedIn()
+            .then(() => {
+                this.setState({ loggedIn: true });
+            })
+            .catch(() => {
+                this.setState({ loggedIn: false });
             });
     }
 
@@ -55,7 +62,7 @@ class CreateMod extends Component {
         }
 
         this.setState({
-            imageFiles: imageFiles[0]
+            imageFiles: imageFiles[0],
         });
     }
 
@@ -69,7 +76,7 @@ class CreateMod extends Component {
     }
 
     onChangeTab(tab) {
-        this.setState({ tab: tab });
+        this.setState({ tab });
     }
 
     onSubmit() {
@@ -104,29 +111,31 @@ class CreateMod extends Component {
         formData.append('categories', this.state.categories);
 
 
-        fetch(globals.endPoint() + '/games/minecraft/mods/projects',
+        fetch(
+            `${globals.endPoint()}/games/minecraft/mods/projects`,
             {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${userUtils.getToken()}`,
                 },
                 body: formData,
-            })
+            },
+        )
             .then(res => res.json())
             .then((res) => {
                 this.setState({ redirect: res.data.slug });
                 console.log(this.state.redirect);
             });
-        //TODO CATCH AND FIX
+        // TODO CATCH AND FIX
     }
 
     render() {
         if (this.state.redirect) {
-            return (<Redirect to={'/minecraft/mods/' + this.state.redirect + '/'}/>);
+            return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`}/>);
         }
-        if (!userUtils.isUserLoggedIn()) {
-            return (<Redirect to={'/'}/>);
+        if (!this.state.loggedIn) {
+            return (<Redirect to="/"/>);
         }
 
         document.title = 'Create Mod - Diluv';
@@ -137,10 +146,11 @@ class CreateMod extends Component {
                     <div className="column is-one-fifth">
                         <Dropzone
                             onDrop={this.onDrop}
-                            className='dropzone'
-                            activeClassName='active-dropzone'
+                            className="dropzone"
+                            activeClassName="active-dropzone"
                             accept="image/jpeg, image/png"
-                            multiple={false}>
+                            multiple={false}
+                        >
 
                             {this.state.imageFiles ? (
                                     <p className="image is-150x150">
@@ -148,22 +158,30 @@ class CreateMod extends Component {
                                     </p>
                                 )
                                 : <div>Drag and drop or click to select a logo to upload
-                                    (Optional).</div>}
+                                    (Optional).
+                                </div>}
                         </Dropzone>
                     </div>
                     <div className="column is-two-fifths">
                         <strong>Project Name:</strong>
                         <br/>
-                        <input ref="projectName" type="text" placeholder="Project Name"
-                               className="input"
-                               required={true}/>
+                        <input
+                            ref="projectName"
+                            type="text"
+                            placeholder="Project Name"
+                            className="input"
+                            required
+                        />
                         <br/>
                         <br/>
                         <strong>Short Description:</strong>
                         <br/>
-                        <textarea ref="shortDescription" placeholder="Short Description"
-                                  className="textarea"
-                                  required={true}/>
+                        <textarea
+                            ref="shortDescription"
+                            placeholder="Short Description"
+                            className="textarea"
+                            required
+                        />
                     </div>
                 </div>
 
@@ -171,7 +189,7 @@ class CreateMod extends Component {
                 <div className="column is-two-fifths">
                     <h5>Categories:</h5>
                     <Select
-                        closeOnSelect={true}
+                        closeOnSelect
                         multi
                         onChange={this.onCategoryChange}
                         options={this.state.options}
@@ -198,15 +216,19 @@ class CreateMod extends Component {
                     <div className="container">
                         {
                             this.state.tab === 1 ? (
-                                    <Textarea className="textarea"
-                                              placeholder="Enter some markdown..."
-                                              value={this.state.description}
-                                              onChange={this.onDescriptionChange}
-                                              required={true}/>
+                                    <Textarea
+                                        className="textarea"
+                                        placeholder="Enter some markdown..."
+                                        value={this.state.description}
+                                        onChange={this.onDescriptionChange}
+                                        required
+                                    />
                                 ) :
                                 (
-                                    <ReactMarkdown renderers={renderers}
-                                                   source={this.state.description ? this.state.description : 'No description to preview'}/>
+                                    <ReactMarkdown
+                                        renderers={renderers}
+                                        source={this.state.description ? this.state.description : 'No description to preview'}
+                                    />
                                 )
                         }
                     </div>

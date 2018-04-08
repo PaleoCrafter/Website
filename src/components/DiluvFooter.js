@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 
 class DiluvFooter extends Component {
     render() {

@@ -1,28 +1,47 @@
 import React, { Component } from 'react';
-import globals from '~/utils/globals';
-import requestUtils from '~/utils/requestUtils';
-import userUtils from '~/utils/userUtils';
-import ModNav from '~/components/elements/minecraft/mods/ModNav';
+import globals from '../../../utils/globals';
+import requestUtils from '../../../utils/requestUtils';
+import userUtils from '../../../utils/userUtils';
+import ModNav from '../../../components/elements/minecraft/mods/ModNav';
 
 class ModUploadFile extends Component {
-
     constructor() {
         super();
         this.state = {
             projectData: [],
             file: [],
-            edit: false
+            edit: false,
+            displayName: '',
+            releaseType: 'release',
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
+        this.onDisplayNameChange = this.onDisplayNameChange.bind(this);
+        this.onReleaseTypeChange = this.onReleaseTypeChange.bind(this);
     }
 
-    uploadFile(e) {
 
+    componentDidMount() {
+        const projectSlug = this.props.match.params.slug;
+
+        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+            .then((res) => {
+                this.setState({ projectData: res.data });
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
+
+    uploadFile(e) {
         if (e.target.files.length === 1) {
             const file = e.target.files[0];
             if (file !== null) {
-                this.setState({ file: file });
+                this.setState({ file });
+                if (!this.state.displayName) {
+                    this.setState({ displayName: file.name });
+                }
                 return;
             }
         }
@@ -34,67 +53,104 @@ class ModUploadFile extends Component {
 
         const formData = new FormData();
         // formData.append('parentId', 0);
-        formData.append('displayName', this.state.file.name);
-        formData.append('releaseType', 'release');
+        formData.append('displayName', this.state.displayName);
+        formData.append('releaseType', this.state.releaseType);
+        formData.append('changelog', this.refs.changelog.value);
         formData.append('file', this.state.file, this.state.file.name);
 
-        fetch(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`,
+        fetch(
+            `${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`,
             {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${userUtils.getToken()}`,
                 },
                 body: formData,
-            })
+            },
+        )
             .then(res => res.json())
-            .then(res => {
+            .then((res) => {
                 console.log(res);
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
                 console.error(`The request /games/minecraft/mods/projects/${projectSlug}/files to the api had an error. ${err}`);
             });
     }
 
-    componentDidMount() {
-        const projectSlug = this.props.match.params.slug;
+    onDisplayNameChange(change) {
+        this.setState({ displayName: change.target.value });
+    }
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
-            .then(res => {
-                this.setState({ projectData: res.data });
-            })
-            .catch(err => {
-                console.log('Game');
-                console.log(res.status);
-                console.log(res.data);
-            });
+    onReleaseTypeChange(change) {
+        this.setState({ releaseType: change.target.value });
     }
 
     renderFileUpload() {
         return (
-            <div className="container">
-                <div className="row">
-                    File:
+            <div>
+                <div className="field">
+                    <label className="label">File</label>
 
                     <div className="file">
                         <label className="file-label">
-                            <input className="file-input" type="file" name="resume"
-                                   accept=".jar,.zip"/>
+                            <input
+                                className="file-input"
+                                type="file"
+                                name="resume"
+                                accept=".jar,.zip"
+                                onChange={this.uploadFile}
+                            />
                             <span className="file-cta">
-                          <span className="file-icon">
-                            <i className="fas fa-upload"/>
-                          </span>
-                          <span className="file-label">
+                <span className="file-icon">
+                  <i className="fas fa-upload"/>
+                </span>
+                <span className="file-label">
                             Choose a file…
-                          </span>
-                        </span>
+                </span>
+              </span>
                         </label>
                     </div>
-
                 </div>
-                <div className="row">
-                    <a className="btn btn-info" role="button" onClick={this.onSubmit}>
+
+                <div className="field">
+                    <label className="label">Display Name</label>
+
+                    <div className="control">
+                        <input
+                            key="diplay"
+                            onChange={this.onDisplayNameChange}
+                            value={this.state.displayName}
+                            className="input"
+                            type="text"
+                            placeholder="Display Name"
+                        />
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Changelog</label>
+                    <div className="control">
+                        <textarea ref="changelog" className="textarea" placeholder="Changelog"/>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Release Type</label>
+                    <div className="control">
+                        <div className="select">
+                            <select onChange={this.onReleaseTypeChange}>
+                                <option value="release">Release</option>
+                                <option value="beta">Beta</option>
+                                <option value="alpha">Alpha</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <a className="button is-primary" onClick={this.onSubmit}>
                         Upload File
                     </a>
                 </div>
@@ -104,25 +160,23 @@ class ModUploadFile extends Component {
 
     render() {
         const projectSlug = this.props.match.params.slug;
-        document.title = this.state.projectData.name + ' - Files - Diluv';
+        document.title = `${this.state.projectData.name} - Files - Diluv`;
 
         return (
-            <section className="section">
-                <div className="container">
-                    <div className="columns">
-                        <div className="column is-four-fifths">
-                            <h2 className="title is-2">Upload File</h2>
-                            {
-                                // this.state.fileUploading ? (this.renderUploadProgress()) :
-                                (this.renderFileUpload())
-                            }
-                        </div>
-                        <div className="column">
-                            <ModNav slug={projectSlug} url="upload"/>
-                        </div>
+            <div className="container">
+                <h2 className="title is-2"><i className="fa fa-cog"/> Upload File</h2>
+                <div className="columns">
+                    <div className="column is-four-fifths">
+                        {
+                            // this.state.fileUploading ? (this.renderUploadProgress()) :
+                            (this.renderFileUpload())
+                        }
+                    </div>
+                    <div className="column">
+                        <ModNav slug={projectSlug} url="upload"/>
                     </div>
                 </div>
-            </section>
+            </div>
         );
     }
 }

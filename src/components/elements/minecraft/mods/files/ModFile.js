@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import globals from '~/utils/globals';
+import globals from '../../../../../utils/globals';
 
-import prettyBytes from '~/utils/pretty-bytes';
+import prettyBytes from '../../../../../utils/pretty-bytes';
 import ReactTooltip from 'react-tooltip';
 
 class ModFile extends Component {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import globals from '~/utils/globals';
-import requestUtils from '~/utils/requestUtils';
+import globals from '../../../../utils/globals';
+import requestUtils from '../../../../utils/requestUtils';
+import projectPermissions from '../../../../utils/projectPermissions';
 
 class ModNav extends Component {
     constructor(props) {
@@ -42,31 +43,58 @@ class ModNav extends Component {
                         </a>
                     </li>
                 </ul>
-                <p className="menu-label">
-                    Administration
-                </p>
-                <ul className="menu-list">
-                    <li>
-                        <a className={this.props.url === 'upload' ? 'is-active' : ''}
-                           href={`/minecraft/mods/${this.props.slug}/upload`}>
-                            Upload Files
-                        </a>
-                    </li>
-                    <li>
-                        <a className={this.props.url === 'settings' ? 'is-active' : ''}
-                           href={`/minecraft/mods/${this.props.slug}/settings`}>
-                            Settings
-                        </a>
-                    </li>
+                {
 
-                    {/*<li>*/}
-                        {/*<a className="is-active">Security</a>*/}
-                        {/*<ul>*/}
-                            {/*<li><a>Team</a></li>*/}
-                            {/*<li><a>Activity</a></li>*/}
-                        {/*</ul>*/}
-                    {/*</li>*/}
-                </ul>
+                    this.state.permission ? (
+                        <div>
+                            <p className="menu-label">
+                                Administration
+                            </p>
+                            <ul className="menu-list">
+                                {
+                                    this.state.permission && projectPermissions.hasProjectPermission(
+                                        this.state.permission,
+                                        projectPermissions.PERMISSION.FILE.UPLOAD,
+                                    ) ? (
+                                        <li>
+                                            <a className={this.props.url === 'upload' ? 'is-active' : ''}
+                                               href={`/minecraft/mods/${this.props.slug}/upload`}>
+                                                Upload Files
+                                            </a>
+                                        </li>
+                                    ) : ''
+                                }
+                                {
+                                    this.state.permission && projectPermissions.containsProjectPermission(
+                                        this.state.permission,
+                                        projectPermissions.PERMISSION.MEMBER,
+                                    ) ? (
+                                        <li>
+                                            <a className={this.props.url === 'team' ? 'is-active' : ''}
+                                               href={`/minecraft/mods/${this.props.slug}/team`}>
+                                                Team
+                                            </a>
+                                        </li>
+                                    ) : ''
+                                }
+                                {
+                                    this.state.permission && projectPermissions.containsProjectPermission(
+                                        this.state.permission,
+                                        projectPermissions.PERMISSION.SETTINGS,
+                                    ) ? (
+                                        <li>
+                                            <a className={this.props.url === 'settings' ? 'is-active' : ''}
+                                               href={`/minecraft/mods/${this.props.slug}/settings`}>
+                                                Settings
+                                            </a>
+                                        </li>
+                                    ) : ''
+                                }
+
+                            </ul>
+                        </div>
+                    ) : ''
+                }
             </aside>
         );
     }

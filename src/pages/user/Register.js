@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import ReCAPTCHA from 'react-google-recaptcha';
-import globals from '~/utils/globals';
-import userUtils from '~/utils/userUtils';
-
-const http = require('http');
+import globals from '../../utils/globals';
+import userUtils from '../../utils/userUtils';
 
 let captcha;
 
@@ -13,7 +11,8 @@ class Register extends Component {
         super(props);
         this.state = {
             data: [],
-            error: ''
+            error: '',
+            loggedIn: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -21,20 +20,16 @@ class Register extends Component {
         this.onChange = this.onChange.bind(this);
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+    componentDidMount() {
+        userUtils.isUserLoggedIn()
+            .then(() => {
+                this.setState({ loggedIn: true });
+            })
+            .catch(() => {
+                this.setState({ loggedIn: false });
+            });
     }
 
-    handleSubmit(event) {
-        captcha.execute();
-        event.preventDefault();
-    }
 
     onChange(value) {
         const formData = new FormData();
@@ -67,44 +62,64 @@ class Register extends Component {
         formData.append('passwordConfirm', this.refs.passwordConfirm.value);
         formData.append('g-recaptcha-response', value);
 
-        fetch(globals.endPoint() + '/auth/register',
+        fetch(
+            `${globals.endPoint()}/auth/register`,
             {
                 method: 'POST',
                 headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${userUtils.getToken()}`,
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${userUtils.getToken()}`,
                 },
                 body: formData,
-            })
+            },
+        )
             .then(res => res.json())
-            .then(res => {
+            .then((res) => {
                 if (res.statusCode === 200) {
                     this.props.history.push('/');
                 } else {
-                    //TODO Handle Error
+                    // TODO Handle Error
                     this.setState({ data: res });
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({ error: { message: 'An unknown error occurred' } });
-                console.error('The request /auth/register to the api had an error. ' + err);
+                console.error(`The request /auth/register to the api had an error. ${err}`);
             });
 
         captcha.reset();
     }
 
+    handleSubmit(event) {
+        captcha.execute();
+        event.preventDefault();
+    }
+
+    handleInputChange(event) {
+        const [target, name] = event;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+
+        this.setState({
+            [name]: value,
+        });
+    }
+
     render() {
         document.title = 'Register - Diluv';
 
-        if (userUtils.isUserLoggedIn()) {
-            return <Redirect to='/'/>;
+        if (this.state.loggedIn) {
+            return <Redirect to="/"/>;
         }
 
         return (
             <div>
                 <div className="card card-container">
                     <figure className="avatar">
-                        <img id="profile-img" className="profile-img-card" src={`${globals.publicURL()}/favicon/favicon.ico`}/>
+                        <img
+                            id="profile-img"
+                            className="profile-img-card"
+                            src={`${globals.publicURL()}/favicon/favicon.ico`}
+                        />
                     </figure>
                     <ReCAPTCHA
                         onChange={this.onChange}
@@ -116,24 +131,47 @@ class Register extends Component {
                     />
                     <div className="field">
                         <div className="control">
-                            <input ref="email" type="email" className="input"
-                                   placeholder="Email address" required autoFocus/>
+                            <input
+                                ref="email"
+                                type="email"
+                                className="input"
+                                placeholder="Email address"
+                                required
+                            />
                         </div>
                     </div>
                     <div className="field">
                         <div className="control">
-                            <input ref="username" type="text" className="input" placeholder="Username" required/>
+                            <input
+                                ref="username"
+                                type="text"
+                                className="input"
+                                placeholder="Username"
+                                required
+                            />
                         </div>
                     </div>
 
                     <div className="field">
                         <div className="control">
-                            <input ref="password" type="password" className="input" placeholder="Password" required/>
+                            <input
+                                ref="password"
+                                type="password"
+                                className="input"
+                                placeholder="Password"
+                                required
+                            />
                         </div>
                     </div>
                     <div className="field">
                         <div className="control">
-                            <input ref="passwordConfirm" type="password" className="input" placeholder="Retype Password" required/>
+                            <input
+                                ref="passwordConfirm"
+                                type="password"
+                                className="input"
+                                placeholder="Retype Password"
+                                required
+                            />
                         </div>
                     </div>
 

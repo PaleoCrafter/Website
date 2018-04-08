@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import globals from '~/utils/globals';
-import requestUtils from '~/utils/requestUtils';
-import AccountNav from '~/components/elements/account/AccountNav';
+import globals from '../../../utils/globals';
+import requestUtils from '../../../utils/requestUtils';
+import AccountNav from '../../../components/elements/account/AccountNav';
 
 class AccountSettings extends Component {
-
     constructor() {
         super();
         this.state = {
             user: [],
             userSettings: [],
-            error: ''
+            error: '',
         };
         this.submitChangeProfile = this.submitChangeProfile.bind(this);
         this.submitChangeEmail = this.submitChangeEmail.bind(this);
@@ -18,44 +17,40 @@ class AccountSettings extends Component {
     }
 
     componentDidMount() {
-
-        requestUtils.getFetchJSON(globals.endPoint() + '/users/me')
-            .then(res => {
+        requestUtils.getFetchJSON(`${globals.endPoint()}/users/me`)
+            .then((res) => {
                 this.setState({ user: res.data });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error(err);
             });
 
-        requestUtils.getFetchJSON(globals.endPoint() + '/users/me/settings')
-            .then(res => {
+        requestUtils.getFetchJSON(`${globals.endPoint()}/users/me/settings`)
+            .then((res) => {
                 this.setState({ userSettings: res.data });
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error(err);
             });
-
-
     }
 
     handleInputChange(event) {
-        const target = event.target;
+        const [target, name] = event;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
 
         this.setState({
-            [name]: value
+            [name]: value,
         });
     }
 
     submitChangeEmail(event) {
-        let payload = {
-            'oldPassword': this.state.oldPassword,
-            'newPassword': this.state.newPassword,
-            'newPasswordConfirm': this.state.newPasswordConfirm
+        const payload = {
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword,
+            newPasswordConfirm: this.state.newPasswordConfirm,
         };
 
-        //TODO
+        // TODO
         // globals.postForm(globals.endPoint() + '/user/settings', payload, res => {
         //     if (res.statusCode === 200) {
         //
@@ -71,7 +66,6 @@ class AccountSettings extends Component {
     }
 
     submitChangeProfile(event) {
-
         event.preventDefault();
     }
 
@@ -90,21 +84,26 @@ class AccountSettings extends Component {
                             <div className="field">
                                 <label className="label">Email</label>
                                 <div className="control">
-                                    <input name="email"
-                                           onChange={this.handleInputChange}
-                                           type="email"
-                                           value={this.state.userSettings.email || ''}
-                                           id="inputEmail"
-                                           className="input"
-                                           placeholder="Email address"
-                                           required autoFocus/>
+                                    <input
+                                        name="email"
+                                        onChange={this.handleInputChange}
+                                        type="email"
+                                        value={this.state.userSettings.email || ''}
+                                        id="inputEmail"
+                                        className="input"
+                                        placeholder="Email address"
+                                        required
+                                        autoFocus
+                                    />
                                 </div>
                             </div>
                             <div className="field">
                                 <div className="control">
 
-                                    <button className="button is-link"
-                                            onClick={this.submitChangeEmail}>
+                                    <button
+                                        className="button is-link"
+                                        onClick={this.submitChangeEmail}
+                                    >
                                         Update Email
                                     </button>
                                 </div>
@@ -116,40 +115,51 @@ class AccountSettings extends Component {
                             <div className="field">
                                 <label className="label">First name</label>
                                 <div className="control">
-                                    <input name="firstName" onChange={this.handleInputChange}
-                                           type="text"
-                                           value={this.state.userSettings.firstName || ''}
-                                           id="inputFirstName"
-                                           className="input"
-                                           placeholder="First Name"/>
+                                    <input
+                                        name="firstName"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        value={this.state.userSettings.firstName || ''}
+                                        id="inputFirstName"
+                                        className="input"
+                                        placeholder="First Name"
+                                    />
                                 </div>
                             </div>
                             <div className="field">
                                 <label className="label">Last name</label>
                                 <div className="control">
-                                    <input name="lastName" onChange={this.handleInputChange}
-                                           type="text"
-                                           value={this.state.userSettings.lastName || ''}
-                                           id="inputLastName"
-                                           className="input"
-                                           placeholder="Last Name"/>
+                                    <input
+                                        name="lastName"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        value={this.state.userSettings.lastName || ''}
+                                        id="inputLastName"
+                                        className="input"
+                                        placeholder="Last Name"
+                                    />
                                 </div>
                             </div>
                             <div className="field">
                                 <label className="label">Location</label>
                                 <div className="control">
-                                    <input name="location" onChange={this.handleInputChange}
-                                           type="text"
-                                           value={this.state.userSettings.location || ''}
-                                           id="inputLocation"
-                                           className="input"
-                                           placeholder="Location"/>
+                                    <input
+                                        name="location"
+                                        onChange={this.handleInputChange}
+                                        type="text"
+                                        value={this.state.userSettings.location || ''}
+                                        id="inputLocation"
+                                        className="input"
+                                        placeholder="Location"
+                                    />
                                 </div>
                             </div>
                             <div className="field">
                                 <div className="control">
-                                    <button className="button is-link"
-                                            onClick={this.submitChangeProfile}>
+                                    <button
+                                        className="button is-link"
+                                        onClick={this.submitChangeProfile}
+                                    >
                                         Save
                                     </button>
                                 </div>
