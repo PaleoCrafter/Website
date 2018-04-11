@@ -5,7 +5,7 @@ import globals from '../../../utils/globals';
 import requestUtils from '../../../utils/requestUtils';
 
 import ModNav from '../../../components/elements/minecraft/mods/ModNav';
-import renderers from '../../../components/markdown-renderer';
+import renderers from '../../../components/elements/highlight/markdown-renderer';
 import ProjectView from '../../../components/elements/minecraft/mods/ModView';
 
 class ModOverview extends Component {

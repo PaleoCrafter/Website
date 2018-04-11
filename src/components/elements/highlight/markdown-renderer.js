@@ -1,5 +1,5 @@
 const React = require('react');
-const highlightjs = require('highlight.js');
+const highlightjs = require('./highlight.js');
 const PropTypes = require('prop-types');
 
 function Heading(props) {

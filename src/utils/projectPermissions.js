@@ -131,6 +131,7 @@ module.exports = {
             return false;
         }
 
+
         for (const i in permissions) {
             if (permissions[i] === type.PERMISSION) {
                 return true;

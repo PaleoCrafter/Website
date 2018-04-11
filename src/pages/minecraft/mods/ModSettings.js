@@ -7,7 +7,7 @@ import Dropzone from 'react-dropzone';
 import Textarea from 'react-textarea-autosize';
 
 import ReactMarkdown from 'react-markdown';
-import renderers from '../../../components/markdown-renderer';
+import renderers from '../../../components/elements/highlight/markdown-renderer';
 import ModNav from '../../../components/elements/minecraft/mods/ModNav';
 
 import globals from '../../../utils/globals';

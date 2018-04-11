@@ -9,7 +9,7 @@ import Textarea from 'react-textarea-autosize';
 import globals from '../../../utils/globals';
 import userUtils from '../../../utils/userUtils';
 import requestUtils from '../../../utils/requestUtils';
-import renderers from '../../../components/markdown-renderer';
+import renderers from '../../../components/elements/highlight/markdown-renderer';
 
 class CreateMod extends Component {
     constructor() {
