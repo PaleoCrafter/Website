@@ -45,7 +45,7 @@ class ModSettings extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`))
             .then((res) => {
                 this.setState({
                     slug: res.data.slug,
@@ -77,7 +77,7 @@ class ModSettings extends Component {
                 console.log(err);
             });
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/categories/`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/categories/`))
             .then((res) => {
                 const o = [];
                 res.data.map((item) => {
@@ -145,20 +145,7 @@ class ModSettings extends Component {
             return;
         }
 
-        params.forEach((value, key) => url.searchParams.append(key, value));
-
-        fetch(
-            url,
-            {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${userUtils.getToken()}`,
-                    'Content-type': 'application/x-www-form-urlencoded',
-                },
-            },
-        )
-            .then(res => res.json())
+        requestUtils.fetchPut(url, params)
             .then((res) => {
                 this.setState({ redirect: res.data.slug });
             })
@@ -203,10 +190,7 @@ class ModSettings extends Component {
         if (this.state.redirect) {
             return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`}/>);
         }
-        if (this.state.permission && !projectPermissions.containsProjectPermission(
-            this.state.permission,
-            projectPermissions.PERMISSION.SETTINGS,
-        )) {
+        if (this.state.permission && !projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.SETTINGS)) {
             return (<Redirect to={`/minecraft/mods/${projectSlug}`}/>);
         }
 
@@ -287,13 +271,13 @@ class ModSettings extends Component {
                             <div className="tabs">
                                 <ul>
                                     <li
-                                        className={this.state.tab === 1 ? 'is-active' : ''}
+                                        className={this.state.tab === 1 && 'is-active'}
                                         onClick={() => this.onChangeTab(1)}
                                     >
                                         <a>Write</a>
                                     </li>
                                     <li
-                                        className={this.state.tab === 2 ? 'is-active' : ''}
+                                        className={this.state.tab === 2 && 'is-active'}
                                         onClick={() => this.onChangeTab(2)}
                                     >
                                         <a>Preview</a>

@@ -18,11 +18,11 @@ class ModFile extends Component {
                 <td>
                     {
                         //TODO Max to like 5, and add comma's
-                        this.props.gameVersions ? this.props.gameVersions.map(item =>
+                        this.props.gameVersions && this.props.gameVersions.map(item =>
                             <div key={item.version}>
                                 {item.version}
                             </div>
-                        ) : ''
+                        )
                     }
                 </td>
                 <td>{this.props.downloads}</td>

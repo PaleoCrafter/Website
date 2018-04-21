@@ -56,12 +56,12 @@ class ModView extends Component {
                             </div>
 
                             <div id="modCategories">Categories: {
-                                this.props.categories.map(item => (<span
-                                    style={{ marginRight: `${2}px` }}
-                                    key={item.name}
-                                    className="tag is-rounded is-dark"
-                                >{item.name}
-                                                                   </span>))
+                                this.props.categories.map(item => (
+                                    <span style={{ marginRight: `${2}px` }}
+                                          key={item.name}
+                                          className="tag is-rounded is-info">
+                                        {item.name}
+                                    </span>))
                             }
                             </div>
                         </div>
@@ -70,17 +70,17 @@ class ModView extends Component {
                 <div className="media-right">
                     <p className="field">
                         <a href={`/minecraft/mods/${this.props.slug}/files`}>
-              <span className="icon">
-                <i className="fa fa-file"/>
-              </span>
+                            <span className="icon">
+                                <i className="fa fa-file"/>
+                            </span>
                         </a>
                     </p>
                     {/* TODO Favourite */}
                     <p className="field">
                         <a>
-              <span className="icon has-text-warning">
-                <i className="fas fa-star"/>
-              </span>
+                            <span className="icon has-text-warning">
+                                <i className="fas fa-star"/>
+                            </span>
                         </a>
                     </p>
                 </div>

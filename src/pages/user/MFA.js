@@ -41,6 +41,7 @@ class MFA extends Component {
         const formData = new FormData();
         formData.append('mfaCode', this.state.mfaCode);
 
+        //TODO Fix
         fetch(
             `${globals.endPoint()}/auth/mfa`,
             {
@@ -94,12 +95,12 @@ class MFA extends Component {
                     />
                     <p id="profile-name" className="profile-name-card"/>
                     {
-                        isError ? (
+                        isError && (
                             <div className="alert alert-danger">
                                 <h4>{http.STATUS_CODES[this.state.data.status]}</h4>
                                 <p>{isError}</p>
                             </div>
-                        ) : ''
+                        )
                     }
                     <form method="POST" onSubmit={this.handleSubmit} className="form-signin">
                         <input

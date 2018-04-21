@@ -12,19 +12,19 @@ class AccountNav extends Component {
             <aside className="menu">
                 <ul className="menu-list">
                     <li>
-                        <a className={this.props.url === 'profile' ? 'is-active' : ''}
+                        <a className={this.props.url === 'profile' && 'is-active'}
                            href="/account">
                             Profile
                         </a>
                     </li>
                     <li>
-                        <a className={this.props.url === 'security' ? 'is-active' : ''}
+                        <a className={this.props.url === 'security' && 'is-active'}
                            href="/account/security">
                             Security
                         </a>
                     </li>
                     <li>
-                        <a className={this.props.url === 'settings' ? 'is-active' : ''}
+                        <a className={this.props.url === 'settings' && 'is-active'}
                            href="/account/settings">
                             Settings
                         </a>

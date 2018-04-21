@@ -32,7 +32,7 @@ class CreateMod extends Component {
     }
 
     componentDidMount() {
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/categories/`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/categories/`))
             .then((res) => {
                 const o = [];
                 res.data.map((item) => {
@@ -107,27 +107,16 @@ class CreateMod extends Component {
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', this.state.description);
-        formData.append('logo', this.state.imageFiles ? this.state.imageFiles : '');
+        formData.append('logo', this.state.imageFiles && this.state.imageFiles);
         formData.append('categories', this.state.categories);
 
 
-        fetch(
-            `${globals.endPoint()}/games/minecraft/mods/projects`,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${userUtils.getToken()}`,
-                },
-                body: formData,
-            },
-        )
-            .then(res => res.json())
+        requestUtils.fetchPost(new URL(`${globals.endPoint()}/games/minecraft/mods/projects`), formData)
             .then((res) => {
                 this.setState({ redirect: res.data.slug });
                 console.log(this.state.redirect);
             });
-        // TODO CATCH AND FIX
+        //TODO Error on fail
     }
 
     render() {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import globals from '../../utils/globals';
 import userUtils from '../../utils/userUtils';
+import requestUtils from '../../utils/requestUtils';
 
 class Login extends Component {
     constructor(props) {
@@ -37,27 +38,12 @@ class Login extends Component {
             return;
         }
 
+        //TODO Move away from refs
         const formData = new FormData();
         formData.append('usernameEmail', this.refs.email.value);
         formData.append('password', this.refs.password.value);
 
-        fetch(
-            `${globals.endPoint()}/auth/login`,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${userUtils.getToken()}`,
-                },
-                body: formData,
-            },
-        )
-            .then(res => res.json()
-                .then((json) => {
-                    if (res.ok) return json;
-
-                    throw json;
-                }))
+        requestUtils.fetchPost(new URL(`${globals.endPoint()}/auth/login`), formData)
             .then((res) => {
                 if (res.data.mfa) {
                     const storageSystem = window.sessionStorage;

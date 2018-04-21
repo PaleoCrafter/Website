@@ -18,7 +18,7 @@ class ListMods extends Component {
     }
 
     componentDidMount() {
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods`))
             .then((res) => {
                 this.setState({ projectType: res.data });
             })
@@ -41,7 +41,7 @@ class ListMods extends Component {
             page = 1;
         }
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects?page=${page}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects?page=${page}`))
             .then((res) => {
                 this.setState({ projects: res.data });
             })
@@ -57,9 +57,6 @@ class ListMods extends Component {
     }
 
     render() {
-        // if (!this.state.projectType)
-        //     return (<E404/>);
-
         document.title = 'Mods - Projects - Diluv';
         return (
             <div className="container">
@@ -85,7 +82,7 @@ class ListMods extends Component {
                         </nav>
                         <br/>
                         {
-                            this.state.projects && this.state.projects.length > 0 ? this.state.projects.map(item =>
+                            this.state.projects && this.state.projects.length > 0 && this.state.projects.map(item =>
                                 (<ModView
                                     key={item.slug}
                                     name={item.name}
@@ -100,34 +97,32 @@ class ListMods extends Component {
                                     shortDescription={item.shortDescription}
                                     slug={item.slug}
                                     permission={item.permission}
-                                />)) : ''
+                                />))
                         }
                     </div>
 
                     <div className="column">
                         {
-                            this.state.loggedIn ? (
+                            this.state.loggedIn && (
                                 <p className="field ">
-                                    <a
-                                        className="button is-large is-link"
-                                        role="button"
-                                        href="/minecraft/mods/create"
-                                    >
+                                    <a className="button is-large is-link"
+                                       role="button"
+                                       href="/minecraft/mods/create">
                                         Create Mod
                                     </a>
                                 </p>
-                            ) : ''
+                            )
                         }
                         <br/>
-                        <h4 className="title is-4">Categories</h4>
-                        {
-                            this.state.projectType.categories && this.state.projectType.categories.length > 0 ? this.state.projectType.categories.map(item =>
-                                (<p key={item.name} className="field ">
-                                    <a className="button">
-                                        {item.name}
-                                    </a>
-                                </p>)) : ''
-                        }
+                        {/*<h4 className="title is-4">Categories</h4>*/}
+                        {/*{*/}
+                            {/*this.state.projectType.categories && this.state.projectType.categories.length > 0 && this.state.projectType.categories.map(item =>*/}
+                                {/*(<p key={item.name} className="field ">*/}
+                                    {/*<a className="button">*/}
+                                        {/*{item.name}*/}
+                                    {/*</a>*/}
+                                {/*</p>))*/}
+                        {/*}*/}
                     </div>
                 </div>
             </div>

@@ -7,7 +7,6 @@ class Minecraft extends Component {
     constructor() {
         super();
         this.state = {
-            gameData: [],
             items: [],
             error: '',
         };
@@ -15,14 +14,14 @@ class Minecraft extends Component {
 
 
     componentDidMount() {
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft`))
             .then((res) => {
                 this.setState({ gameData: res.data });
             })
             .catch((err) => {
                 console.log(err);
             });
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/projectTypes`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/projectTypes`))
             .then((res) => {
                 this.setState({ items: res.data });
             })
@@ -33,29 +32,23 @@ class Minecraft extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-4"/>
-                    <div className="col-md-4">
-                        <h1>Projects</h1>
+            <section className="section">
+                <h1 className="title is-1">Projects</h1>
+                <div className="columns">
+                    <div className="column is-one-fifth">
+                        <a href="/minecraft/mods/">
+                            <div className="card">
+                                <div className="card-image">
+                                    <figure className="image is-4by3">
+                                        <img src="https://bulma.io/images/placeholders/1280x960.png"
+                                             alt="Placeholder image"/>
+                                    </figure>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div className="col-md-4"/>
                 </div>
-                <div className="row">
-                    <div className="col-md-4"/>
-                    <div className="col-md-4">
-                        {
-                            this.state.items.length > 0 ? this.state.items.map(item =>
-                                (
-                                    <Link key={item.slug} to={`/minecraft/${item.slug}`}>
-                                        {item.name}
-                                    </Link>
-                                )) : ''
-                        }
-                    </div>
-                    <div className="col-md-4"/>
-                </div>
-            </div>
+            </section>
         );
     }
 }

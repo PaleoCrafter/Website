@@ -17,6 +17,7 @@ import Mods from './pages/minecraft/mods/ModOverview';
 import ModFiles from './pages/minecraft/mods/ModFiles';
 import ModUploadFile from './pages/minecraft/mods/ModUploadFile';
 import ModSettings from './pages/minecraft/mods/ModSettings';
+import ModMembers from './pages/minecraft/mods/ModMembers';
 
 import ListMods from './pages/minecraft/ListMods';
 import CreateMod from './pages/minecraft/mods/CreateMod';
@@ -25,9 +26,9 @@ import Account from './pages/user/account/Account';
 import AccountSettings from './pages/user/account/AccountSettings';
 import AccountSecurity from './pages/user/account/AccountSecurity';
 
+import MinecraftUserProfile from './pages/minecraft/user/MinecraftUserProfile';
+
 import DiluvNav from './components/DiluvNav';
-import DiluvFooter from './components/DiluvFooter';
-import ModTeam from './pages/minecraft/mods/ModTeam';
 
 require('react-select/scss/default.scss');
 require('../public/css/main.scss');
@@ -48,8 +49,10 @@ render(
                 <Route exact path="/minecraft/mods/:slug/settings" component={ModSettings}/>
                 <Route exact path="/minecraft/mods/:slug/upload" component={ModUploadFile}/>
                 <Route exact path="/minecraft/mods/:slug/files" component={ModFiles}/>
-                <Route exact path="/minecraft/mods/:slug/team" component={ModTeam}/>
+                <Route exact path="/minecraft/mods/:slug/members" component={ModMembers}/>
                 <Route exact path="/minecraft/mods/:slug/" component={Mods}/>
+
+                <Route exact path="/minecraft/user/:username" component={MinecraftUserProfile}/>
 
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/logout" component={Logout}/>
@@ -59,6 +62,7 @@ render(
                 <Route exact path="/account/settings" component={AccountSettings}/>
                 <Route exact path="/account/security" component={AccountSecurity}/>
                 <Route exact path="/account" component={Account}/>
+
 
                 <Route component={E404}/>
             </Switch>

@@ -24,7 +24,7 @@ class ModUploadFile extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`))
             .then((res) => {
                 this.setState({ projectData: res.data });
             })
@@ -58,18 +58,7 @@ class ModUploadFile extends Component {
         formData.append('changelog', this.refs.changelog.value);
         formData.append('file', this.state.file, this.state.file.name);
 
-        fetch(
-            `${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${userUtils.getToken()}`,
-                },
-                body: formData,
-            },
-        )
-            .then(res => res.json())
+        requestUtils.fetchPost(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`), formData)
             .then((res) => {
                 console.log(res);
             })
@@ -103,13 +92,13 @@ class ModUploadFile extends Component {
                                 onChange={this.uploadFile}
                             />
                             <span className="file-cta">
-                <span className="file-icon">
-                  <i className="fas fa-upload"/>
-                </span>
-                <span className="file-label">
-                            Choose a file…
-                </span>
-              </span>
+                                <span className="file-icon">
+                                    <i className="fas fa-upload"/>
+                                </span>
+                                <span className="file-label">
+                                    Choose a file…
+                                </span>
+                            </span>
                         </label>
                     </div>
                 </div>

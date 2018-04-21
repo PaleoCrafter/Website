@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import projectPermissions from '../../../../utils/projectPermissions';
 
 
-class ModTeamMember extends Component {
+class ModMember extends Component {
 
     constructor(props) {
         super(props);
@@ -11,8 +11,7 @@ class ModTeamMember extends Component {
         };
     }
 
-    onChange(permission,
-             event) {
+    onChange(permission, event) {
         const permissions = this.state.permissions;
 
         if (event.target.checked) {
@@ -106,7 +105,7 @@ class ModTeamMember extends Component {
                             </div>
                             {
                                 this.props.role !== 'Owner' && projectPermissions.hasProjectPermission(this.props.permissions,
-                                    projectPermissions.PERMISSION.MEMBER.REMOVE) ?
+                                    projectPermissions.PERMISSION.MEMBER.REMOVE) &&
                                     (
                                         <div className="media-right">
                                             <a onClick={this.props.onRemove} className="button"
@@ -115,7 +114,6 @@ class ModTeamMember extends Component {
                                             </a>
                                         </div>
                                     )
-                                    : ''
                             }
                         </div>
 
@@ -131,4 +129,4 @@ class ModTeamMember extends Component {
     }
 }
 
-export default ModTeamMember;
+export default ModMember;

@@ -6,7 +6,6 @@ class E404 extends Component {
         document.title = '404 - Diluv';
         return (
             <div>
-                TESTING
                 404 Not Found
             </div>
         );

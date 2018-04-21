@@ -18,7 +18,7 @@ class ModFiles extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`))
             .then((res) => {
                 this.setState({ projectData: res.data });
             })
@@ -26,7 +26,7 @@ class ModFiles extends Component {
                 console.log('Game');
             });
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`))
             .then((res) => {
                 this.setState({ modFileData: res.data });
             })
@@ -51,7 +51,7 @@ class ModFiles extends Component {
                                     (this.state.projectData.permission && projectPermissions.hasProjectPermission(
                                         this.state.projectData.permission,
                                         projectPermissions.PERMISSION.FILE.UPLOAD,
-                                    )) ? (
+                                    )) && (
                                         <a
                                             className="button is-success"
                                             role="button"
@@ -59,7 +59,7 @@ class ModFiles extends Component {
                                         >
                                             Upload File
                                         </a>
-                                    ) : ''
+                                    )
                                 }
                             </div>
                         </div>
@@ -75,15 +75,12 @@ class ModFiles extends Component {
                                 <th>Status</th>
                                 {
                                     this.state.projectData.permission && globals.containsProjectPermission(
-                                        this.state.projectData.permission,
-                                        globals.PERMISSION.FILE,
-                                    ) ?
-                                        (
-                                            <th>
-                                                Edit File
-                                            </th>
-                                        )
-                                        : ''
+                                        this.state.projectData.permission, globals.PERMISSION.FILE) &&
+                                    (
+                                        <th>
+                                            Edit File
+                                        </th>
+                                    )
                                 }
                             </tr>
                             </thead>

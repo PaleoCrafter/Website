@@ -8,12 +8,12 @@ class ModNav extends Component {
         super(props);
 
         this.state = {
-            permission: 0,
+            permission: null,
         };
     }
 
     componentDidMount() {
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${this.props.slug}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.props.slug}`))
             .then(res => {
                 this.setState({ permission: res.data.permission });
             })
@@ -31,13 +31,13 @@ class ModNav extends Component {
                 </p>
                 <ul className="menu-list">
                     <li>
-                        <a className={this.props.url === 'overview' ? 'is-active' : ''}
+                        <a className={this.props.url === 'overview' && 'is-active'}
                            href={`/minecraft/mods/${this.props.slug}`}>
                             Overview
                         </a>
                     </li>
                     <li>
-                        <a className={this.props.url === 'files' ? 'is-active' : ''}
+                        <a className={this.props.url === 'files' && 'is-active'}
                            href={`/minecraft/mods/${this.props.slug}/files`}>
                             Files
                         </a>
@@ -45,55 +45,50 @@ class ModNav extends Component {
                 </ul>
                 {
 
-                    this.state.permission ? (
+                    this.state.permission &&
+                    (
                         <div>
                             <p className="menu-label">
                                 Administration
                             </p>
                             <ul className="menu-list">
                                 {
-                                    this.state.permission && projectPermissions.hasProjectPermission(
-                                        this.state.permission,
-                                        projectPermissions.PERMISSION.FILE.UPLOAD,
-                                    ) ? (
+                                    projectPermissions.hasProjectPermission(this.state.permission, projectPermissions.PERMISSION.FILE.UPLOAD) &&
+                                    (
                                         <li>
-                                            <a className={this.props.url === 'upload' ? 'is-active' : ''}
+                                            <a className={this.props.url === 'upload' && 'is-active'}
                                                href={`/minecraft/mods/${this.props.slug}/upload`}>
                                                 Upload Files
                                             </a>
                                         </li>
-                                    ) : ''
+                                    )
                                 }
                                 {
-                                    this.state.permission && projectPermissions.containsProjectPermission(
-                                        this.state.permission,
-                                        projectPermissions.PERMISSION.MEMBER,
-                                    ) ? (
+                                    projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.MEMBER) &&
+                                    (
                                         <li>
-                                            <a className={this.props.url === 'team' ? 'is-active' : ''}
-                                               href={`/minecraft/mods/${this.props.slug}/team`}>
-                                                Team
+                                            <a className={this.props.url === 'members' && 'is-active'}
+                                               href={`/minecraft/mods/${this.props.slug}/members`}>
+                                                Members
                                             </a>
                                         </li>
-                                    ) : ''
+                                    )
                                 }
                                 {
-                                    this.state.permission && projectPermissions.containsProjectPermission(
-                                        this.state.permission,
-                                        projectPermissions.PERMISSION.SETTINGS,
-                                    ) ? (
+                                    projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.SETTINGS) &&
+                                    (
                                         <li>
-                                            <a className={this.props.url === 'settings' ? 'is-active' : ''}
+                                            <a className={this.props.url === 'settings' && 'is-active'}
                                                href={`/minecraft/mods/${this.props.slug}/settings`}>
                                                 Settings
                                             </a>
                                         </li>
-                                    ) : ''
+                                    )
                                 }
 
                             </ul>
                         </div>
-                    ) : ''
+                    )
                 }
             </aside>
         );

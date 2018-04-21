@@ -17,7 +17,7 @@ class ModOverview extends Component {
     componentDidMount() {
         const projectSlug = this.props.match.params.slug;
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`)
+        requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}`))
             .then((res) => {
                 this.setState({ projectData: res.data });
             })
@@ -37,35 +37,41 @@ class ModOverview extends Component {
                             <figure className="media-left">
                                 <p className="image is-150x150">
                                     {
-                                        this.state.projectData.slug ?
+                                        this.state.projectData.slug &&
+                                        (
                                             <img
                                                 className="mod-logo"
                                                 src={`${globals.cdnURL()}/projects/${this.state.projectData.slug}/logo/${this.state.projectData.logo}`}
                                             />
-                                            : ''
+                                        )
                                     }
                                 </p>
                             </figure>
                             <div className="media-content">
                                 <div className="content">
                                     <h3 className="title is-3">{this.state.projectData.name}</h3>
-                                    {this.state.projectData.authors ? ProjectView.getOwner(this.state.projectData.authors) : ''}
+                                    {this.state.projectData.authors && ProjectView.getOwner(this.state.projectData.authors)}
                                     Total
                                     Downloads: {this.state.projectData.totalDownloads}<br/>
-                                    Created: {this.state.projectData.createdAt ? globals.getDate(this.state.projectData.createdAt) : ''}<br/>
-                                    Updated: {this.state.projectData.updatedAt ? globals.getDate(this.state.projectData.updatedAt) : ''}
+                                    Created: {this.state.projectData.createdAt && globals.getDate(this.state.projectData.createdAt)}<br/>
+                                    Updated: {this.state.projectData.updatedAt && globals.getDate(this.state.projectData.updatedAt)}
                                     {/* <h6>Categories: {this.state.projectData.categories}</h6> */}
                                 </div>
                             </div>
-                            <div className="media-right">
-                                <div className="content">
-                                    <div className="field">
-                                        <a className="button is-success" href="">
-                                            Download Latest
-                                        </a>
+                            {
+                                this.state.projectData.downloadLatest &&
+                                (
+                                    <div className="media-right">
+                                        <div className="content">
+                                            <div className="field">
+                                                <a className="button is-success" href="">
+                                                    Download Latest
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                )
+                            }
                         </article>
                         <div className="section">
                             <ReactMarkdown

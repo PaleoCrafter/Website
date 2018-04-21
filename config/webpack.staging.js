@@ -1,5 +1,4 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -16,7 +15,6 @@ module.exports = {
         publicPath: '//dev.diluv.io/public/',
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'], { root: path.join(__dirname, '../') }),
         new HtmlWebpackPlugin({
             inject: false,
             title: 'Diluv',

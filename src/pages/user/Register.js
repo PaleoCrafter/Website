@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import ReCAPTCHA from 'react-google-recaptcha';
 import globals from '../../utils/globals';
 import userUtils from '../../utils/userUtils';
+import requestUtils from '../../utils/requestUtils';
 
 let captcha;
 
@@ -62,18 +63,7 @@ class Register extends Component {
         formData.append('passwordConfirm', this.refs.passwordConfirm.value);
         formData.append('g-recaptcha-response', value);
 
-        fetch(
-            `${globals.endPoint()}/auth/register`,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `Bearer ${userUtils.getToken()}`,
-                },
-                body: formData,
-            },
-        )
-            .then(res => res.json())
+        requestUtils.fetchPost(new URL(`${globals.endPoint()}/auth/register`, formData))
             .then((res) => {
                 if (res.statusCode === 200) {
                     this.props.history.push('/');

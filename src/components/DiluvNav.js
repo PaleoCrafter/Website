@@ -44,21 +44,30 @@ class DiluvNav extends PureComponent {
             .catch(() => {
                 this.setState({ loggedIn: false });
             });
+
     }
 
     getUserData() {
         userUtils.isUserLoggedIn()
             .then(() => {
-                requestUtils.getFetchJSON(`${globals.endPoint()}/users/me`)
+                console.log('isUserLoggedIn');
+
+                requestUtils.fetchGet(new URL(`${globals.endPoint()}/users/me`))
                     .then((res) => {
+                        console.log(res);
+
                         this.setState({ user: res.data });
                     })
                     .catch((err) => {
+                        console.log('test23');
+
                         console.log(`err${err}`);
                     });
             })
             .catch(() => {
             });
+        console.log('test22');
+
     }
 
     renderLoggedIn() {
@@ -68,31 +77,30 @@ class DiluvNav extends PureComponent {
                     <a className="navbar-link">
                         {this.state.user.username}
                         {
-                            this.state.user.avatar ? <img
-                                    className="avatar avatar-small"
-                                    src={`${globals.cdnURL()}/avatar/${this.state.user.avatar}`}
-                                />
-                                : ''
+                            this.state.user.avatar && <img
+                                className="avatar avatar-small"
+                                src={`${globals.cdnURL()}/avatar/${this.state.user.avatar}`}
+                            />
                         }
                     </a>
 
                     <div className="navbar-dropdown is-right">
                         <a className="navbar-item" href="/account">
-              <span className="icon">
-                <i className="fa fa-cog"/>
-              </span>
+                            <span className="icon">
+                                <i className="fa fa-cog"/>
+                            </span>
                             <span>
-                             Account
-              </span>
+                                Account
+                            </span>
                         </a>
                         <hr className="navbar-divider"/>
                         <a className="navbar-item" href="/logout">
-              <span className="icon">
-                <i className="fa fa-sign-out-alt"/>
-              </span>
+                            <span className="icon">
+                                <i className="fa fa-sign-out-alt"/>
+                            </span>
                             <span>
-                             Logout
-              </span>
+                                Logout
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -125,16 +133,19 @@ class DiluvNav extends PureComponent {
                     </a>
                 </p>
                 {
-                    env !== 'staging' ? <p className="control">
-                        <a className="bd-tw-button button" href="/register">
-                         <span>
-                            Register
-                        </span>
-                            <span className="icon">
-                            <i className="fa fa-bell"></i>
-                        </span>
-                        </a>
-                    </p> : ''
+                    env !== 'staging' &&
+                    (
+                        <p className="control">
+                            <a className="bd-tw-button button" href="/register">
+                                <span>
+                                    Register
+                                </span>
+                                <span className="icon">
+                                    <i className="fa fa-bell"></i>
+                                </span>
+                            </a>
+                        </p>
+                    )
                 }
             </div>
         );
@@ -160,12 +171,11 @@ class DiluvNav extends PureComponent {
                             Home
                         </a>
                         {
-                            this.state.game ? (
+                            this.state.game && (
                                 <a className="navbar-item" href={`/${this.state.game}`}>
-                                    {this.state.game.charAt(0)
-                                        .toUpperCase() + this.state.game.slice(1)}
+                                    {this.state.game.charAt(0).toUpperCase() + this.state.game.slice(1)}
                                 </a>
-                            ) : ''
+                            )
                         }
                     </div>
 
