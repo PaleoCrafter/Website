@@ -10,6 +10,7 @@ import globals from '../../../utils/globals';
 import userUtils from '../../../utils/userUtils';
 import requestUtils from '../../../utils/requestUtils';
 import renderers from '../../../components/elements/highlight/markdown-renderer';
+import { withRouter } from 'react-router-dom';
 
 class CreateMod extends Component {
     constructor() {
@@ -21,9 +22,8 @@ class CreateMod extends Component {
             imageFiles: null,
             categories: [],
             options: [],
-            loggedIn: false,
+            loggedIn: true,
         };
-
 
         this.onDrop = this.onDrop.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -107,7 +107,7 @@ class CreateMod extends Component {
         formData.append('projectName', this.refs.projectName.value);
         formData.append('shortDescription', this.refs.shortDescription.value);
         formData.append('description', this.state.description);
-        formData.append('logo', this.state.imageFiles && this.state.imageFiles);
+        formData.append('logo', this.state.imageFiles);
         formData.append('categories', this.state.categories);
 
 
@@ -124,7 +124,7 @@ class CreateMod extends Component {
             return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`}/>);
         }
         if (!this.state.loggedIn) {
-            return (<Redirect to="/"/>);
+            this.props.history.go(-1);
         }
 
         document.title = 'Create Mod - Diluv';
@@ -142,9 +142,9 @@ class CreateMod extends Component {
                         >
 
                             {this.state.imageFiles ? (
-                                    <p className="image is-150x150">
-                                        <img className="mod-logo" src={this.state.imageFiles.preview}/>
-                                    </p>
+                                    <figure className="image is-128x128">
+                                        <img src={this.state.imageFiles.preview}/>
+                                    </figure>
                                 )
                                 : <div>Drag and drop or click to select a logo to upload
                                     (Optional).

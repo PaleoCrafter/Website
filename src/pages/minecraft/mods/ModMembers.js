@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import globals from '../../../utils/globals';
 import requestUtils from '../../../utils/requestUtils';
-import projectPermissions from '../../../utils/projectPermissions';
+import projectPermissions from 'src/utils/projectPermissions';
 
 import ModNav from '../../../components/elements/minecraft/mods/ModNav';
 import ModMember from '../../../components/elements/minecraft/mods/ModMember';
-import userUtils from '../../../utils/userUtils';
+import userUtils from 'src/utils/userUtils';
 
 class ModMembers extends Component {
     constructor() {
@@ -82,15 +82,12 @@ class ModMembers extends Component {
         requestUtils.fetchDelete(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/members`), params)
             .then((res) => {
                 let memberList = this.state.memberData.slice();
-
                 memberList = memberList.filter(value => value.username !== e);
                 this.setState({ memberData: memberList });
             })
             .catch((res) => {
                 console.log('error');
-                console.log(res);
             });
-        //TODO Make post request to remove username and on success replace current existing memberData
     }
 
     onClickAddUser(e) {
@@ -101,6 +98,7 @@ class ModMembers extends Component {
 
         requestUtils.fetchPost(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/members`), formData)
             .then((res) => {
+                console.log('SUCCESS?');
                 const memberList = this.state.memberData.slice();
                 memberList.push(res.data);
                 this.setState({ memberData: memberList });
@@ -118,6 +116,9 @@ class ModMembers extends Component {
 
     render() {
         const projectSlug = this.props.match.params.slug;
+        //TODO REDIRECT IF NO PERMISSIONS AKA NOT LOGGED IN
+
+        document.title = `${this.state.projectData.name} Members - Diluv`;
 
         return (
             <section className="section">
@@ -129,20 +130,26 @@ class ModMembers extends Component {
                         </h2>
 
                         <div className="columns is-gapless">
-                            <div className="field">
-                                <div className="control">
-                                    {/*TODO Do search from the api*/}
-                                    <input onChange={this.onChangeUserAdd.bind(this)}
-                                           className="input"
-                                           type="text" placeholder="Text input"/>
+                            <div className="columns">
+                                <div className="column">
+                                    <div className="field">
+                                        <div className="control">
+                                            {/*TODO Do search from the api*/}
+                                            <input onChange={this.onChangeUserAdd.bind(this)}
+                                                   className="input"
+                                                   type="text" placeholder="Username"/>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <div className="control">
-                                    <button onClick={this.onClickAddUser.bind(this)}
-                                            className="button is-link">
-                                        Add User
-                                    </button>
+                                <div className="column">
+                                    <div className="field">
+                                        <div className="control">
+                                            <a onClick={this.onClickAddUser.bind(this)}
+                                               className="button is-link">
+                                                Add User
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +168,7 @@ class ModMembers extends Component {
                                 />))
                         }
                         <br/>
-                        <a className="button" onClick={this.onSubmit}>
+                        <a className="button is-primary" onClick={this.onSubmit}>
                             Save
                         </a>
                     </div>

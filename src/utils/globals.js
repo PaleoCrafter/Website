@@ -32,7 +32,10 @@ module.exports = {
     },
 
     getDate(epoch) {
-        return dateFormat(new Date(epoch * 1000), 'HH:mm:ss dd/mm/yyyy');
+        return this.getFormattedDate(epoch, 'HH:mm:ss dd/mm/yyyy');
+    },
+    getFormattedDate(epoch, format) {
+        return dateFormat(new Date(epoch * 1000), format);
     },
 };
 

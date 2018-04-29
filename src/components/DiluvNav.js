@@ -20,21 +20,7 @@ class DiluvNav extends PureComponent {
     componentDidMount() {
         const location = this.props.location.pathname;
         const game = location.split('/')[1];
-        if (game === 'minecraft') {
-            this.setState({ game: 'minecraft' });
-            // requestUtils.getFetchJSON(globals.endPoint()  + '/games/minecraft/projectTypes')
-            //     .then(res => {
-            //         if (res.statusCode === 200) {
-            //             this.setState({ items: res.data });
-            //         } else {
-            //             this.setState({ error: { message: res.data.message } });
-            //         }
-            //     })
-            //     .catch(err => {
-            //         this.setState({ error: { message: 'An unknown error occurred' } });
-            //         console.error('The request /games/minecraft/projectTypes in DiluvNav to the api had an error. ' + err);
-            //     });
-        }
+
         this.getUserData();
 
         userUtils.isUserLoggedIn()
@@ -50,23 +36,17 @@ class DiluvNav extends PureComponent {
     getUserData() {
         userUtils.isUserLoggedIn()
             .then(() => {
-                console.log('isUserLoggedIn');
 
                 requestUtils.fetchGet(new URL(`${globals.endPoint()}/users/me`))
                     .then((res) => {
-                        console.log(res);
-
                         this.setState({ user: res.data });
                     })
                     .catch((err) => {
-                        console.log('test23');
-
                         console.log(`err${err}`);
                     });
             })
             .catch(() => {
             });
-        console.log('test22');
 
     }
 
@@ -77,10 +57,12 @@ class DiluvNav extends PureComponent {
                     <a className="navbar-link">
                         {this.state.user.username}
                         {
-                            this.state.user.avatar && <img
-                                className="avatar avatar-small"
-                                src={`${globals.cdnURL()}/avatar/${this.state.user.avatar}`}
-                            />
+                            this.state.user.avatar &&
+                            (
+                                <figure className="image is-48x48">
+                                    <img src={`${globals.cdnURL()}/avatar/${this.state.user.avatar}`}/>
+                                </figure>
+                            )
                         }
                     </a>
 
@@ -123,12 +105,13 @@ class DiluvNav extends PureComponent {
         return (
             <div className="field is-grouped">
                 <p className="control">
-                    <a className="bd-tw-button button" href="/login">
+                    <a className="bd-tw-button button"
+                       href={`/login?return=${this.props.location.pathname}`}>
                          <span>
                             Login
                         </span>
                         <span className="icon">
-                            <i className="fa fa-envelope"></i>
+                            <i className="fa fa-envelope"/>
                         </span>
                     </a>
                 </p>
@@ -136,12 +119,13 @@ class DiluvNav extends PureComponent {
                     env !== 'staging' &&
                     (
                         <p className="control">
-                            <a className="bd-tw-button button" href="/register">
+                            <a className="bd-tw-button button"
+                               href={`/register?return=${this.props.location.pathname}`}>
                                 <span>
                                     Register
                                 </span>
                                 <span className="icon">
-                                    <i className="fa fa-bell"></i>
+                                    <i className="fa fa-bell"/>
                                 </span>
                             </a>
                         </p>
@@ -157,10 +141,7 @@ class DiluvNav extends PureComponent {
                 <div className="navbar-brand">
                     <a className="navbar-item" href="/">
                         <figure className="image is-64x64">
-                            <img
-                                className="image is-64x64"
-                                src={`${globals.publicURL()}/favicon/favicon.ico`}
-                            />
+                            <img src={`${globals.publicURL()}/favicon/favicon.ico`}/>
                         </figure>
                     </a>
                 </div>
@@ -170,13 +151,9 @@ class DiluvNav extends PureComponent {
                         <a className="navbar-item" href="/">
                             Home
                         </a>
-                        {
-                            this.state.game && (
-                                <a className="navbar-item" href={`/${this.state.game}`}>
-                                    {this.state.game.charAt(0).toUpperCase() + this.state.game.slice(1)}
-                                </a>
-                            )
-                        }
+                        <a className="navbar-item" href="/minecraft">
+                            Minecraft
+                        </a>
                     </div>
 
 

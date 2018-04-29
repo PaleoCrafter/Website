@@ -52,7 +52,7 @@ class ModView extends Component {
                             <div id="modData">
                                 <i className="fa fa-download"/> Downloads: {this.props.totalDownloads} | <i
                                 className="fa fa-clock"
-                            /> Updated: {globals.getDate(this.props.updatedAt)}
+                            /> Last Updated: {globals.getFormattedDate(this.props.updatedAt, '')}
                             </div>
 
                             <div id="modCategories">Categories: {

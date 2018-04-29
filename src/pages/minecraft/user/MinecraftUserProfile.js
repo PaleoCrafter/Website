@@ -47,7 +47,7 @@ class MinecraftUserProfile extends Component {
                         <h1 className="title is-1">User Profile</h1>
 
                         <div className="field">
-                            <figure className="image is-150x150">
+                            <figure className="image is-128x128">
                                 <img src={`http://localhost:1234/avatar/${this.state.userData.avatar}`}/>
                             </figure>
                         </div>

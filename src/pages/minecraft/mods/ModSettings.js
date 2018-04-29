@@ -7,11 +7,12 @@ import Dropzone from 'react-dropzone';
 import Textarea from 'react-textarea-autosize';
 
 import ReactMarkdown from 'react-markdown';
+import GH from 'parse-github-url';
+
 import renderers from '../../../components/elements/highlight/markdown-renderer';
 import ModNav from '../../../components/elements/minecraft/mods/ModNav';
 
 import globals from '../../../utils/globals';
-import userUtils from '../../../utils/userUtils';
 import requestUtils from '../../../utils/requestUtils';
 import projectPermissions from '../../../utils/projectPermissions';
 
@@ -213,14 +214,9 @@ class ModSettings extends Component {
                                 >
 
                                     {this.state.logoPreview ?
-                                        <p className="image is-150x150">
-                                            <img
-                                                className="mod-logo"
-                                                width="160"
-                                                height="160"
-                                                src={this.state.logoPreview}
-                                            />
-                                        </p>
+                                        <figure className="image is-128x128">
+                                            <img src={this.state.logoPreview}/>
+                                        </figure>
                                         : <div>Drag and drop or click to select a logo to upload
                                             (Optional).
                                         </div>}
@@ -271,13 +267,13 @@ class ModSettings extends Component {
                             <div className="tabs">
                                 <ul>
                                     <li
-                                        className={this.state.tab === 1 && 'is-active'}
+                                        className={this.state.tab === 1 ? 'is-active':''}
                                         onClick={() => this.onChangeTab(1)}
                                     >
                                         <a>Write</a>
                                     </li>
                                     <li
-                                        className={this.state.tab === 2 && 'is-active'}
+                                        className={this.state.tab === 2 ? 'is-active':''}
                                         onClick={() => this.onChangeTab(2)}
                                     >
                                         <a>Preview</a>

@@ -36,6 +36,7 @@ class ModMember extends Component {
                             key={type.PERMISSION}
                             type="checkbox"
                             defaultChecked={projectPermissions.hasProjectPermission(this.props.memberPermission, type)}
+                            disabled={!projectPermissions.hasProjectPermission(this.props.permissions, projectPermissions.PERMISSION.MEMBER.MODIFY)}
                         />
                         {
                             type.DISPLAY_NAME
@@ -104,16 +105,16 @@ class ModMember extends Component {
                                 <p className="title is-4">{this.props.username}</p>
                             </div>
                             {
-                                this.props.role !== 'Owner' && projectPermissions.hasProjectPermission(this.props.permissions,
-                                    projectPermissions.PERMISSION.MEMBER.REMOVE) &&
-                                    (
-                                        <div className="media-right">
-                                            <a onClick={this.props.onRemove} className="button"
-                                               role="button">
-                                                Remove
-                                            </a>
-                                        </div>
-                                    )
+                                this.props.role !== 'Owner' &&
+                                (
+                                    <div className="media-right">
+                                        <a onClick={this.props.onRemove} className="button is-danger" disabled={!projectPermissions.hasProjectPermission(this.props.permissions,
+                                        projectPermissions.PERMISSION.MEMBER.REMOVE)}
+                                           role="button">
+                                            Remove
+                                        </a>
+                                    </div>
+                                )
                             }
                         </div>
 

@@ -49,14 +49,12 @@ class ModFiles extends Component {
                             <div className="column">
                                 {
                                     (this.state.projectData.permission && projectPermissions.hasProjectPermission(
-                                        this.state.projectData.permission,
-                                        projectPermissions.PERMISSION.FILE.UPLOAD,
-                                    )) && (
-                                        <a
-                                            className="button is-success"
-                                            role="button"
-                                            href={`/minecraft/mods/${projectSlug}/upload`}
-                                        >
+                                        this.state.projectData.permission, projectPermissions.PERMISSION.FILE.UPLOAD,
+                                    )) &&
+                                    (
+                                        <a className="button is-success"
+                                           role="button"
+                                           href={`/minecraft/mods/${projectSlug}/upload`}>
                                             Upload File
                                         </a>
                                     )
@@ -74,8 +72,8 @@ class ModFiles extends Component {
                                 <th>Link</th>
                                 <th>Status</th>
                                 {
-                                    this.state.projectData.permission && globals.containsProjectPermission(
-                                        this.state.projectData.permission, globals.PERMISSION.FILE) &&
+                                    this.state.projectData.permission && projectPermissions.containsProjectPermission(
+                                        this.state.projectData.permission, projectPermissions.PERMISSION.FILE) &&
                                     (
                                         <th>
                                             Edit File

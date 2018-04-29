@@ -63,26 +63,26 @@ module.exports = {
                 PERMISSION: 101,
                 DISPLAY_NAME: 'Modify Issue URL',
             },
-            DISCORD: {
-                PERMISSION: 102,
-                DISPLAY_NAME: 'Modify Discord URL',
-            },
-            TWITTER: {
-                PERMISSION: 103,
-                DISPLAY_NAME: 'Modify Twitter URL',
-            },
-            PATREON: {
-                PERMISSION: 104,
-                DISPLAY_NAME: 'Modify Patreon URL',
-            },
-            PAYPAL: {
-                PERMISSION: 105,
-                DISPLAY_NAME: 'Modify Paypal URL',
-            },
-            WIKI: {
-                PERMISSION: 106,
-                DISPLAY_NAME: 'Modify Wiki URL',
-            },
+            // DISCORD: {
+            //     PERMISSION: 102,
+            //     DISPLAY_NAME: 'Modify Discord URL',
+            // },
+            // TWITTER: {
+            //     PERMISSION: 103,
+            //     DISPLAY_NAME: 'Modify Twitter URL',
+            // },
+            // PATREON: {
+            //     PERMISSION: 104,
+            //     DISPLAY_NAME: 'Modify Patreon URL',
+            // },
+            // PAYPAL: {
+            //     PERMISSION: 105,
+            //     DISPLAY_NAME: 'Modify Paypal URL',
+            // },
+            // WIKI: {
+            //     PERMISSION: 106,
+            //     DISPLAY_NAME: 'Modify Wiki URL',
+            // },
         },
 
         FILE: {

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 class Index extends React.Component {
     render() {
+        document.title = 'Diluv';
         return (
             <div className="container">
-                <Link to="/minecraft">
+                <a href="/minecraft">
                     Minecraft
-                </Link>
+                </a>
             </div>
         );
     }

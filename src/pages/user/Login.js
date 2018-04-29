@@ -75,7 +75,14 @@ class Login extends Component {
 
     render() {
         if (this.state.loggedIn) {
-            return (<Redirect to="/"/>);
+            const params = new URLSearchParams(this.props.location.search);
+            const tags = params.get('return');
+
+            if (tags) {
+                return (<Redirect to={tags}/>);
+            } else {
+                return (<Redirect to={'/'}/>);
+            }
         }
 
         document.title = 'Login - Diluv';

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactPaginate from 'react-paginate';
-
+import ReactPaginate from 'react-paginate'
 import globals from '../../utils/globals';
 import userUtils from '../../utils/userUtils';
 import requestUtils from '../../utils/requestUtils';
@@ -83,27 +82,30 @@ class ListMods extends Component {
                         <br/>
                         {
                             this.state.projects && this.state.projects.length > 0 && this.state.projects.map(item =>
-                                (<ModView
-                                    key={item.slug}
-                                    name={item.name}
-                                    authors={item.authors}
-                                    description={item.description}
-                                    logo={item.logo}
-                                    totalDownloads={item.totalDownloads}
-                                    createdAt={item.createdAt}
-                                    updatedAt={item.updatedAt}
-                                    // gameVersions={item.gameVersions}
-                                    categories={item.categories}
-                                    shortDescription={item.shortDescription}
-                                    slug={item.slug}
-                                    permission={item.permission}
-                                />))
+                                (
+                                    <ModView
+                                        key={item.slug}
+                                        name={item.name}
+                                        authors={item.authors}
+                                        description={item.description}
+                                        logo={item.logo}
+                                        totalDownloads={item.totalDownloads}
+                                        createdAt={item.createdAt}
+                                        updatedAt={item.updatedAt}
+                                        // gameVersions={item.gameVersions}
+                                        categories={item.categories}
+                                        shortDescription={item.shortDescription}
+                                        slug={item.slug}
+                                        permission={item.permission}
+                                    />)
+                            )
                         }
                     </div>
 
                     <div className="column">
                         {
-                            this.state.loggedIn && (
+                            this.state.loggedIn &&
+                            (
                                 <p className="field ">
                                     <a className="button is-large is-link"
                                        role="button"
@@ -116,12 +118,12 @@ class ListMods extends Component {
                         <br/>
                         {/*<h4 className="title is-4">Categories</h4>*/}
                         {/*{*/}
-                            {/*this.state.projectType.categories && this.state.projectType.categories.length > 0 && this.state.projectType.categories.map(item =>*/}
-                                {/*(<p key={item.name} className="field ">*/}
-                                    {/*<a className="button">*/}
-                                        {/*{item.name}*/}
-                                    {/*</a>*/}
-                                {/*</p>))*/}
+                        {/*this.state.projectType.categories && this.state.projectType.categories.length > 0 && this.state.projectType.categories.map(item =>*/}
+                        {/*(<p key={item.name} className="field ">*/}
+                        {/*<a className="button">*/}
+                        {/*{item.name}*/}
+                        {/*</a>*/}
+                        {/*</p>))*/}
                         {/*}*/}
                     </div>
                 </div>

@@ -8,9 +8,11 @@ module.exports = {
             Accept: 'application/json',
         };
 
-        if (params ) {
+        if (params) {
             Object.keys(params)
-                .forEach(key => url.searchParams.append(key, params[key]));
+                .forEach((key) => {
+                    url.searchParams.append(key, params[key]);
+                });
         }
 
         const [tokenErr, token] = await to(userUtils.getToken());
@@ -18,19 +20,29 @@ module.exports = {
             headers.Authorization = `Bearer ${token}`;
         }
 
-        const [fetchErr, resp] = await to(fetch(url, { headers }));
+        const data = {
+            headers,
+            method,
+        };
+        if (body) {
+            data.body = body;
+        }
+        const [fetchErr, resp] = await to(fetch(url, data));
         if (fetchErr) return Promise.reject(fetchErr);
-
-        return await resp.json();
+        const json = await resp.json();
+        if (resp.ok) {
+            return json;
+        }
+        throw json;
     },
 
-    fetchGet(url, ...params) {
+    fetchGet(url, params) {
         return this.fetchData(url, 'GET', null, params);
     },
-    fetchPut(url, ...params) {
+    fetchPut(url, params) {
         return this.fetchData(url, 'PUT', null, params);
     },
-    fetchDelete(url, ...params) {
+    fetchDelete(url, params) {
         return this.fetchData(url, 'DELETE', null, params);
     },
     fetchPost(url, body) {

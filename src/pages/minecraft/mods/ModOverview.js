@@ -35,17 +35,14 @@ class ModOverview extends Component {
                     <div className="column is-four-fifths">
                         <article className="media">
                             <figure className="media-left">
-                                <p className="image is-150x150">
+                                <figure className="image is-128x128">
                                     {
                                         this.state.projectData.slug &&
                                         (
-                                            <img
-                                                className="mod-logo"
-                                                src={`${globals.cdnURL()}/projects/${this.state.projectData.slug}/logo/${this.state.projectData.logo}`}
-                                            />
+                                            <img src={`${globals.cdnURL()}/projects/${this.state.projectData.slug}/logo/${this.state.projectData.logo}`}/>
                                         )
                                     }
-                                </p>
+                                </figure>
                             </figure>
                             <div className="media-content">
                                 <div className="content">

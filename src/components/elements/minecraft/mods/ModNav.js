@@ -15,6 +15,7 @@ class ModNav extends Component {
     componentDidMount() {
         requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.props.slug}`))
             .then(res => {
+                console.log(res);
                 this.setState({ permission: res.data.permission });
             })
             .catch(err => {
@@ -31,20 +32,19 @@ class ModNav extends Component {
                 </p>
                 <ul className="menu-list">
                     <li>
-                        <a className={this.props.url === 'overview' && 'is-active'}
+                        <a className={this.props.url === 'overview' ? 'is-active' : ''}
                            href={`/minecraft/mods/${this.props.slug}`}>
                             Overview
                         </a>
                     </li>
                     <li>
-                        <a className={this.props.url === 'files' && 'is-active'}
+                        <a className={this.props.url === 'files' ? 'is-active' : ''}
                            href={`/minecraft/mods/${this.props.slug}/files`}>
                             Files
                         </a>
                     </li>
                 </ul>
                 {
-
                     this.state.permission &&
                     (
                         <div>
@@ -56,7 +56,7 @@ class ModNav extends Component {
                                     projectPermissions.hasProjectPermission(this.state.permission, projectPermissions.PERMISSION.FILE.UPLOAD) &&
                                     (
                                         <li>
-                                            <a className={this.props.url === 'upload' && 'is-active'}
+                                            <a className={this.props.url === 'upload' ? 'is-active' : ''}
                                                href={`/minecraft/mods/${this.props.slug}/upload`}>
                                                 Upload Files
                                             </a>
@@ -64,21 +64,18 @@ class ModNav extends Component {
                                     )
                                 }
                                 {
-                                    projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.MEMBER) &&
-                                    (
-                                        <li>
-                                            <a className={this.props.url === 'members' && 'is-active'}
-                                               href={`/minecraft/mods/${this.props.slug}/members`}>
-                                                Members
-                                            </a>
-                                        </li>
-                                    )
+                                    <li>
+                                        <a className={this.props.url === 'members' ? 'is-active' : ''}
+                                           href={`/minecraft/mods/${this.props.slug}/members`}>
+                                            Members
+                                        </a>
+                                    </li>
                                 }
                                 {
                                     projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.SETTINGS) &&
                                     (
                                         <li>
-                                            <a className={this.props.url === 'settings' && 'is-active'}
+                                            <a className={this.props.url === 'settings' ? 'is-active' : ''}
                                                href={`/minecraft/mods/${this.props.slug}/settings`}>
                                                 Settings
                                             </a>
