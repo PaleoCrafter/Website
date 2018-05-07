@@ -1,6 +1,6 @@
 const UNITS = 'KMGTPE';
 
-module.exports = (bytes, unit = 1024, fixed = 2) => {
+export default (bytes, unit = 1024, fixed = 2) => {
     if (!Number.isFinite(bytes)) {
         throw new TypeError(`Expected a finite number, got ${typeof bytes}: ${bytes}`);
     }

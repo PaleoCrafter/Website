@@ -33,8 +33,6 @@ import DiluvFooter from './components/elements/DiluvFooter';
 
 import './main.css';
 
-import registerServiceWorker from './registerServiceWorker';
-
 render(
     <BrowserRouter>
         <section className="section">
@@ -73,4 +71,3 @@ render(
     </BrowserRouter>
     , document.querySelector('#react-app'),
 );
-registerServiceWorker();

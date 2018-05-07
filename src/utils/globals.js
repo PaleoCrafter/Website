@@ -1,7 +1,7 @@
 const dateFormat = require('dateformat');
 
 
-module.exports = {
+export default {
     publicURL() {
         return process.env.REACT_APP_ASSETS_URL;
     },

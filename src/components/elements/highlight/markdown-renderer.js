@@ -1,6 +1,6 @@
-const React = require('react');
-const highlightjs = require('./highlight.js');
-const PropTypes = require('prop-types');
+import React from 'react';
+import highlightjs from './highlight';
+import PropTypes from 'prop-types';
 
 function Heading(props) {
     return React.createElement(`h${props.level}`, { className: `title is-${props.level}` }, props.children);
@@ -48,7 +48,7 @@ CodeBlock.propTypes = {
     language: PropTypes.string
 };
 
-module.exports = {
+export default {
     heading: Heading,
     code: CodeBlock,
 };
