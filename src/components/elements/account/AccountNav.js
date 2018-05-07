@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 class AccountNav extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         console.log(this.props.url);

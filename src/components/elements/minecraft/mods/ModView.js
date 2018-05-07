@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import globals from '../../../../utils/globals';
 
 class ModView extends Component {
-    constructor(props) {
-        super(props);
-    }
 
-    static getOwner(authors) {
+    getAuthors(authors) {
         const keys = Object.keys(authors);
 
-        let i = 0,
-            length = keys.length;
-        for (; i < length; i++) {
+        let elements = [];
+        for (let i = 0; i < Math.min(keys.length, 3); i++) {
             const author = authors[keys[i]];
 
-            if (author.role === 'Owner') {
-                return (
-                    <a href={`/minecraft/user/${author.username}`}>
-                        <p id="modAuthor">by {author.username}</p>
-                    </a>);
-            }
+            elements.push(
+                <a key={author.username} href={`/minecraft/user/${author.username}`}>
+                    {i > 0 ? ', ' : null} {author.username}
+                </a>
+            );
         }
+        return (
+            <div className="content">
+                by {elements}
+            </div>
+        );
     }
-
 
     render() {
         return (
@@ -30,8 +29,9 @@ class ModView extends Component {
                 <div className="media-left">
                     <figure className="image is-128x128">
                         <img
+                            alt="Mod Logo"
                             className="mod-logo"
-                            src={`${globals.cdnURL()}/projects/${this.props.slug}/logo/${this.props.logo}`}
+                            src={`${globals.publicURL()}/projects/${this.props.slug}/logo/${this.props.logo}`}
                         />
                     </figure>
                 </div>
@@ -42,20 +42,20 @@ class ModView extends Component {
                         </a>
 
                         {
-                            ModView.getOwner(this.props.authors)
+                            this.getAuthors(this.props.authors)
                         }
 
                         <div className="content">
-                            <p id="modDescription">{this.props.shortDescription}</p>
+                            <p>{this.props.shortDescription}</p>
                         </div>
                         <div className="content">
-                            <div id="modData">
+                            <div>
                                 <i className="fa fa-download"/> Downloads: {this.props.totalDownloads} | <i
                                 className="fa fa-clock"
                             /> Last Updated: {globals.getFormattedDate(this.props.updatedAt, '')}
                             </div>
 
-                            <div id="modCategories">Categories: {
+                            <div>Categories: {
                                 this.props.categories.map(item => (
                                     <span style={{ marginRight: `${2}px` }}
                                           key={item.name}

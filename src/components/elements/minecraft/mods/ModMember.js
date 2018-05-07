@@ -98,7 +98,7 @@ class ModMember extends Component {
                         <div className="media">
                             <div className="media-left">
                                 <figure className="image is-48x48">
-                                    <img src={`http://localhost:1234/avatar/${this.props.avatar}`}/>
+                                    <img src={`http://localhost:3000/avatar/${this.props.avatar}`} alt={this.props.username}/>
                                 </figure>
                             </div>
                             <div className="media-content">

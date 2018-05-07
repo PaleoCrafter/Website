@@ -1,34 +1,16 @@
 const dateFormat = require('dateformat');
 
-const env = process.env.BUILD_ENV || 'dev';
 
 module.exports = {
-    cdnURL() {
-        if (env === 'dev') {
-            return 'http://localhost:1234';
-        } else if (env === 'staging') {
-            return 'https://dev.diluv.io';
-        }
-        return 'https://download.nodecdn.net/containers/diluv';
-    },
     publicURL() {
-        const url = this.cdnURL();
-        if (env !== 'dev') {
-            return `${url}/public`;
-        }
-        return url;
+        return process.env.REACT_APP_ASSETS_URL;
     },
+
     /**
-     * Returns the endpoint for the current build type
-     * @returns {string} The endpoint for the build type, either dev, staging or production
+     * Returns the api endpoint for the current build type
      */
     endPoint() {
-        if (env === 'dev') {
-            return 'http://localhost:8080/v1';
-        } else if (env === 'staging') {
-            return 'https://api.diluv.io/v1';
-        }
-        return 'http://api.diluv.com/v1';
+        return process.env.REACT_APP_API_URL;
     },
 
     getDate(epoch) {

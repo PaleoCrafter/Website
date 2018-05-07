@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import globals from '../../../../utils/globals';
-import requestUtils from '../../../../utils/requestUtils';
+import requestUtils from '../../../../utils/requestUtilities';
 import projectPermissions from '../../../../utils/projectPermissions';
 
 class ModNav extends Component {
@@ -15,7 +15,6 @@ class ModNav extends Component {
     componentDidMount() {
         requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.props.slug}`))
             .then(res => {
-                console.log(res);
                 this.setState({ permission: res.data.permission });
             })
             .catch(err => {

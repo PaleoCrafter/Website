@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     PERMISSION: {
         SETTINGS: {
             NAME: {

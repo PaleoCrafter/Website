@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import globals from '../../../../../utils/globals';
 
 import prettyBytes from '../../../../../utils/pretty-bytes';
-import ReactTooltip from 'react-tooltip';
 
 class ModFile extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
@@ -32,9 +28,9 @@ class ModFile extends Component {
                                 <a href={this.props.downloadUrl}>Download</a>
                                 <i data-tip={this.props.sha512}
                                    className='fa fa-info-circle'/>
-                                <ReactTooltip class='hoverSHA'
-                                              delayHide={1000}
-                                              effect='solid'/>
+                                {/*<ReactTooltip class='hoverSHA'*/}
+                                              {/*delayHide={1000}*/}
+                                              {/*effect='solid'/>*/}
                             </div>
                         ) :
                         (
