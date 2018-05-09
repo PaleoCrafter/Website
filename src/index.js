@@ -31,7 +31,7 @@ import MinecraftUserProfile from './components/pages/minecraft/user/MinecraftUse
 import DiluvNav from './components/elements/DiluvNav';
 import DiluvFooter from './components/elements/DiluvFooter';
 
-import './theme/default/default.css';
+import './assets/css/theme/default/default.css';
 
 render(
     <BrowserRouter>
