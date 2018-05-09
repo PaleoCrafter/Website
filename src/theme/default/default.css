@@ -1,5 +1,5 @@
 /*! bulma.io v0.7.1 | MIT License | github.com/jgthms/bulma */
-@import url(../node_modules/react-table/react-table.css);
+@import url(../../../node_modules/react-table/react-table.css);
 @keyframes spinAround {
   from {
     transform: rotate(0deg); }
