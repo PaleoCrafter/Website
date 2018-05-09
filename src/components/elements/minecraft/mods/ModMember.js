@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import projectPermissions from '../../../../utils/projectPermissions';
-
+import globals from '../../../../utils/globals';
 
 class ModMember extends Component {
 
@@ -98,7 +98,7 @@ class ModMember extends Component {
                         <div className="media">
                             <div className="media-left">
                                 <figure className="image is-48x48">
-                                    <img src={`http://localhost:3000/avatar/${this.props.avatar}`} alt={this.props.username}/>
+                                    <img src={`${globals.publicURL()}/avatar/${this.props.avatar}`} alt={this.props.username}/>
                                 </figure>
                             </div>
                             <div className="media-content">

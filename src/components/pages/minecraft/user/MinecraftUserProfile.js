@@ -45,7 +45,7 @@ class MinecraftUserProfile extends Component {
 
                         <div className="field">
                             <figure className="image is-128x128">
-                                <img alt="avatar" src={`http://localhost:3000/avatar/${this.state.userData.avatar}`}/>
+                                <img alt="avatar" src={`${globals.publicURL()}/avatar/${this.state.userData.avatar}`}/>
                             </figure>
                         </div>
                         <div className="field">
