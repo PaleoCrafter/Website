@@ -52,8 +52,8 @@ class DiluvNav extends PureComponent {
                     }
                 </a>
 
-                    <div className="navbar-dropdown is-right">
-                        <a className="navbar-item" href="/account">
+                <div className="navbar-dropdown is-right">
+                    <a className="navbar-item" href="/account">
                             <span className="icon">
                                 <i className="fa fa-cog"/>
                             </span>
@@ -73,13 +73,13 @@ class DiluvNav extends PureComponent {
                 </div>
                 <div className="nav-item dropdown ">
                     <a className="nav-link dropdown-toggle text-white"
-                       href="#"
                        id="navbarDropdown"
                        role="button"
                        data-toggle="dropdown"
                        aria-haspopup="true"
-                       aria-expanded="false"
-                    />
+                       aria-expanded="false">
+                        &nbsp;
+                    </a>
                 </div>
             </div>
         );

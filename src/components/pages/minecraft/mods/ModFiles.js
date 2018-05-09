@@ -6,7 +6,6 @@ import requestUtils from '../../../../utils/requestUtilities';
 import projectPermissions from '../../../../utils/projectPermissions';
 
 import ModNav from '../../../elements/minecraft/mods/ModNav';
-import ModFile from '../../../elements/minecraft/mods/files/ModFile';
 import prettyBytes from '../../../../utils/pretty-bytes';
 
 class ModFiles extends Component {
