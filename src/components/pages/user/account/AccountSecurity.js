@@ -19,7 +19,7 @@ class AccountSecurity extends Component {
     }
 
     componentDidMount() {
-        requestUtils.getFetchJSON(`${globals.endPoint()}/users/me`)
+        requestUtils.fetchGet(`${globals.endPoint()}/users/me`)
             .then((res) => {
                 this.setState({ user: res.data });
             })
@@ -27,7 +27,7 @@ class AccountSecurity extends Component {
                 console.log(err);
             });
 
-        requestUtils.getFetchJSON(`${globals.endPoint()}/users/me/settings`)
+        requestUtils.fetchGet(`${globals.endPoint()}/users/me/settings`)
             .then((res) => {
                 this.setState({ userSettings: res.data });
             })
