@@ -16,7 +16,7 @@ class CreateMod extends Component {
         super();
         this.state = {
             tab: 1,
-            error: [],
+            error: "",
             description: '',
             imageFiles: null,
             categories: [],
@@ -82,23 +82,23 @@ class CreateMod extends Component {
 
     onSubmit() {
         if (!this.refs.projectName.value) {
-            this.setState({ errors: 'A mod name is needed.' });
+            this.setState({ error: 'A mod name is needed.' });
             console.log('Project Name Is missing');
             return;
         }
         if (!this.refs.shortDescription.value) {
-            this.setState({ errors: 'A short description is needed.' });
+            this.setState({ error: 'A short description is needed.' });
             console.log('Short Description Is missing');
             return;
         }
         if (!this.state.description) {
-            this.setState({ errors: 'A description is needed.' });
+            this.setState({ error: 'A description is needed.' });
             console.log('Description is missing');
 
             return;
         }
         if (!this.state.categories) {
-            this.setState({ errors: 'Categories is needed.' });
+            this.setState({ error: 'Categories is needed.' });
             console.log('Categories is missing');
 
             return;
@@ -111,18 +111,20 @@ class CreateMod extends Component {
         formData.append('logo', this.state.imageFiles);
         formData.append('categories', this.state.categories);
 
-
         requestUtils.fetchPost(new URL(`${globals.endPoint()}/games/minecraft/mods/projects`), formData)
             .then((res) => {
+
                 this.setState({ redirect: res.data.slug });
                 console.log(this.state.redirect);
+            }).catch((res) => {
+                this.setState({ error: res.message });
             });
-        //TODO Error on fail
+
     }
 
     render() {
         if (this.state.redirect) {
-            return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`}/>);
+            return (<Redirect to={`/minecraft/mods/${this.state.redirect}/`} />);
         }
         if (!this.state.loggedIn) {
             this.props.history.go(-1);
@@ -131,7 +133,13 @@ class CreateMod extends Component {
         document.title = 'Create Mod - Diluv';
         return (
             <div className="container">
-                <h2 className="title is-2"><i className="fa fa-cog"/> Create Mods</h2>
+                <h2 className="title is-2"><i className="fa fa-cog" /> Create Mods</h2>
+                {this.state.error ? (
+                    <div className="column is-one-fifths">
+                        <div className="notification is-danger">
+                            {this.state.error}
+                        </div>
+                    </div>) : null}
                 <div className="columns">
                     <div className="column is-one-fifth">
                         <Dropzone
@@ -142,19 +150,41 @@ class CreateMod extends Component {
                             multiple={false}
                         >
 
-                            {this.state.imageFiles ? (
-                                    <figure className="image is-128x128">
-                                        <img alt="Mod Logo" src={this.state.imageFiles.preview}/>
-                                    </figure>
-                                )
-                                : <div>Drag and drop or click to select a logo to upload
-                                    (Optional).
-                                </div>}
+                            <div className="card">
+                                <div className="card-content">
+                                    {this.state.imageFiles ? (
+                                        <figure className="image">
+                                            <img alt="Mod Logo" src={this.state.imageFiles.preview} />
+                                        </figure>
+                                    )
+                                        : <figure className="image">
+                                            <img alt="Mod Logo" src="https://bulma.io/images/placeholders/empty.png" />
+                                        </figure>
+                                    }
+                                </div>
+
+
+                                <div class="card-footer">
+                                    {this.state.imageFiles ? (
+                                        <p class="card-footer-item">
+                                            {this.state.imageFiles.name}
+                                        </p>
+                                    )
+                                        : <p class="card-footer-item">
+                                            Click or drag an image to upload project logo (Optional).</p>}
+                                </div>
+
+
+                            </div>
+
+
                         </Dropzone>
                     </div>
+
                     <div className="column is-two-fifths">
+
                         <strong>Project Name:</strong>
-                        <br/>
+                        <br />
                         <input
                             ref="projectName"
                             type="text"
@@ -162,10 +192,10 @@ class CreateMod extends Component {
                             className="input"
                             required
                         />
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <strong>Short Description:</strong>
-                        <br/>
+                        <br />
                         <textarea
                             ref="shortDescription"
                             placeholder="Short Description"
@@ -175,7 +205,7 @@ class CreateMod extends Component {
                     </div>
                 </div>
 
-                <br/>
+                <br />
                 <div className="column is-two-fifths">
                     <h5>Categories:</h5>
                     <Select
@@ -188,7 +218,7 @@ class CreateMod extends Component {
                         value={this.state.categories}
                     />
                 </div>
-                <br/>
+                <br />
 
 
                 <div className="column is-two-fifths">
@@ -206,14 +236,14 @@ class CreateMod extends Component {
                     <div className="container">
                         {
                             this.state.tab === 1 ? (
-                                    <Textarea
-                                        className="textarea"
-                                        placeholder="Enter some markdown..."
-                                        value={this.state.description}
-                                        onChange={this.onDescriptionChange}
-                                        required
-                                    />
-                                ) :
+                                <Textarea
+                                    className="textarea"
+                                    placeholder="Enter some markdown..."
+                                    value={this.state.description}
+                                    onChange={this.onDescriptionChange}
+                                    required
+                                />
+                            ) :
                                 (
                                     <ReactMarkdown
                                         renderers={renderers}
@@ -222,7 +252,7 @@ class CreateMod extends Component {
                                 )
                         }
                     </div>
-                    <br/>
+                    <br />
                     <a className="button" onClick={this.onSubmit}>
                         Create Project
                     </a>

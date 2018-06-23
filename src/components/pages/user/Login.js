@@ -10,6 +10,7 @@ class Login extends Component {
         this.state = {
             data: [],
             loggedIn: false,
+            error: ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,7 +67,7 @@ class Login extends Component {
                 window.location.reload();
             })
             .catch((err) => {
-                this.setState({ error: { message: 'An unknown error occurred' } });
+                this.setState({ error: err.message });
                 console.error(`The request /auth/login to the api had an error. ${err}`);
             });
 
@@ -79,23 +80,30 @@ class Login extends Component {
             const tags = params.get('return');
 
             if (tags) {
-                return (<Redirect to={tags}/>);
+                return (<Redirect to={tags} />);
             } else {
-                return (<Redirect to={'/'}/>);
+                return (<Redirect to={'/'} />);
             }
         }
 
         document.title = 'Login - Diluv';
         return (
             <div className="container">
+                {this.state.error ? (
+                    <div className="column is-one-fifths">
+                        <div className="notification is-danger">
+                            {this.state.error}
+                        </div>
+                    </div>) : null}
                 <div className="columns">
-                    <div className="column"/>
+                    <div className="column" />
                     <div className="column is-one-third">
+
                         <div className="card has-background-white-ter">
 
                             <div className="card-content">
                                 <div className="columns">
-                                    <div className="column"/>
+                                    <div className="column" />
                                     <div className="column">
                                         <figure className="image is-128x128">
                                             {/*TODO move to logo image*/}
@@ -103,11 +111,11 @@ class Login extends Component {
                                                 id="profile-img"
                                                 className="profile-img-card"
                                                 alt="logo"
-                                                src={`${globals.publicURL()}/favicon/favicon.ico`}
+                                                src={`/images/logo_diluv.png`}
                                             />
                                         </figure>
                                     </div>
-                                    <div className="column"/>
+                                    <div className="column" />
                                 </div>
                                 <div className="field">
                                     <label className="label">Username/Email</label>
@@ -120,7 +128,7 @@ class Login extends Component {
                                             placeholder="Username/Email"
                                         />
                                         <span className="icon is-small is-left">
-                                            <i className="fas fa-envelope"/>
+                                            <i className="fas fa-envelope" />
                                         </span>
                                     </div>
                                 </div>
@@ -135,7 +143,7 @@ class Login extends Component {
                                             placeholder="Password"
                                         />
                                         <span className="icon is-small is-left">
-                                            <i className="fas fa-lock"/>
+                                            <i className="fas fa-lock" />
                                         </span>
                                     </div>
                                 </div>
@@ -143,26 +151,30 @@ class Login extends Component {
                                 <div className="field">
                                     <div className="control">
                                         <label className="checkbox">
-                                            <input type="checkbox"/> Remember me
+                                            <input type="checkbox" /> Remember me
                                         </label>
                                     </div>
                                 </div>
 
-                                <div className="field">
+                                <div className="field is-grouped">
                                     <div className="control">
                                         <button onClick={this.handleSubmit}
-                                                className="button is-success">
+                                            className="button is-success">
                                             Login
                                         </button>
                                     </div>
                                 </div>
-                                <a href="/todo" className="forgot-password">
-                                    Forgot your password?
-                                </a>
                             </div>
                         </div>
+                        <div className="has-text-centered">
+                            <p className="has-text-grey">
+                                <a href="/register" className="has-text-grey" >Sign-up</a>
+                                &nbsp;·&nbsp;
+                            <a href="/todo" className="has-text-grey" >Forgot your password</a>
+                            </p>
+                        </div>
                     </div>
-                    <div className="column"/>
+                    <div className="column" />
                 </div>
             </div>
         );

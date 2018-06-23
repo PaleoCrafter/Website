@@ -119,7 +119,7 @@ class Register extends Component {
                                                 id="profile-img"
                                                 className="profile-img-card"
                                                 alt="logo"
-                                                src={`${globals.publicURL()}/favicon/favicon.ico`}
+                                                src={`/images/logo_diluv.png`}
                                             />
                                         </figure>
                                     </div>
@@ -134,17 +134,19 @@ class Register extends Component {
                                     }}
                                 />
                                 <div className="field">
+                                    <label className="label">E-mail Address</label>
                                     <div className="control">
                                         <input
                                             ref="email"
                                             type="email"
                                             className="input"
-                                            placeholder="Email address"
+                                            placeholder="E-mail address"
                                             required
                                         />
                                     </div>
                                 </div>
                                 <div className="field">
+                                    <label className="label">Username</label>
                                     <div className="control">
                                         <input
                                             ref="username"
@@ -157,6 +159,7 @@ class Register extends Component {
                                 </div>
 
                                 <div className="field">
+                                    <label className="label">Password</label>
                                     <div className="control">
                                         <input
                                             ref="password"
@@ -168,29 +171,37 @@ class Register extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
+                                    <label className="label">Confirm Password</label>
                                     <div className="control">
                                         <input
                                             ref="passwordConfirm"
                                             type="password"
                                             className="input"
-                                            placeholder="Retype Password"
+                                            placeholder="Confirm Password"
                                             required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="field">
+                                <div className="field is-grouped">
                                     <div className="control">
                                         <button onClick={this.handleSubmit}
-                                                className="button is-link">
+                                            className="button is-success">
                                             Register
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="has-text-centered">
+                            <p className="has-text-grey">
+                                <a href="/login" className="has-text-grey" >Login</a>
+                                &nbsp;·&nbsp;
+                            <a href="/todo" className="has-text-grey" >Forgot your password</a>
+                            </p>
+                        </div>
                     </div>
-                    <div className="column"/>
+                    <div className="column" />
                 </div>
             </div>
         );

@@ -25,6 +25,7 @@ class ModView extends Component {
 
     render() {
         return (
+            <div className="box">
             <article className="media">
                 <div className="media-left">
                     <figure className="image is-128x128">
@@ -85,6 +86,7 @@ class ModView extends Component {
                     </p>
                 </div>
             </article>
+            </div>
         );
     }
 }
