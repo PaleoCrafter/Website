@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import globals from '../../utils/globals';
 import requestUtils from '../../utils/requestUtilities';
 import userUtils from '../../utils/userUtilities';
@@ -90,29 +91,30 @@ class DiluvNav extends PureComponent {
             <div className="navbar-item">
                 <div className="field is-grouped">
                     <p className="control">
-                        <a className="bd-tw-button button"
-                           href={`/login?return=${this.props.location.pathname}`}>
-                         <span>
-                            Login
-                        </span>
-                            <span className="icon">
-                            <i className="fa fa-envelope"/>
-                        </span>
-                        </a>
+                        <Link to={`/login?return=${this.props.location.pathname}`}>
+                            <button className="bd-tw-button button">
+                                <span>
+                                    Login
+                                </span>
+                                <span className="icon">
+                                    <i className="fa fa-envelope"/>
+                                </span>
+                            </button>
+                        </Link>
                     </p>
                     {
                         <p className="control">
-                            <a className="bd-tw-button button"
-                               href={`/register?return=${this.props.location.pathname}`}
-                               disabled={process.env.REACT_APP_ENV === 'staging'}
-                            >
-                            <span>
-                                Register
-                            </span>
-                                <span className="icon">
-                                <i className="fa fa-bell"/>
-                            </span>
-                            </a>
+                            <Link to={`/register?return=${this.props.location.pathname}`}>
+                                <button className="bd-tw-button button"
+                                        disabled={process.env.REACT_APP_ENV === 'staging'}>
+                                    <span>
+                                        Register
+                                    </span>
+                                    <span className="icon">
+                                        <i className="fa fa-bell"/>
+                                    </span>
+                                </button>
+                            </Link>
                         </p>
                     }
                 </div>

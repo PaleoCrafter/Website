@@ -22,9 +22,11 @@
     "react-scripts": "1.1.4",
     "react-select": "^1.2.1",
     "react-table": "^6.8.2",
-    "react-textarea-autosize": "^6.1.0"
+    "react-textarea-autosize": "^6.1.0",
+    "source-map-explorer": "^1.5.0"
   },
   "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
@@ -34,5 +36,8 @@
     "build:staging": "env-cmd .env.staging npm run build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.0"
   }
 }

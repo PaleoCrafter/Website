@@ -8,18 +8,20 @@ class ModNav extends Component {
         super(props);
 
         this.state = {
-            permission: null,
+            permissions: null,
         };
     }
 
     componentDidMount() {
         requestUtils.fetchGet(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${this.props.slug}`))
             .then(res => {
-                this.setState({ permission: res.data.permission });
+                this.setState({ permissions: res.data.permissions });
             })
             .catch(err => {
                 console.log(err);
             });
+
+        console.log(this.state.permissions)
     }
 
 
@@ -44,7 +46,7 @@ class ModNav extends Component {
                     </li>
                 </ul>
                 {
-                    this.state.permission &&
+                    this.state.permissions &&
                     (
                         <div>
                             <p className="menu-label">
@@ -52,7 +54,7 @@ class ModNav extends Component {
                             </p>
                             <ul className="menu-list">
                                 {
-                                    projectPermissions.hasProjectPermission(this.state.permission, projectPermissions.PERMISSION.FILE.UPLOAD) &&
+                                    projectPermissions.hasProjectPermission(this.state.permissions, projectPermissions.PERMISSION.FILE.UPLOAD) &&
                                     (
                                         <li>
                                             <a className={this.props.url === 'upload' ? 'is-active' : ''}
@@ -71,7 +73,7 @@ class ModNav extends Component {
                                     </li>
                                 }
                                 {
-                                    projectPermissions.containsProjectPermission(this.state.permission, projectPermissions.PERMISSION.SETTINGS) &&
+                                    projectPermissions.containsProjectPermission(this.state.permissions, projectPermissions.PERMISSION.SETTINGS) &&
                                     (
                                         <li>
                                             <a className={this.props.url === 'settings' ? 'is-active' : ''}

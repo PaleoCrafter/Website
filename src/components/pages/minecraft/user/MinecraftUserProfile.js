@@ -35,31 +35,24 @@ class MinecraftUserProfile extends Component {
 
         document.title = username + ' Profile';
         return (
-            <div className="section">
-                <div className="columns">
-                    <div className="column">
+            <div className="container">
+                <h1 className="title is-1">User Profile</h1>
 
-                    </div>
-                    <div className="column is-four-fifths">
-                        <h1 className="title is-1">User Profile</h1>
-
-                        <div className="field">
-                            <figure className="image is-128x128">
-                                <img alt="avatar" src={`${globals.publicURL()}/avatar/${this.state.userData.avatar}`}/>
-                            </figure>
-                        </div>
-                        <div className="field">
-                            Location: {this.state.userData.location}
-                        </div>
-                        <div className="field">
-                            First Name: {this.state.userData.firstName}
-                        </div>
-                        <div className="field">
-                            Last Name: {this.state.userData.lastName}
-                        </div>
-                    </div>
+                <div className="field">
+                    <figure className="image is-128x128">
+                        <img alt="avatar"
+                             src={`${globals.publicURL()}/avatar/${this.state.userData.avatar}`}/>
+                    </figure>
                 </div>
-
+                <div className="field">
+                    Location: {this.state.userData.location}
+                </div>
+                <div className="field">
+                    First Name: {this.state.userData.firstName}
+                </div>
+                <div className="field">
+                    Last Name: {this.state.userData.lastName}
+                </div>
             </div>
         );
     }

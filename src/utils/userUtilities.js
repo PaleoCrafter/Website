@@ -26,7 +26,9 @@ export default {
             method: 'POST',
         };
         const [fetchErr, resp] = await to(fetch(`${globals.endPoint()}/auth/refreshToken`, data));
-        if (fetchErr) return Promise.reject(fetchErr);
+        if (fetchErr) {
+            return Promise.reject(fetchErr);
+        }
         const json = await resp.json();
         if (resp.ok) {
             return json;
@@ -49,8 +51,8 @@ export default {
             }
 
             const currentDate = new Date();
+            console.log(refreshExpires + ':' + currentDate.getTime());
             if (refreshExpires >= currentDate.getTime()) {
-
                 return this.refreshToken(refreshToken)
                     .then((res) => {
                         storageSystem.setItem('token', res.data.token);
@@ -60,6 +62,7 @@ export default {
                         return resolve(res.data.token);
                     })
                     .catch(() => {
+                        console.log('boop');
                         storageSystem.removeItem('token');
                         storageSystem.removeItem('tokenExpires');
                         storageSystem.removeItem('refreshToken');
@@ -68,6 +71,8 @@ export default {
                         return reject();
                     });
             }
+            console.log('bop');
+
             storageSystem.removeItem('token');
             storageSystem.removeItem('tokenExpires');
             storageSystem.removeItem('refreshToken');
@@ -101,8 +106,8 @@ export default {
                     .then((t) => {
                         resolve(t);
                     })
-                    .catch(()=>{
-                        reject()
+                    .catch(() => {
+                        reject();
                     });
             }
             return reject();

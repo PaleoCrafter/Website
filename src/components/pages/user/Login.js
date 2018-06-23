@@ -47,14 +47,8 @@ class Login extends Component {
         requestUtils.fetchPost(new URL(`${globals.endPoint()}/auth/login`), formData)
             .then((res) => {
                 if (res.data.mfa) {
-                    const storageSystem = window.sessionStorage;
-                    storageSystem.setItem('mfa', true);
-                    storageSystem.setItem('mfaToken', res.data.token);
-                    storageSystem.setItem('mfaTokenExpires', res.data.tokenExpires);
-                    storageSystem.setItem('rememberMe', this.state.checkbox ? this.state.checkbox : false);
-                    this.props.history.push('/mfa');
+                    console.log('TODO IMPLEMENT')
                 } else {
-                    console.log(res);
                     let storageSystem = window.sessionStorage;
                     if (this.state.checkbox) {
                         storageSystem = localStorage;

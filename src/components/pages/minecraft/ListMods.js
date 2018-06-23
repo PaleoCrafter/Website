@@ -58,7 +58,7 @@ class ListMods extends Component {
     render() {
         document.title = 'Mods - Projects - Diluv';
         return (
-            <div className="container">
+            <section className="section">
                 <div className="columns ">
                     <div className="column is-four-fifths">
                         <h2 className="title is-2"><i className="fa fa-cog"/> Mods</h2>
@@ -81,12 +81,12 @@ class ListMods extends Component {
                         </nav>
                         <br/>
                         {
-                            this.state.projects && this.state.projects.length > 0 && this.state.projects.map(item =>
+                            this.state.projects.content && this.state.projects.content.length > 0 && this.state.projects.content.map(item =>
                                 (
                                     <ModView
                                         key={item.slug}
                                         name={item.name}
-                                        authors={item.authors}
+                                        owner={item.owner}
                                         description={item.description}
                                         logo={item.logo}
                                         totalDownloads={item.totalDownloads}
@@ -127,7 +127,7 @@ class ListMods extends Component {
                         {/*}*/}
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }

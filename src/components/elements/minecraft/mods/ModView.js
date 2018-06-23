@@ -43,9 +43,16 @@ class ModView extends Component {
                         </a>
 
                         {
-                            this.getAuthors(this.props.authors)
+                            this.props.owner ? (
+                                    <div className="content">
+                                        by <a key={this.props.owner.username}
+                                              href={`/minecraft/user/${this.props.owner.username}`}>
+                                        {this.props.owner.username}
+                                    </a>
+                                    </div>
+                                )
+                                : null
                         }
-
                         <div className="content">
                             <p>{this.props.shortDescription}</p>
                         </div>
@@ -80,7 +87,7 @@ class ModView extends Component {
                     <p className="field">
                         <a>
                             <span className="icon has-text-warning">
-                                <i className="fas fa-star"/>
+                                <i className="far fa-star"/>
                             </span>
                         </a>
                     </p>

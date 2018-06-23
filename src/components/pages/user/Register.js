@@ -64,7 +64,7 @@ class Register extends Component {
         formData.append('passwordConfirm', this.refs.passwordConfirm.value);
         formData.append('g-recaptcha-response', value);
 
-        requestUtils.fetchPost(new URL(`${globals.endPoint()}/auth/register`, formData))
+        requestUtils.fetchPost(new URL(`${globals.endPoint()}/auth/register`), formData)
             .then((res) => {
                 if (res.statusCode === 200) {
                     this.props.history.push('/');

@@ -24,36 +24,41 @@ class ModMember extends Component {
         this.props.onChange(this.props.username, permissions);
     }
 
-    renderPermissions(permission) {
+    renderPermissions(name, permission) {
         const components = [];
         for (const m in permission) {
             const type = permission[m];
             components.push(
-                <div key={type.PERMISSION} className="field">
-                    <label className="checkbox">
-                        <input
-                            onChange={this.onChange.bind(this, type.PERMISSION)}
-                            key={type.PERMISSION}
-                            type="checkbox"
-                            defaultChecked={projectPermissions.hasProjectPermission(this.props.memberPermission, type)}
-                            disabled={!projectPermissions.hasProjectPermission(this.props.permissions, projectPermissions.PERMISSION.MEMBER.MODIFY)}
-                        />
-                        {
-                            type.DISPLAY_NAME
-                        }
-                    </label>
+                <div key={type.PERMISSION} className="panel-block">
+                    <input
+                        onChange={this.onChange.bind(this, type.PERMISSION)}
+                        key={type.PERMISSION}
+                        type="checkbox"
+                        defaultChecked={projectPermissions.hasProjectPermission(this.props.memberPermission, type)}
+                        disabled={!projectPermissions.hasProjectPermission(this.props.permissions, projectPermissions.PERMISSION.MEMBER.MODIFY)}
+                    />
+                    {
+                        type.DISPLAY_NAME
+                    }
                 </div>
             );
         }
         return (
-            components
+            <nav className="panel">
+                <p className="panel-heading">
+                    {name}
+                </p>
+                {
+                    components
+                }
+            </nav>
         );
     }
 
     renderOwner() {
         return (
             <div>
-                {/* Style better */}
+                {/* TODO Style better */}
                 Can't modify owner
             </div>
         );
@@ -61,29 +66,25 @@ class ModMember extends Component {
 
     renderMember() {
         return (
-            <div className="columns is-gapless is-multiline is-mobile">
+            <div className="columns is-multiline is-mobile">
                 <div className="column">
-                    <h4 className="title is-4">Project Settings</h4>
                     {
-                        this.renderPermissions(projectPermissions.PERMISSION.SETTINGS)
+                        this.renderPermissions('Project Settings', projectPermissions.PERMISSION.SETTINGS)
                     }
                 </div>
                 <div className="column">
-                    <h4 className="title is-4">File Settings</h4>
                     {
-                        this.renderPermissions(projectPermissions.PERMISSION.FILE)
+                        this.renderPermissions('File Settings', projectPermissions.PERMISSION.FILE)
                     }
                 </div>
                 <div className="column">
-                    <h4 className="title is-4">Project URL's</h4>
                     {
-                        this.renderPermissions(projectPermissions.PERMISSION.PROJECT)
+                        this.renderPermissions('Project URLs', projectPermissions.PERMISSION.PROJECT)
                     }
                 </div>
                 <div className="column">
-                    <h4 className="title is-4">Member's Permission</h4>
                     {
-                        this.renderPermissions(projectPermissions.PERMISSION.MEMBER)
+                        this.renderPermissions('Members Permission', projectPermissions.PERMISSION.MEMBER)
                     }
                 </div>
             </div>
@@ -92,37 +93,36 @@ class ModMember extends Component {
 
     render() {
         return (
-            <div>
-                <div className="card">
-                    <div className="card-content">
-                        <div className="media">
-                            <div className="media-left">
-                                <figure className="image is-48x48">
-                                    <img src={`${globals.publicURL()}/avatar/${this.props.avatar}`} alt={this.props.username}/>
-                                </figure>
-                            </div>
-                            <div className="media-content">
-                                <p className="title is-4">{this.props.username}</p>
-                            </div>
-                            {
-                                this.props.role !== 'Owner' &&
-                                (
-                                    <div className="media-right">
-                                        <a onClick={this.props.onRemove} className="button is-danger" disabled={!projectPermissions.hasProjectPermission(this.props.permissions,
-                                        projectPermissions.PERMISSION.MEMBER.REMOVE)}
-                                           role="button">
-                                            Remove
-                                        </a>
-                                    </div>
-                                )
-                            }
+            <div className="card">
+                <div className="card-content">
+                    <div className="media">
+                        <div className="media-left">
+                            <figure className="image is-48x48">
+                                <img src={`${globals.publicURL()}/avatar/${this.props.avatar}`}
+                                     alt={this.props.username}/>
+                            </figure>
                         </div>
+                        <div className="media-content">
+                            <p className="title is-4">{this.props.username}</p>
+                        </div>
+                        {
+                            !this.props.owner &&
+                            (
+                                <div className="media-right">
+                                    <button onClick={this.props.onRemove}
+                                            className="button is-danger"
+                                            disabled={!projectPermissions.hasProjectPermission(this.props.permissions, projectPermissions.PERMISSION.MEMBER.REMOVE)}>
+                                        Remove
+                                    </button>
+                                </div>
+                            )
+                        }
+                    </div>
 
-                        <div className="content">
-                            {
-                                this.props.role === 'Owner' ? this.renderOwner() : this.renderMember()
-                            }
-                        </div>
+                    <div>
+                        {
+                            this.props.owner ? this.renderOwner() : this.renderMember()
+                        }
                     </div>
                 </div>
             </div>

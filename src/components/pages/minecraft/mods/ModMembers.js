@@ -152,21 +152,35 @@ class ModMembers extends Component {
                             </div>
                         </div>
                         {
-                            this.state.memberData.length > 0 && this.state.memberData.map((item) =>
-                                (<ModMember
-                                    onChange={this.onChange.bind(this)}
-                                    onRemove={this.onRemove.bind(this, item.username)}
-                                    key={item.username}
-                                    username={item.username}
-                                    avatar={item.avatar}
-                                    createdAt={item.createdAt}
-                                    memberPermission={item.permission}
+                            this.state.projectData.owner ? (
+                                <ModMember
+                                    username={this.state.projectData.owner.username}
+                                    avatar={this.state.projectData.owner.avatar}
+                                    createdAt={this.state.projectData.owner.createdAt}
                                     permissions={this.state.projectData.permission}
-                                    role={item.role}
-                                />))
+                                    owner={true}
+                                />
+                            ) : null
+                        }
+                        {
+                            this.state.memberData.length > 0 && this.state.memberData.map((item) =>
+                                (
+                                    <ModMember
+                                        onChange={this.onChange.bind(this)}
+                                        onRemove={this.onRemove.bind(this, item.username)}
+                                        key={item.username}
+                                        username={item.username}
+                                        avatar={item.avatar}
+                                        createdAt={item.createdAt}
+                                        memberPermission={item.permission}
+                                        permissions={this.state.projectData.permission}
+                                        role={item.role}
+                                    />
+                                )
+                            )
                         }
                         <br/>
-                        <a className="button is-primary" onClick={this.onSubmit}>
+                        <a className="button is-primary is-right" onClick={this.onSubmit}>
                             Save
                         </a>
                     </div>
