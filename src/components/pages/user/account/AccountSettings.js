@@ -110,61 +110,6 @@ class AccountSettings extends Component {
                             </div>
                         </div>
                         <br/>
-                        <div className="column is-two-fifths">
-                            <h4 className="title is-4"><b>Change Profile</b></h4>
-                            <div className="field">
-                                <label className="label">First name</label>
-                                <div className="control">
-                                    <input
-                                        name="firstName"
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        value={this.state.userSettings.firstName || ''}
-                                        id="inputFirstName"
-                                        className="input"
-                                        placeholder="First Name"
-                                    />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Last name</label>
-                                <div className="control">
-                                    <input
-                                        name="lastName"
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        value={this.state.userSettings.lastName || ''}
-                                        id="inputLastName"
-                                        className="input"
-                                        placeholder="Last Name"
-                                    />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Location</label>
-                                <div className="control">
-                                    <input
-                                        name="location"
-                                        onChange={this.handleInputChange}
-                                        type="text"
-                                        value={this.state.userSettings.location || ''}
-                                        id="inputLocation"
-                                        className="input"
-                                        placeholder="Location"
-                                    />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <div className="control">
-                                    <button
-                                        className="button is-link"
-                                        onClick={this.submitChangeProfile}
-                                    >
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
