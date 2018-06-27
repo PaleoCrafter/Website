@@ -44,39 +44,36 @@ export default {
         return new Promise((resolve, reject) => {
             const storageSystem = this.getStorage();
             const refreshToken = storageSystem.getItem('refreshToken');
-            const refreshExpires = storageSystem.getItem('refreshExpires');
+            const refreshExpire = storageSystem.getItem('refreshExpire');
 
-            if (refreshExpires === null) {
+            if (refreshExpire === null) {
                 return reject();
             }
 
             const currentDate = new Date();
-            console.log(refreshExpires + ':' + currentDate.getTime());
-            if (refreshExpires >= currentDate.getTime()) {
+            if (refreshExpire >= currentDate.getTime()) {
                 return this.refreshToken(refreshToken)
                     .then((res) => {
                         storageSystem.setItem('token', res.data.token);
-                        storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                        storageSystem.setItem('tokenExpire', res.data.tokenExpire);
                         storageSystem.setItem('refreshToken', res.data.refreshToken);
-                        storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                        storageSystem.setItem('refreshExpire', res.data.refreshExpire);
                         return resolve(res.data.token);
                     })
                     .catch(() => {
                         console.log('boop');
                         storageSystem.removeItem('token');
-                        storageSystem.removeItem('tokenExpires');
+                        storageSystem.removeItem('tokenExpire');
                         storageSystem.removeItem('refreshToken');
-                        storageSystem.removeItem('refreshExpires');
+                        storageSystem.removeItem('refreshExpire');
 
                         return reject();
                     });
             }
-            console.log('bop');
-
             storageSystem.removeItem('token');
-            storageSystem.removeItem('tokenExpires');
+            storageSystem.removeItem('tokenExpire');
             storageSystem.removeItem('refreshToken');
-            storageSystem.removeItem('refreshExpires');
+            storageSystem.removeItem('refreshExpire');
             return reject();
         });
     },
@@ -95,11 +92,11 @@ export default {
             }
 
             const token = storageSystem.getItem('token');
-            const tokenExpires = storageSystem.getItem('tokenExpires');
+            const tokenExpire = storageSystem.getItem('tokenExpire');
 
-            if (tokenExpires) {
+            if (tokenExpire) {
                 const currentDate = new Date();
-                if (tokenExpires >= currentDate.getTime()) {
+                if (tokenExpire >= currentDate.getTime()) {
                     return resolve(token);
                 }
                 return this.handleRefresh()

@@ -54,9 +54,9 @@ class Login extends Component {
                         storageSystem = localStorage;
                     }
                     storageSystem.setItem('token', res.data.token);
-                    storageSystem.setItem('tokenExpires', res.data.tokenExpires);
+                    storageSystem.setItem('tokenExpire', res.data.tokenExpire);
                     storageSystem.setItem('refreshToken', res.data.refreshToken);
-                    storageSystem.setItem('refreshExpires', res.data.refreshExpires);
+                    storageSystem.setItem('refreshExpire', res.data.refreshExpire);
                 }
                 window.location.reload();
             })
