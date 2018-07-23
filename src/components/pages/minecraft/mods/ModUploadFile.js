@@ -11,12 +11,11 @@ class ModUploadFile extends Component {
             file: [],
             edit: false,
             displayName: '',
+            changelog: '',
             releaseType: 'release',
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
-        this.onDisplayNameChange = this.onDisplayNameChange.bind(this);
-        this.onReleaseTypeChange = this.onReleaseTypeChange.bind(this);
     }
 
 
@@ -51,10 +50,9 @@ class ModUploadFile extends Component {
         const projectSlug = this.props.match.params.slug;
 
         const formData = new FormData();
-        // formData.append('parentId', 0);
         formData.append('displayName', this.state.displayName);
         formData.append('releaseType', this.state.releaseType);
-        formData.append('changelog', this.refs.changelog.value);
+        formData.append('changelog', this.state.changelog);
         formData.append('file', this.state.file, this.state.file.name);
 
         requestUtils.fetchPost(new URL(`${globals.endPoint()}/games/minecraft/mods/projects/${projectSlug}/files`), formData)
@@ -67,12 +65,8 @@ class ModUploadFile extends Component {
             });
     }
 
-    onDisplayNameChange(change) {
-        this.setState({ displayName: change.target.value });
-    }
-
-    onReleaseTypeChange(change) {
-        this.setState({ releaseType: change.target.value });
+    onFieldChange(name, change) {
+        this.setState({ [name]: change.target.value });
     }
 
     renderFileUpload() {
@@ -108,7 +102,7 @@ class ModUploadFile extends Component {
                     <div className="control">
                         <input
                             key="diplay"
-                            onChange={this.onDisplayNameChange}
+                            onChange={this.onFieldChange.bind(this, 'displayName')}
                             value={this.state.displayName}
                             className="input"
                             type="text"
@@ -120,7 +114,9 @@ class ModUploadFile extends Component {
                 <div className="field">
                     <label className="label">Changelog</label>
                     <div className="control">
-                        <textarea ref="changelog" className="textarea" placeholder="Changelog"/>
+                        <textarea onChange={this.onFieldChange.bind(this, 'changelog')}
+                                  ref="changelog"
+                                  className="textarea" placeholder="Changelog"/>
                     </div>
                 </div>
 
@@ -128,7 +124,7 @@ class ModUploadFile extends Component {
                     <label className="label">Release Type</label>
                     <div className="control">
                         <div className="select">
-                            <select onChange={this.onReleaseTypeChange}>
+                            <select onChange={this.onFieldChange.bind(this, 'releaseType')}>
                                 <option value="release">Release</option>
                                 <option value="beta">Beta</option>
                                 <option value="alpha">Alpha</option>

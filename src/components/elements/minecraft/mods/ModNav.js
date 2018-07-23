@@ -21,7 +21,6 @@ class ModNav extends Component {
                 console.log(err);
             });
 
-        console.log(this.state.permissions)
     }
 
 

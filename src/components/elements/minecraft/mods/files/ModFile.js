@@ -28,7 +28,7 @@ class ModFile extends Component {
                                 <a href={this.props.downloadUrl}>Download</a>
                                 <i data-tip={this.props.sha512}
                                    className='fa fa-info-circle'/>
-                                {/*<ReactTooltip class='hoverSHA'*/}
+                                {/*<ReactTooltip className='hoverSHA'*/}
                                               {/*delayHide={1000}*/}
                                               {/*effect='solid'/>*/}
                             </div>

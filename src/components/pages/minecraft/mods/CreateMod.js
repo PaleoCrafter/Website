@@ -164,20 +164,16 @@ class CreateMod extends Component {
                                 </div>
 
 
-                                <div class="card-footer">
+                                <div className="card-footer">
                                     {this.state.imageFiles ? (
-                                        <p class="card-footer-item">
+                                        <p className="card-footer-item">
                                             {this.state.imageFiles.name}
                                         </p>
                                     )
-                                        : <p class="card-footer-item">
+                                        : <p className="card-footer-item">
                                             Click or drag an image to upload project logo (Optional).</p>}
                                 </div>
-
-
                             </div>
-
-
                         </Dropzone>
                     </div>
 
